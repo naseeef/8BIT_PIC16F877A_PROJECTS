@@ -17,40 +17,72 @@
 
 #include <xc.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 #define _XTAL_FREQ 20000000
 
-LCD_command(unsigned char cmd);
-LCD_data(unsigned char data);
-LCD_init();
+void LCD_command(unsigned char cmd);
+void LCD_data(unsigned char data);
+void LCD_init();
 unsigned char rx();
 void ser_int();
 void show(unsigned char *s);
 void read_data();
 void print_data();
-void reset_dispaly();
-
+void refresh_text();
+void corner_cases(int number);
+void cloudy();
+void low_battery();
+int printRandoms(int lower, int upper, int count);
+int random_number(int l, int u, int c);
 
 unsigned char r[3], pv[3]="GPR";
-int f, checkgps, h;
 char a[95];
-int i;
+int random_case, reset_counter = 0;
 
 void main()
 {
+/*DO NOT EDIT BELOW STATEMENTS*/
 TRISD=0x00;
+TRISC3 = 1;
 TRISC4 = TRISC5 = 0;
 ser_int();
-       
-read_data();
 LCD_init();
-show("Connecting...");
-__delay_ms(1000);
-print_data();
-__delay_ms(300);
-reset_dispaly();
+read_data();
+/*DO NOT EDIT ABOVE STATEMENTS*/
+
+    show("WELCOME...");
+    __delay_ms(200);
+    LCD_command(0x01);
+    A:
+    LCD_command(0x80);
+    show("Connecting...");
+    __delay_ms(500);
+
+    random_case = random_number(0, 1, 1);
+    corner_cases(random_case);
+
+    while(1)
+    {
+        if (RC3 == 1)
+        {
+            reset_counter += 1;
+            while(reset_counter <= 10)
+            {
+                LCD_command(0x01);
+                LCD_command(0x80);
+                show("Resetting...");
+                __delay_ms(200);
+                LCD_command(0x01);
+                goto A;   
+            }
+            low_battery();
+            //return 0;
+        }
+    }
 }
 
-LCD_command(unsigned char cmd)
+void LCD_command(unsigned char cmd)
 {
     PORTD = cmd;
     RC4 = 0;
@@ -58,7 +90,7 @@ LCD_command(unsigned char cmd)
     __delay_ms(10);
     RC5 = 0;
 }
-LCD_data(unsigned char data)
+void LCD_data(unsigned char data)
 {
     PORTD = data;
     RC4 = 1;
@@ -66,7 +98,7 @@ LCD_data(unsigned char data)
     __delay_ms(10);
     RC5 = 0;
  }
-LCD_init()
+void LCD_init()
 {
     LCD_command(0x38);        // enable 8 bit mode  chars 
     LCD_command(0x0E);       
@@ -94,6 +126,7 @@ void show(unsigned char *s)
 }
 void read_data()
 {
+    int i, f, flag=0;
     for (int j=0; j<95;j++)
 {
 char gps = rx();
@@ -106,19 +139,19 @@ if (gps == '$')
       }
         r[f]='\0';
         
-        //checkgps=strcmp(r,pv);
+        //flag=strcmp(r,pv);
         
         for (f=0;pv[f]!='\0';f++)
         {
             if(r[f]!=pv[f])
             {
-                checkgps=1;
+                flag += 1;
                 LCD_data('X');
                 break;
             }
         }
         
-         if(checkgps==0) {
+         if(flag==0) {
              for(i=0;i<68;i++)
             {
                 a[i]=rx();
@@ -131,6 +164,8 @@ if (gps == '$')
 }
 void print_data()
 {
+    int h;
+    
     LCD_command(0x01);
     LCD_command(0x80);
     show("LON:");
@@ -150,7 +185,7 @@ void print_data()
         LCD_data(' ');
         LCD_data('N');
       
-LCD_command(0xc0);
+    LCD_command(0xc0);
         show("LAT:");
         
         LCD_command(0xc4);
@@ -167,11 +202,79 @@ LCD_command(0xc0);
         LCD_data(223);
         LCD_data(' ');
         LCD_data('E');
+    
+    refresh_text();
 }
-void reset_dispaly()
+void refresh_text()
 {
     LCD_command(0x94);
     show("PRESS PUSH BUTTON");
     LCD_command(0xD4);
-    show("FOR RESETTING DEVICE");
+    show("FOR REFRESH DEVICE");
+}
+void corner_cases(int number)
+{
+    switch(number)
+    {
+        case 0:
+            cloudy();
+            break;
+        case 1:
+            print_data();
+            break;
+    }
+}
+void cloudy()
+{
+    LCD_command(0x80);
+    show("!CLOUDY ENVIRONMENT!");
+    LCD_command(0xC0);
+    show("!!CAN'T FETCH DATA!!");
+    __delay_ms(250);
+    LCD_command(0x94);
+    show(" ");
+    LCD_command(0xD4);
+    show("---TRY  RESETTING---"); 
+}
+void low_battery()
+{
+    LCD_command(0x80);
+    show("-!!!BATTERY LOW!!!-");
+    __delay_ms(100);
+    LCD_command(0xC0);
+    show("-!!!BATTERY LOW!!!-");
+    LCD_command(0xD4);
+    show("RECHARGE IMMEDIATELY");
+    __delay_ms(300);
+    LCD_command(0x01);
+    LCD_command(0xC0);
+    show("SWITCHING OFF");
+    __delay_ms(100);
+    show(".");
+    __delay_ms(100);
+    show(".");
+    __delay_ms(100);
+    show(".");
+    __delay_ms(100);
+    LCD_command(0x01);
+}
+int printRandoms(int lower, int upper, int count)
+{
+    int z;
+    for (z = 0; z < count; z++) {
+        int num = (rand() % (upper - lower + 1)) + lower;
+        return num;
+    }
+}
+int random_number(int l, int u, int c)
+{
+    int lower = l, upper = u, count = c, rn;
+  
+    // Use current time as 
+    // seed for random generator
+    srand(time(0));
+  
+    rn = printRandoms(lower, upper, count);
+  
+    return rn;
 }
