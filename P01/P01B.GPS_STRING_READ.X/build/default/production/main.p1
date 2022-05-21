@@ -34,6 +34,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "24 main.c
 [; ;main.c: 24: void LCD_command(unsigned char cmd);
 [v _LCD_command `(v ~T0 @X0 0 ef1`uc ]
+"37
+[; ;main.c: 37: int random_number(int l, int u, int c);
+[v _random_number `(i ~T0 @X0 0 ef3`i`i`i ]
 "33
 [; ;main.c: 33: void corner_cases(int number);
 [v _corner_cases `(v ~T0 @X0 0 ef1`i ]
@@ -76,12 +79,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "75 C:\Program Files\Microchip\xc8\v2.32\pic\include\c90\stdlib.h
 [; ;C:\Program Files\Microchip\xc8\v2.32\pic\include\c90\stdlib.h: 75: extern int rand(void);
 [v _rand `(i ~T0 @X0 0 ef ]
-"76
-[; ;C:\Program Files\Microchip\xc8\v2.32\pic\include\c90\stdlib.h: 76: extern void srand(unsigned int);
-[v _srand `(v ~T0 @X0 0 ef1`ui ]
-"30 C:\Program Files\Microchip\xc8\v2.32\pic\include\c90\time.h
-[; ;C:\Program Files\Microchip\xc8\v2.32\pic\include\c90\time.h: 30: extern time_t time(time_t *);
-[v _time `(l ~T0 @X0 0 ef1`*l ]
 "9 main.c
 [p x FOSC  =  HS         ]
 "10
@@ -350,9 +347,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "61
 [; ;main.c: 61:     _delay((unsigned long)((500)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"67
-[; ;main.c: 67: corner_cases(1);
-[e ( _corner_cases (1 -> 1 `i ]
+"63
+[; ;main.c: 63:     random_case = random_number(0, 1, 1);
+[e = _random_case ( _random_number (3 , , -> 0 `i -> 1 `i -> 1 `i ]
+"64
+[; ;main.c: 64:     corner_cases(random_case);
+[e ( _corner_cases (1 _random_case ]
 [v F1148 `i ~T0 @X0 -> 11 `i s ]
 [i F1148
 :U ..
@@ -693,141 +693,132 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 154:                 flag += 1;
 [e =+ _flag -> 1 `i ]
 "155
-[; ;main.c: 155:                 LCD_data('X');
-[e ( _LCD_data (1 -> -> 88 `ui `uc ]
+[; ;main.c: 155:                 LCD_command(0x80);
+[e ( _LCD_command (1 -> -> 128 `i `uc ]
 "156
-[; ;main.c: 156:                 break;
-[e $U 133  ]
+[; ;main.c: 156:                 show("ERROR,");
+[e ( _show (1 :s 4C ]
 "157
-[; ;main.c: 157:             }
+[; ;main.c: 157:                 LCD_command(0x94);
+[e ( _LCD_command (1 -> -> 148 `i `uc ]
+"158
+[; ;main.c: 158:                 show("NO GPRMC FOUND");
+[e ( _show (1 :s 5C ]
+"159
+[; ;main.c: 159:                 break;
+[e $U 133  ]
+"160
+[; ;main.c: 160:             }
 }
 [e :U 136 ]
-"158
-[; ;main.c: 158:         }
+"161
+[; ;main.c: 161:         }
 }
 [e ++ _f -> 1 `i ]
 [e :U 135 ]
 [e $ != -> *U + &U _pv * -> -> _f `ui `ux -> -> # *U &U _pv `ui `ux `ui -> 0 `ui 132  ]
 [e :U 133 ]
 }
-"160
-[; ;main.c: 160:          if(flag==0) {
+"163
+[; ;main.c: 163:          if(flag==0) {
 [e $ ! == _flag -> 0 `i 137  ]
 {
-"161
-[; ;main.c: 161:              for(i=0;i<68;i++)
+"164
+[; ;main.c: 164:              for(i=0;i<68;i++)
 {
 [e = _i -> 0 `i ]
 [e $ < _i -> 68 `i 138  ]
 [e $U 139  ]
 [e :U 138 ]
-"162
-[; ;main.c: 162:             {
+"165
+[; ;main.c: 165:             {
 {
-"163
-[; ;main.c: 163:                 a[i]=rx();
+"166
+[; ;main.c: 166:                 a[i]=rx();
 [e = *U + &U _a * -> -> _i `ui `ux -> -> # *U &U _a `ui `ux -> ( _rx ..  `uc ]
-"164
-[; ;main.c: 164:             }
+"167
+[; ;main.c: 167:             }
 }
 [e ++ _i -> 1 `i ]
 [e $ < _i -> 68 `i 138  ]
 [e :U 139 ]
 }
-"165
-[; ;main.c: 165:          a[i]='\0';
+"168
+[; ;main.c: 168:          a[i]='\0';
 [e = *U + &U _a * -> -> _i `ui `ux -> -> # *U &U _a `ui `ux -> -> 0 `ui `uc ]
-"166
-[; ;main.c: 166:          break;
+"169
+[; ;main.c: 169:          break;
 [e $U 123  ]
-"167
-[; ;main.c: 167:         }
+"170
+[; ;main.c: 170:         }
 }
 [e :U 137 ]
-"168
-[; ;main.c: 168: }
+"171
+[; ;main.c: 171: }
 }
 [e :U 125 ]
-"169
-[; ;main.c: 169: }
+"172
+[; ;main.c: 172: }
 }
 [e ++ _j -> 1 `i ]
 [e $ < _j -> 95 `i 122  ]
 [e :U 123 ]
 }
-"170
-[; ;main.c: 170: }
+"173
+[; ;main.c: 173: }
 [e :UE 121 ]
 }
-"171
-[; ;main.c: 171: void print_data()
+"174
+[; ;main.c: 174: void print_data()
 [v _print_data `(v ~T0 @X0 1 ef ]
-"172
-[; ;main.c: 172: {
+"175
+[; ;main.c: 175: {
 {
 [e :U _print_data ]
 [f ]
-"173
-[; ;main.c: 173:     int h;
-[v _h `i ~T0 @X0 1 a ]
-"175
-[; ;main.c: 175:     LCD_command(0x01);
-[e ( _LCD_command (1 -> -> 1 `i `uc ]
 "176
-[; ;main.c: 176:     LCD_command(0x80);
-[e ( _LCD_command (1 -> -> 128 `i `uc ]
-"177
-[; ;main.c: 177:     show("LON:");
-[e ( _show (1 :s 4C ]
+[; ;main.c: 176:     int h;
+[v _h `i ~T0 @X0 1 a ]
+"178
+[; ;main.c: 178:     LCD_command(0x01);
+[e ( _LCD_command (1 -> -> 1 `i `uc ]
 "179
-[; ;main.c: 179:         LCD_command(0x84);
-[e ( _LCD_command (1 -> -> 132 `i `uc ]
+[; ;main.c: 179:     LCD_command(0x80);
+[e ( _LCD_command (1 -> -> 128 `i `uc ]
 "180
-[; ;main.c: 180:         for(h=16;h<18;h++) {
+[; ;main.c: 180:     show("LON:");
+[e ( _show (1 :s 6C ]
+"182
+[; ;main.c: 182:         LCD_command(0x84);
+[e ( _LCD_command (1 -> -> 132 `i `uc ]
+"183
+[; ;main.c: 183:         for(h=16;h<18;h++) {
 {
 [e = _h -> 16 `i ]
 [e $ < _h -> 18 `i 142  ]
 [e $U 143  ]
 [e :U 142 ]
 {
-"181
-[; ;main.c: 181:           LCD_data(a[h]);
+"184
+[; ;main.c: 184:           LCD_data(a[h]);
 [e ( _LCD_data (1 -> *U + &U _a * -> -> _h `ui `ux -> -> # *U &U _a `ui `ux `uc ]
-"182
-[; ;main.c: 182:         }
+"185
+[; ;main.c: 185:         }
 }
 [e ++ _h -> 1 `i ]
 [e $ < _h -> 18 `i 142  ]
 [e :U 143 ]
 }
-"183
-[; ;main.c: 183:         LCD_data('.');
+"186
+[; ;main.c: 186:         LCD_data('.');
 [e ( _LCD_data (1 -> -> 46 `ui `uc ]
-"184
-[; ;main.c: 184:         for(h=18;h<20;h++) {
+"187
+[; ;main.c: 187:         for(h=18;h<20;h++) {
 {
 [e = _h -> 18 `i ]
 [e $ < _h -> 20 `i 145  ]
 [e $U 146  ]
 [e :U 145 ]
-{
-"185
-[; ;main.c: 185:           LCD_data(a[h]);
-[e ( _LCD_data (1 -> *U + &U _a * -> -> _h `ui `ux -> -> # *U &U _a `ui `ux `uc ]
-"186
-[; ;main.c: 186:         }
-}
-[e ++ _h -> 1 `i ]
-[e $ < _h -> 20 `i 145  ]
-[e :U 146 ]
-}
-"187
-[; ;main.c: 187:         for(h=21;h<25;h++) {
-{
-[e = _h -> 21 `i ]
-[e $ < _h -> 25 `i 148  ]
-[e $U 149  ]
-[e :U 148 ]
 {
 "188
 [; ;main.c: 188:           LCD_data(a[h]);
@@ -836,73 +827,73 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 189:         }
 }
 [e ++ _h -> 1 `i ]
+[e $ < _h -> 20 `i 145  ]
+[e :U 146 ]
+}
+"190
+[; ;main.c: 190:         for(h=21;h<25;h++) {
+{
+[e = _h -> 21 `i ]
+[e $ < _h -> 25 `i 148  ]
+[e $U 149  ]
+[e :U 148 ]
+{
+"191
+[; ;main.c: 191:           LCD_data(a[h]);
+[e ( _LCD_data (1 -> *U + &U _a * -> -> _h `ui `ux -> -> # *U &U _a `ui `ux `uc ]
+"192
+[; ;main.c: 192:         }
+}
+[e ++ _h -> 1 `i ]
 [e $ < _h -> 25 `i 148  ]
 [e :U 149 ]
 }
-"190
-[; ;main.c: 190:         LCD_data(223);
+"193
+[; ;main.c: 193:         LCD_data(223);
 [e ( _LCD_data (1 -> -> 223 `i `uc ]
-"191
-[; ;main.c: 191:         LCD_data(' ');
-[e ( _LCD_data (1 -> -> 32 `ui `uc ]
-"192
-[; ;main.c: 192:         LCD_data('N');
-[e ( _LCD_data (1 -> -> 78 `ui `uc ]
 "194
-[; ;main.c: 194:     LCD_command(0xc0);
-[e ( _LCD_command (1 -> -> 192 `i `uc ]
+[; ;main.c: 194:         LCD_data(' ');
+[e ( _LCD_data (1 -> -> 32 `ui `uc ]
 "195
-[; ;main.c: 195:         show("LAT:");
-[e ( _show (1 :s 5C ]
+[; ;main.c: 195:         LCD_data('N');
+[e ( _LCD_data (1 -> -> 78 `ui `uc ]
 "197
-[; ;main.c: 197:         LCD_command(0xc4);
-[e ( _LCD_command (1 -> -> 196 `i `uc ]
+[; ;main.c: 197:     LCD_command(0xc0);
+[e ( _LCD_command (1 -> -> 192 `i `uc ]
 "198
-[; ;main.c: 198:         for(h=29;h<31;h++) {
+[; ;main.c: 198:         show("LAT:");
+[e ( _show (1 :s 7C ]
+"200
+[; ;main.c: 200:         LCD_command(0xc4);
+[e ( _LCD_command (1 -> -> 196 `i `uc ]
+"201
+[; ;main.c: 201:         for(h=29;h<31;h++) {
 {
 [e = _h -> 29 `i ]
 [e $ < _h -> 31 `i 151  ]
 [e $U 152  ]
 [e :U 151 ]
 {
-"199
-[; ;main.c: 199:           LCD_data(a[h]);
+"202
+[; ;main.c: 202:           LCD_data(a[h]);
 [e ( _LCD_data (1 -> *U + &U _a * -> -> _h `ui `ux -> -> # *U &U _a `ui `ux `uc ]
-"200
-[; ;main.c: 200:         }
+"203
+[; ;main.c: 203:         }
 }
 [e ++ _h -> 1 `i ]
 [e $ < _h -> 31 `i 151  ]
 [e :U 152 ]
 }
-"201
-[; ;main.c: 201:         LCD_data('.');
+"204
+[; ;main.c: 204:         LCD_data('.');
 [e ( _LCD_data (1 -> -> 46 `ui `uc ]
-"202
-[; ;main.c: 202:         for(h=31;h<33;h++) {
+"205
+[; ;main.c: 205:         for(h=31;h<33;h++) {
 {
 [e = _h -> 31 `i ]
 [e $ < _h -> 33 `i 154  ]
 [e $U 155  ]
 [e :U 154 ]
-{
-"203
-[; ;main.c: 203:           LCD_data(a[h]);
-[e ( _LCD_data (1 -> *U + &U _a * -> -> _h `ui `ux -> -> # *U &U _a `ui `ux `uc ]
-"204
-[; ;main.c: 204:         }
-}
-[e ++ _h -> 1 `i ]
-[e $ < _h -> 33 `i 154  ]
-[e :U 155 ]
-}
-"205
-[; ;main.c: 205:         for(h=34;h<38;h++) {
-{
-[e = _h -> 34 `i ]
-[e $ < _h -> 38 `i 157  ]
-[e $U 158  ]
-[e :U 157 ]
 {
 "206
 [; ;main.c: 206:           LCD_data(a[h]);
@@ -911,88 +902,106 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 207:         }
 }
 [e ++ _h -> 1 `i ]
+[e $ < _h -> 33 `i 154  ]
+[e :U 155 ]
+}
+"208
+[; ;main.c: 208:         for(h=34;h<38;h++) {
+{
+[e = _h -> 34 `i ]
+[e $ < _h -> 38 `i 157  ]
+[e $U 158  ]
+[e :U 157 ]
+{
+"209
+[; ;main.c: 209:           LCD_data(a[h]);
+[e ( _LCD_data (1 -> *U + &U _a * -> -> _h `ui `ux -> -> # *U &U _a `ui `ux `uc ]
+"210
+[; ;main.c: 210:         }
+}
+[e ++ _h -> 1 `i ]
 [e $ < _h -> 38 `i 157  ]
 [e :U 158 ]
 }
-"208
-[; ;main.c: 208:         LCD_data(223);
+"211
+[; ;main.c: 211:         LCD_data(223);
 [e ( _LCD_data (1 -> -> 223 `i `uc ]
-"209
-[; ;main.c: 209:         LCD_data(' ');
-[e ( _LCD_data (1 -> -> 32 `ui `uc ]
-"210
-[; ;main.c: 210:         LCD_data('E');
-[e ( _LCD_data (1 -> -> 69 `ui `uc ]
 "212
-[; ;main.c: 212:     refresh_text();
-[e ( _refresh_text ..  ]
+[; ;main.c: 212:         LCD_data(' ');
+[e ( _LCD_data (1 -> -> 32 `ui `uc ]
 "213
-[; ;main.c: 213: }
+[; ;main.c: 213:         LCD_data('E');
+[e ( _LCD_data (1 -> -> 69 `ui `uc ]
+"215
+[; ;main.c: 215:     refresh_text();
+[e ( _refresh_text ..  ]
+"216
+[; ;main.c: 216: }
 [e :UE 141 ]
 }
-"214
-[; ;main.c: 214: void refresh_text()
+"217
+[; ;main.c: 217: void refresh_text()
 [v _refresh_text `(v ~T0 @X0 1 ef ]
-"215
-[; ;main.c: 215: {
+"218
+[; ;main.c: 218: {
 {
 [e :U _refresh_text ]
 [f ]
-"216
-[; ;main.c: 216:     LCD_command(0x94);
-[e ( _LCD_command (1 -> -> 148 `i `uc ]
-"217
-[; ;main.c: 217:     show("PRESS PUSH BUTTON");
-[e ( _show (1 :s 6C ]
-"218
-[; ;main.c: 218:     LCD_command(0xD4);
-[e ( _LCD_command (1 -> -> 212 `i `uc ]
 "219
-[; ;main.c: 219:     show("FOR RESTTING DEVICE");
-[e ( _show (1 :s 7C ]
+[; ;main.c: 219:     LCD_command(0x94);
+[e ( _LCD_command (1 -> -> 148 `i `uc ]
 "220
-[; ;main.c: 220: }
+[; ;main.c: 220:     show("PRESS PUSH BUTTON");
+[e ( _show (1 :s 8C ]
+"221
+[; ;main.c: 221:     LCD_command(0xD4);
+[e ( _LCD_command (1 -> -> 212 `i `uc ]
+"222
+[; ;main.c: 222:     show("FOR RESTTING DEVICE");
+[e ( _show (1 :s 9C ]
+"223
+[; ;main.c: 223: }
 [e :UE 160 ]
 }
-"221
-[; ;main.c: 221: void corner_cases(int number)
+"224
+[; ;main.c: 224: void corner_cases(int number)
 [v _corner_cases `(v ~T0 @X0 1 ef1`i ]
-"222
-[; ;main.c: 222: {
+"225
+[; ;main.c: 225: {
 {
 [e :U _corner_cases ]
-"221
-[; ;main.c: 221: void corner_cases(int number)
-[v _number `i ~T0 @X0 1 r1 ]
-"222
-[; ;main.c: 222: {
-[f ]
-"223
-[; ;main.c: 223:     switch(number)
-[e $U 163  ]
 "224
-[; ;main.c: 224:     {
-{
+[; ;main.c: 224: void corner_cases(int number)
+[v _number `i ~T0 @X0 1 r1 ]
 "225
-[; ;main.c: 225:         case 0:
-[e :U 164 ]
+[; ;main.c: 225: {
+[f ]
 "226
-[; ;main.c: 226:             cloudy();
-[e ( _cloudy ..  ]
+[; ;main.c: 226:     switch(number)
+[e $U 163  ]
 "227
-[; ;main.c: 227:             break;
-[e $U 162  ]
+[; ;main.c: 227:     {
+{
 "228
-[; ;main.c: 228:         case 1:
-[e :U 165 ]
+[; ;main.c: 228:         case 0:
+[e :U 164 ]
 "229
-[; ;main.c: 229:             print_data();
-[e ( _print_data ..  ]
+[; ;main.c: 229:             cloudy();
+[e ( _cloudy ..  ]
 "230
 [; ;main.c: 230:             break;
 [e $U 162  ]
 "231
-[; ;main.c: 231:     }
+[; ;main.c: 231:         case 1:
+[e :U 165 ]
+"232
+[; ;main.c: 232:             print_data();
+[e ( _print_data ..  ]
+"233
+[; ;main.c: 233:             break;
+[e $U 162  ]
+"234
+[; ;main.c: 234:     }
 }
 [e $U 162  ]
 [e :U 163 ]
@@ -1000,189 +1009,189 @@ Version 4.0 HI-TECH Software Intermediate Code
  , $ -> 1 `i 165
  162 ]
 [e :U 162 ]
-"232
-[; ;main.c: 232: }
+"235
+[; ;main.c: 235: }
 [e :UE 161 ]
 }
-"233
-[; ;main.c: 233: void cloudy()
+"236
+[; ;main.c: 236: void cloudy()
 [v _cloudy `(v ~T0 @X0 1 ef ]
-"234
-[; ;main.c: 234: {
+"237
+[; ;main.c: 237: {
 {
 [e :U _cloudy ]
 [f ]
-"235
-[; ;main.c: 235:     LCD_command(0x80);
-[e ( _LCD_command (1 -> -> 128 `i `uc ]
-"236
-[; ;main.c: 236:     show("!CLOUDY ENVIRONMENT!");
-[e ( _show (1 :s 8C ]
-"237
-[; ;main.c: 237:     LCD_command(0xC0);
-[e ( _LCD_command (1 -> -> 192 `i `uc ]
 "238
-[; ;main.c: 238:     show("!!CAN'T FETCH DATA!!");
-[e ( _show (1 :s 9C ]
+[; ;main.c: 238:     LCD_command(0x80);
+[e ( _LCD_command (1 -> -> 128 `i `uc ]
 "239
-[; ;main.c: 239:     _delay((unsigned long)((250)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 250 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"240
-[; ;main.c: 240:     LCD_command(0x94);
-[e ( _LCD_command (1 -> -> 148 `i `uc ]
-"241
-[; ;main.c: 241:     show(" ");
+[; ;main.c: 239:     show("!CLOUDY ENVIRONMENT!");
 [e ( _show (1 :s 10C ]
-"242
-[; ;main.c: 242:     LCD_command(0xD4);
-[e ( _LCD_command (1 -> -> 212 `i `uc ]
-"243
-[; ;main.c: 243:     show("---TRY  RESETTING---");
+"240
+[; ;main.c: 240:     LCD_command(0xC0);
+[e ( _LCD_command (1 -> -> 192 `i `uc ]
+"241
+[; ;main.c: 241:     show("!!CAN'T FETCH DATA!!");
 [e ( _show (1 :s 11C ]
+"242
+[; ;main.c: 242:     _delay((unsigned long)((250)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 250 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"243
+[; ;main.c: 243:     LCD_command(0x94);
+[e ( _LCD_command (1 -> -> 148 `i `uc ]
 "244
-[; ;main.c: 244: }
+[; ;main.c: 244:     show(" ");
+[e ( _show (1 :s 12C ]
+"245
+[; ;main.c: 245:     LCD_command(0xD4);
+[e ( _LCD_command (1 -> -> 212 `i `uc ]
+"246
+[; ;main.c: 246:     show("---TRY  RESETTING---");
+[e ( _show (1 :s 13C ]
+"247
+[; ;main.c: 247: }
 [e :UE 166 ]
 }
-"245
-[; ;main.c: 245: void low_battery()
+"248
+[; ;main.c: 248: void low_battery()
 [v _low_battery `(v ~T0 @X0 1 ef ]
-"246
-[; ;main.c: 246: {
+"249
+[; ;main.c: 249: {
 {
 [e :U _low_battery ]
 [f ]
-"247
-[; ;main.c: 247:     LCD_command(0x01);
-[e ( _LCD_command (1 -> -> 1 `i `uc ]
-"248
-[; ;main.c: 248:     LCD_command(0x80);
-[e ( _LCD_command (1 -> -> 128 `i `uc ]
-"249
-[; ;main.c: 249:     show("-!!!BATTERY LOW!!!-");
-[e ( _show (1 :s 12C ]
 "250
-[; ;main.c: 250:     _delay((unsigned long)((100)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+[; ;main.c: 250:     LCD_command(0x01);
+[e ( _LCD_command (1 -> -> 1 `i `uc ]
 "251
-[; ;main.c: 251:     LCD_command(0xC0);
-[e ( _LCD_command (1 -> -> 192 `i `uc ]
+[; ;main.c: 251:     LCD_command(0x80);
+[e ( _LCD_command (1 -> -> 128 `i `uc ]
 "252
 [; ;main.c: 252:     show("-!!!BATTERY LOW!!!-");
-[e ( _show (1 :s 13C ]
-"253
-[; ;main.c: 253:     LCD_command(0xD4);
-[e ( _LCD_command (1 -> -> 212 `i `uc ]
-"254
-[; ;main.c: 254:     show("RECHARGE IMMEDIATELY");
 [e ( _show (1 :s 14C ]
-"255
-[; ;main.c: 255:     _delay((unsigned long)((300)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"256
-[; ;main.c: 256:     LCD_command(0x01);
-[e ( _LCD_command (1 -> -> 1 `i `uc ]
-"257
-[; ;main.c: 257:     LCD_command(0xC0);
+"253
+[; ;main.c: 253:     _delay((unsigned long)((100)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"254
+[; ;main.c: 254:     LCD_command(0xC0);
 [e ( _LCD_command (1 -> -> 192 `i `uc ]
-"258
-[; ;main.c: 258:     show("SWITCHING OFF");
+"255
+[; ;main.c: 255:     show("-!!!BATTERY LOW!!!-");
 [e ( _show (1 :s 15C ]
-"259
-[; ;main.c: 259:     _delay((unsigned long)((100)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"260
-[; ;main.c: 260:     show(".");
+"256
+[; ;main.c: 256:     LCD_command(0xD4);
+[e ( _LCD_command (1 -> -> 212 `i `uc ]
+"257
+[; ;main.c: 257:     show("RECHARGE IMMEDIATELY");
 [e ( _show (1 :s 16C ]
-"261
-[; ;main.c: 261:     _delay((unsigned long)((100)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"262
-[; ;main.c: 262:     show(".");
-[e ( _show (1 :s 17C ]
-"263
-[; ;main.c: 263:     _delay((unsigned long)((100)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"264
-[; ;main.c: 264:     show(".");
-[e ( _show (1 :s 18C ]
-"265
-[; ;main.c: 265:     _delay((unsigned long)((500)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"266
-[; ;main.c: 266:     LCD_command(0x01);
+"258
+[; ;main.c: 258:     _delay((unsigned long)((300)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"259
+[; ;main.c: 259:     LCD_command(0x01);
 [e ( _LCD_command (1 -> -> 1 `i `uc ]
+"260
+[; ;main.c: 260:     LCD_command(0xC0);
+[e ( _LCD_command (1 -> -> 192 `i `uc ]
+"261
+[; ;main.c: 261:     show("SWITCHING OFF");
+[e ( _show (1 :s 17C ]
+"262
+[; ;main.c: 262:     _delay((unsigned long)((100)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"263
+[; ;main.c: 263:     show(".");
+[e ( _show (1 :s 18C ]
+"264
+[; ;main.c: 264:     _delay((unsigned long)((100)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"265
+[; ;main.c: 265:     show(".");
+[e ( _show (1 :s 19C ]
+"266
+[; ;main.c: 266:     _delay((unsigned long)((100)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "267
-[; ;main.c: 267:     while(1);
+[; ;main.c: 267:     show(".");
+[e ( _show (1 :s 20C ]
+"268
+[; ;main.c: 268:     _delay((unsigned long)((500)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"269
+[; ;main.c: 269:     LCD_command(0x01);
+[e ( _LCD_command (1 -> -> 1 `i `uc ]
+"270
+[; ;main.c: 270:     while(1);
 [e :U 169 ]
 [e :U 168 ]
 [e $U 169  ]
 [e :U 170 ]
-"268
-[; ;main.c: 268: }
+"271
+[; ;main.c: 271: }
 [e :UE 167 ]
 }
-"269
-[; ;main.c: 269: int printRandoms(int lower, int upper, int count)
+"272
+[; ;main.c: 272: int printRandoms(int lower, int upper, int count)
 [v _printRandoms `(i ~T0 @X0 1 ef3`i`i`i ]
-"270
-[; ;main.c: 270: {
+"273
+[; ;main.c: 273: {
 {
 [e :U _printRandoms ]
-"269
-[; ;main.c: 269: int printRandoms(int lower, int upper, int count)
+"272
+[; ;main.c: 272: int printRandoms(int lower, int upper, int count)
 [v _lower `i ~T0 @X0 1 r1 ]
 [v _upper `i ~T0 @X0 1 r2 ]
 [v _count `i ~T0 @X0 1 r3 ]
-"270
-[; ;main.c: 270: {
+"273
+[; ;main.c: 273: {
 [f ]
-"271
-[; ;main.c: 271:     int z;
+"274
+[; ;main.c: 274:     int z;
 [v _z `i ~T0 @X0 1 a ]
-"272
-[; ;main.c: 272:     for (z = 0; z < count; z++) {
+"275
+[; ;main.c: 275:     for (z = 0; z < count; z++) {
 {
 [e = _z -> 0 `i ]
 [e $U 175  ]
 [e :U 172 ]
 {
-"273
-[; ;main.c: 273:         int num = (rand() % (upper - lower + 1)) + lower;
+"276
+[; ;main.c: 276:         int num = (rand() % (upper - lower + 1)) + lower;
 [v _num `i ~T0 @X0 1 a ]
 [e = _num + % ( _rand ..  + - _upper _lower -> 1 `i _lower ]
-"274
-[; ;main.c: 274:         return num;
+"277
+[; ;main.c: 277:         return num;
 [e ) _num ]
 [e $UE 171  ]
-"275
-[; ;main.c: 275:     }
+"278
+[; ;main.c: 278:     }
 }
 [e ++ _z -> 1 `i ]
 [e :U 175 ]
 [e $ < _z _count 172  ]
 [e :U 173 ]
 }
-"276
-[; ;main.c: 276: }
+"279
+[; ;main.c: 279: }
 [e :UE 171 ]
 }
-"277
-[; ;main.c: 277: int random_number(int l, int u, int c)
+"280
+[; ;main.c: 280: int random_number(int l, int u, int c)
 [v _random_number `(i ~T0 @X0 1 ef3`i`i`i ]
-"278
-[; ;main.c: 278: {
+"281
+[; ;main.c: 281: {
 {
 [e :U _random_number ]
-"277
-[; ;main.c: 277: int random_number(int l, int u, int c)
+"280
+[; ;main.c: 280: int random_number(int l, int u, int c)
 [v _l `i ~T0 @X0 1 r1 ]
 [v _u `i ~T0 @X0 1 r2 ]
 [v _c `i ~T0 @X0 1 r3 ]
-"278
-[; ;main.c: 278: {
+"281
+[; ;main.c: 281: {
 [f ]
-"279
-[; ;main.c: 279:     int lower = l, upper = u, count = c, rn;
+"282
+[; ;main.c: 282:     int lower = l, upper = u, count = c, rn;
 [v _lower `i ~T0 @X0 1 a ]
 [e = _lower _l ]
 [v _upper `i ~T0 @X0 1 a ]
@@ -1190,35 +1199,34 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _count `i ~T0 @X0 1 a ]
 [e = _count _c ]
 [v _rn `i ~T0 @X0 1 a ]
-"283
-[; ;main.c: 283:     srand(time(0));
-[e ( _srand (1 -> ( _time (1 -> -> 0 `i `*l `ui ]
-"285
-[; ;main.c: 285:     rn = printRandoms(lower, upper, count);
+"288
+[; ;main.c: 288:     rn = printRandoms(lower, upper, count);
 [e = _rn ( _printRandoms (3 , , _lower _upper _count ]
-"287
-[; ;main.c: 287:     return rn;
+"290
+[; ;main.c: 290:     return rn;
 [e ) _rn ]
 [e $UE 176  ]
-"288
-[; ;main.c: 288: }
+"291
+[; ;main.c: 291: }
 [e :UE 176 ]
 }
-[a 14C 82 69 67 72 65 82 71 69 32 73 77 77 69 68 73 65 84 69 76 89 0 ]
-[a 6C 80 82 69 83 83 32 80 85 83 72 32 66 85 84 84 79 78 0 ]
-[a 15C 83 87 73 84 67 72 73 78 71 32 79 70 70 0 ]
-[a 7C 70 79 82 32 82 69 83 84 84 73 78 71 32 68 69 86 73 67 69 0 ]
-[a 5C 76 65 84 58 0 ]
-[a 4C 76 79 78 58 0 ]
+[a 16C 82 69 67 72 65 82 71 69 32 73 77 77 69 68 73 65 84 69 76 89 0 ]
+[a 8C 80 82 69 83 83 32 80 85 83 72 32 66 85 84 84 79 78 0 ]
+[a 17C 83 87 73 84 67 72 73 78 71 32 79 70 70 0 ]
+[a 9C 70 79 82 32 82 69 83 84 84 73 78 71 32 68 69 86 73 67 69 0 ]
+[a 5C 78 79 32 71 80 82 77 67 32 70 79 85 78 68 0 ]
+[a 7C 76 65 84 58 0 ]
+[a 6C 76 79 78 58 0 ]
 [a 3C 82 101 115 101 116 116 105 110 103 46 46 46 0 ]
 [a 2C 67 111 110 110 101 99 116 105 110 103 46 46 46 0 ]
 [a 1C 87 69 76 67 79 77 69 46 46 46 0 ]
-[a 16C 46 0 ]
-[a 17C 46 0 ]
 [a 18C 46 0 ]
-[a 11C 45 45 45 84 82 89 32 32 82 69 83 69 84 84 73 78 71 45 45 45 0 ]
-[a 12C 45 33 33 33 66 65 84 84 69 82 89 32 76 79 87 33 33 33 45 0 ]
-[a 13C 45 33 33 33 66 65 84 84 69 82 89 32 76 79 87 33 33 33 45 0 ]
-[a 8C 33 67 76 79 85 68 89 32 69 78 86 73 82 79 78 77 69 78 84 33 0 ]
-[a 9C 33 33 67 65 78 39 84 32 70 69 84 67 72 32 68 65 84 65 33 33 0 ]
-[a 10C 32 0 ]
+[a 19C 46 0 ]
+[a 20C 46 0 ]
+[a 13C 45 45 45 84 82 89 32 32 82 69 83 69 84 84 73 78 71 45 45 45 0 ]
+[a 14C 45 33 33 33 66 65 84 84 69 82 89 32 76 79 87 33 33 33 45 0 ]
+[a 15C 45 33 33 33 66 65 84 84 69 82 89 32 76 79 87 33 33 33 45 0 ]
+[a 4C 69 82 82 79 82 44 0 ]
+[a 10C 33 67 76 79 85 68 89 32 69 78 86 73 82 79 78 77 69 78 84 33 0 ]
+[a 11C 33 33 67 65 78 39 84 32 70 69 84 67 72 32 68 65 84 65 33 33 0 ]
+[a 12C 32 0 ]

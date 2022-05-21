@@ -60,11 +60,11 @@ read_data();
     show("Connecting...");
     __delay_ms(500);
 
-    /*random_case = random_number(0, 1, 1);
-    corner_cases(random_case);*/
+    random_case = random_number(0, 1, 1);
+    corner_cases(random_case);
     
 //print_data();
-corner_cases(1);
+//corner_cases(1);
 int seven[11] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0xC0};
 
     while(1)
@@ -152,7 +152,10 @@ if (gps == '$')
             if(r[f]!=pv[f])
             {
                 flag += 1;
-                LCD_data('X');
+                LCD_command(0x80);
+                show("ERROR,");
+                LCD_command(0x94);
+                show("NO GPRMC FOUND");
                 break;
             }
         }
@@ -280,7 +283,7 @@ int random_number(int l, int u, int c)
   
     // Use current time as 
     // seed for random generator
-    srand(time(0));
+    //srand(time(0));
   
     rn = printRandoms(lower, upper, count);
   
