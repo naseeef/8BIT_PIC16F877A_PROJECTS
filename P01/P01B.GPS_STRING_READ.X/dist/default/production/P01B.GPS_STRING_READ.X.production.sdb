@@ -3,34 +3,52 @@
 [d edition pro ]
 [d chip 16F877A ]
 [d frameptr 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+"6 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\rand.c
+[v _srand srand `(v  1 e 1 0 ]
+"12
+[v _rand rand `(i  1 e 2 0 ]
 "10 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\sprcadd.c
 [v ___fladd __fladd `(d  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
 "4 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\Umul8_16.c
 [v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
 "6 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\pic\__eeprom.c
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"38 C:\Users\Naseef\Documents\MPLABXProjects\P01B.GPS_STRING_READ.X\main.c
+"43 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P01\P01B.GPS_STRING_READ.X\main.c
 [v _main main `(v  1 e 1 0 ]
-"53
-[v _LCD_command LCD_command `(i  1 e 2 0 ]
-"61
-[v _LCD_data LCD_data `(i  1 e 2 0 ]
-"69
-[v _LCD_init LCD_init `(i  1 e 2 0 ]
-"77
+"85
+[v _LCD_command LCD_command `(v  1 e 1 0 ]
+"93
+[v _LCD_data LCD_data `(v  1 e 1 0 ]
+"101
+[v _LCD_init LCD_init `(v  1 e 1 0 ]
+"109
 [v _rx rx `(uc  1 e 1 0 ]
-"83
+"115
 [v _ser_int ser_int `(v  1 e 1 0 ]
-"88
+"120
 [v _show show `(v  1 e 1 0 ]
-"95
+"127
 [v _read_data read_data `(v  1 e 1 0 ]
-"132
+"165
 [v _print_data print_data `(v  1 e 1 0 ]
-"171
-[v _reset_dispaly reset_dispaly `(v  1 e 1 0 ]
+"208
+[v _refresh_text refresh_text `(v  1 e 1 0 ]
+"215
+[v _corner_cases corner_cases `(v  1 e 1 0 ]
+"227
+[v _cloudy cloudy `(v  1 e 1 0 ]
+"239
+[v _low_battery low_battery `(v  1 e 1 0 ]
+"261
+[v _printRandoms printRandoms `(i  1 e 2 0 ]
+"269
+[v _random_number random_number `(i  1 e 2 0 ]
 "341 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
 [v _PORTD PORTD `VEuc  1 e 1 @8 ]
 "965
@@ -41,89 +59,171 @@
 [v _TRISD TRISD `VEuc  1 e 1 @136 ]
 "2081
 [v _SPBRG SPBRG `VEuc  1 e 1 @153 ]
+"2718
+[v _RC3 RC3 `VEb  1 e 0 @59 ]
 "2721
 [v _RC4 RC4 `VEb  1 e 0 @60 ]
 "2724
 [v _RC5 RC5 `VEb  1 e 0 @61 ]
 "2748
 [v _RCIF RCIF `VEb  1 e 0 @101 ]
+"2973
+[v _TRISC3 TRISC3 `VEb  1 e 0 @1083 ]
 "2976
 [v _TRISC4 TRISC4 `VEb  1 e 0 @1084 ]
 "2979
 [v _TRISC5 TRISC5 `VEb  1 e 0 @1085 ]
-"33 C:\Users\Naseef\Documents\MPLABXProjects\P01B.GPS_STRING_READ.X\main.c
+"3 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\rand.c
+[v _randx randx `l  1 s 4 randx ]
+"39 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P01\P01B.GPS_STRING_READ.X\main.c
 [v _r r `[3]uc  1 e 3 0 ]
 [v _pv pv `[3]uc  1 e 3 0 ]
-"34
-[v _f f `i  1 e 2 0 ]
-[v _checkgps checkgps `i  1 e 2 0 ]
-[v _h h `i  1 e 2 0 ]
-"35
+"40
 [v _a a `[95]uc  1 e 95 0 ]
-"36
-[v _i i `i  1 e 2 0 ]
-"38
+"41
+[v _random_case random_case `i  1 e 2 0 ]
+[v _reset_counter reset_counter `i  1 e 2 0 ]
+"43
 [v _main main `(v  1 e 1 0 ]
 {
-"51
-} 0
 "83
+} 0
+"115
 [v _ser_int ser_int `(v  1 e 1 0 ]
 {
-"87
+"119
 } 0
-"171
-[v _reset_dispaly reset_dispaly `(v  1 e 1 0 ]
-{
-"177
-} 0
-"95
+"127
 [v _read_data read_data `(v  1 e 1 0 ]
 {
-"99
-[v read_data@gps gps `uc  1 a 1 4 ]
-"97
-[v read_data@j j `i  1 a 2 5 ]
-"131
+"132
+[v read_data@gps gps `uc  1 a 1 6 ]
+"130
+[v read_data@j j `i  1 a 2 7 ]
+"129
+[v read_data@f f `i  1 a 2 11 ]
+[v read_data@i i `i  1 a 2 9 ]
+[v read_data@flag flag `i  1 a 2 4 ]
+"164
 } 0
-"77
+"109
 [v _rx rx `(uc  1 e 1 0 ]
 {
-"82
+"114
 } 0
-"132
+"269
+[v _random_number random_number `(i  1 e 2 0 ]
+{
+"271
+[v random_number@rn rn `i  1 a 2 35 ]
+[v random_number@count count `i  1 a 2 33 ]
+[v random_number@upper upper `i  1 a 2 31 ]
+[v random_number@lower lower `i  1 a 2 29 ]
+"269
+[v random_number@l l `i  1 p 2 23 ]
+[v random_number@u u `i  1 p 2 25 ]
+[v random_number@c c `i  1 p 2 27 ]
+"280
+} 0
+"6 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\rand.c
+[v _srand srand `(v  1 e 1 0 ]
+{
+[v srand@x x `ui  1 p 2 0 ]
+"9
+} 0
+"261 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P01\P01B.GPS_STRING_READ.X\main.c
+[v _printRandoms printRandoms `(i  1 e 2 0 ]
+{
+"265
+[v printRandoms@num num `i  1 a 2 21 ]
+"261
+[v printRandoms@lower lower `i  1 p 2 13 ]
+[v printRandoms@upper upper `i  1 p 2 15 ]
+[v printRandoms@count count `i  1 p 2 17 ]
+"268
+} 0
+"12 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\rand.c
+[v _rand rand `(i  1 e 2 0 ]
+{
+"17
+} 0
+"15 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+{
+"17
+[v ___lmul@product product `ul  1 a 4 9 ]
+"15
+[v ___lmul@multiplier multiplier `ul  1 p 4 0 ]
+[v ___lmul@multiplicand multiplicand `ul  1 p 4 4 ]
+"129
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+{
+"10
+[v ___awmod@sign sign `uc  1 a 1 12 ]
+[v ___awmod@counter counter `uc  1 a 1 11 ]
+"5
+[v ___awmod@divisor divisor `i  1 p 2 7 ]
+[v ___awmod@dividend dividend `i  1 p 2 9 ]
+"34
+} 0
+"239 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P01\P01B.GPS_STRING_READ.X\main.c
+[v _low_battery low_battery `(v  1 e 1 0 ]
+{
+"260
+} 0
+"215
+[v _corner_cases corner_cases `(v  1 e 1 0 ]
+{
+[v corner_cases@number number `i  1 p 2 8 ]
+"226
+} 0
+"165
 [v _print_data print_data `(v  1 e 1 0 ]
 {
-"170
+"167
+[v print_data@h h `i  1 a 2 5 ]
+"207
 } 0
-"88
+"208
+[v _refresh_text refresh_text `(v  1 e 1 0 ]
+{
+"214
+} 0
+"227
+[v _cloudy cloudy `(v  1 e 1 0 ]
+{
+"238
+} 0
+"120
 [v _show show `(v  1 e 1 0 ]
 {
 [v show@s s `*.24uc  1 a 1 wreg ]
 [v show@s s `*.24uc  1 a 1 wreg ]
 [v show@s s `*.24uc  1 a 1 4 ]
-"94
+"126
 } 0
-"61
-[v _LCD_data LCD_data `(i  1 e 2 0 ]
+"93
+[v _LCD_data LCD_data `(v  1 e 1 0 ]
 {
 [v LCD_data@data data `uc  1 a 1 wreg ]
 [v LCD_data@data data `uc  1 a 1 wreg ]
-"63
+"95
 [v LCD_data@data data `uc  1 a 1 2 ]
-"68
+"100
 } 0
-"69
-[v _LCD_init LCD_init `(i  1 e 2 0 ]
+"101
+[v _LCD_init LCD_init `(v  1 e 1 0 ]
 {
-"76
+"108
 } 0
-"53
-[v _LCD_command LCD_command `(i  1 e 2 0 ]
+"85
+[v _LCD_command LCD_command `(v  1 e 1 0 ]
 {
 [v LCD_command@cmd cmd `uc  1 a 1 wreg ]
 [v LCD_command@cmd cmd `uc  1 a 1 wreg ]
-"55
+"87
 [v LCD_command@cmd cmd `uc  1 a 1 2 ]
-"60
+"92
 } 0

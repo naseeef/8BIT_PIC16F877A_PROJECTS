@@ -1926,40 +1926,198 @@ extern char * strrchr(const char *, int);
 extern char * strrichr(const char *, int);
 # 19 "main.c" 2
 
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\stdlib.h" 1 3
 
 
-LCD_command(unsigned char cmd);
-LCD_data(unsigned char data);
-LCD_init();
+
+
+
+
+typedef unsigned short wchar_t;
+
+
+
+
+
+
+
+typedef struct {
+ int rem;
+ int quot;
+} div_t;
+typedef struct {
+ unsigned rem;
+ unsigned quot;
+} udiv_t;
+typedef struct {
+ long quot;
+ long rem;
+} ldiv_t;
+typedef struct {
+ unsigned long quot;
+ unsigned long rem;
+} uldiv_t;
+# 65 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\stdlib.h" 3
+extern double atof(const char *);
+extern double strtod(const char *, const char **);
+extern int atoi(const char *);
+extern unsigned xtoi(const char *);
+extern long atol(const char *);
+
+
+
+extern long strtol(const char *, char **, int);
+
+extern int rand(void);
+extern void srand(unsigned int);
+extern void * calloc(size_t, size_t);
+extern div_t div(int numer, int denom);
+extern udiv_t udiv(unsigned numer, unsigned denom);
+extern ldiv_t ldiv(long numer, long denom);
+extern uldiv_t uldiv(unsigned long numer,unsigned long denom);
+
+
+
+extern unsigned long _lrotl(unsigned long value, unsigned int shift);
+extern unsigned long _lrotr(unsigned long value, unsigned int shift);
+extern unsigned int _rotl(unsigned int value, unsigned int shift);
+extern unsigned int _rotr(unsigned int value, unsigned int shift);
+
+
+
+
+extern void * malloc(size_t);
+extern void free(void *);
+extern void * realloc(void *, size_t);
+# 104 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\stdlib.h" 3
+extern int atexit(void (*)(void));
+extern char * getenv(const char *);
+extern char ** environ;
+extern int system(char *);
+extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
+extern void * bsearch(const void *, void *, size_t, size_t, int(*)(const void *, const void *));
+extern int abs(int);
+extern long labs(long);
+
+extern char * itoa(char * buf, int val, int base);
+extern char * utoa(char * buf, unsigned val, int base);
+
+
+
+
+extern char * ltoa(char * buf, long val, int base);
+extern char * ultoa(char * buf, unsigned long val, int base);
+
+extern char * ftoa(float f, int * status);
+# 20 "main.c" 2
+
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\time.h" 1 3
+
+
+
+# 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__unsupported.h" 1 3
+# 4 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\time.h" 2 3
+
+
+
+
+typedef long time_t;
+struct tm {
+ int tm_sec;
+ int tm_min;
+ int tm_hour;
+ int tm_mday;
+ int tm_mon;
+ int tm_year;
+ int tm_wday;
+ int tm_yday;
+ int tm_isdst;
+};
+
+
+
+
+
+extern int time_zone;
+
+
+
+
+extern time_t time(time_t *);
+extern int stime(time_t *);
+# 47 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\time.h" 3
+extern char * asctime(const struct tm *) ;
+extern char * ctime(const time_t *) ;
+extern struct tm * gmtime(const time_t *) ;
+extern struct tm * localtime(const time_t *) ;
+extern size_t strftime(char *, size_t, const char *, const struct tm *) ;
+extern time_t mktime(struct tm *);
+# 21 "main.c" 2
+
+
+
+void LCD_command(unsigned char cmd);
+void LCD_data(unsigned char data);
+void LCD_init();
 unsigned char rx();
 void ser_int();
 void show(unsigned char *s);
 void read_data();
 void print_data();
-void reset_dispaly();
-
+void refresh_text();
+void corner_cases(int number);
+void cloudy();
+void low_battery();
+int printRandoms(int lower, int upper, int count);
+int random_number(int l, int u, int c);
 
 unsigned char r[3], pv[3]="GPR";
-int f, checkgps, h;
 char a[95];
-int i;
+int random_case, reset_counter = 0;
 
 void main()
 {
+
 TRISD=0x00;
+TRISC3 = 1;
 TRISC4 = TRISC5 = 0;
 ser_int();
-
-read_data();
 LCD_init();
-show("Connecting...");
-_delay((unsigned long)((1000)*(20000000/4000.0)));
-print_data();
-_delay((unsigned long)((300)*(20000000/4000.0)));
-reset_dispaly();
+read_data();
+
+
+    show("WELCOME...");
+    _delay((unsigned long)((200)*(20000000/4000.0)));
+    LCD_command(0x01);
+    A:
+    LCD_command(0x80);
+    show("Connecting...");
+    _delay((unsigned long)((500)*(20000000/4000.0)));
+
+    random_case = random_number(0, 1, 1);
+    corner_cases(random_case);
+
+    while(1)
+    {
+        if (RC3 == 1)
+        {
+            reset_counter += 1;
+            while(reset_counter <= 10)
+            {
+                LCD_command(0x01);
+                LCD_command(0x80);
+                show("Resetting...");
+                _delay((unsigned long)((200)*(20000000/4000.0)));
+                LCD_command(0x01);
+                goto A;
+            }
+            low_battery();
+
+        }
+    }
 }
 
-LCD_command(unsigned char cmd)
+void LCD_command(unsigned char cmd)
 {
     PORTD = cmd;
     RC4 = 0;
@@ -1967,7 +2125,7 @@ LCD_command(unsigned char cmd)
     _delay((unsigned long)((10)*(20000000/4000.0)));
     RC5 = 0;
 }
-LCD_data(unsigned char data)
+void LCD_data(unsigned char data)
 {
     PORTD = data;
     RC4 = 1;
@@ -1975,7 +2133,7 @@ LCD_data(unsigned char data)
     _delay((unsigned long)((10)*(20000000/4000.0)));
     RC5 = 0;
  }
-LCD_init()
+void LCD_init()
 {
     LCD_command(0x38);
     LCD_command(0x0E);
@@ -2003,6 +2161,7 @@ void show(unsigned char *s)
 }
 void read_data()
 {
+    int i, f, flag=0;
     for (int j=0; j<95;j++)
 {
 char gps = rx();
@@ -2021,13 +2180,13 @@ if (gps == '$')
         {
             if(r[f]!=pv[f])
             {
-                checkgps=1;
+                flag += 1;
                 LCD_data('X');
                 break;
             }
         }
 
-         if(checkgps==0) {
+         if(flag==0) {
              for(i=0;i<68;i++)
             {
                 a[i]=rx();
@@ -2040,6 +2199,8 @@ if (gps == '$')
 }
 void print_data()
 {
+    int h;
+
     LCD_command(0x01);
     LCD_command(0x80);
     show("LON:");
@@ -2059,7 +2220,7 @@ void print_data()
         LCD_data(' ');
         LCD_data('N');
 
-LCD_command(0xc0);
+    LCD_command(0xc0);
         show("LAT:");
 
         LCD_command(0xc4);
@@ -2076,11 +2237,79 @@ LCD_command(0xc0);
         LCD_data(223);
         LCD_data(' ');
         LCD_data('E');
+
+    refresh_text();
 }
-void reset_dispaly()
+void refresh_text()
 {
     LCD_command(0x94);
     show("PRESS PUSH BUTTON");
     LCD_command(0xD4);
-    show("FOR RESETTING DEVICE");
+    show("FOR REFRESH DEVICE");
+}
+void corner_cases(int number)
+{
+    switch(number)
+    {
+        case 0:
+            cloudy();
+            break;
+        case 1:
+            print_data();
+            break;
+    }
+}
+void cloudy()
+{
+    LCD_command(0x80);
+    show("!CLOUDY ENVIRONMENT!");
+    LCD_command(0xC0);
+    show("!!CAN'T FETCH DATA!!");
+    _delay((unsigned long)((250)*(20000000/4000.0)));
+    LCD_command(0x94);
+    show(" ");
+    LCD_command(0xD4);
+    show("---TRY  RESETTING---");
+}
+void low_battery()
+{
+    LCD_command(0x80);
+    show("-!!!BATTERY LOW!!!-");
+    _delay((unsigned long)((100)*(20000000/4000.0)));
+    LCD_command(0xC0);
+    show("-!!!BATTERY LOW!!!-");
+    LCD_command(0xD4);
+    show("RECHARGE IMMEDIATELY");
+    _delay((unsigned long)((300)*(20000000/4000.0)));
+    LCD_command(0x01);
+    LCD_command(0xC0);
+    show("SWITCHING OFF");
+    _delay((unsigned long)((100)*(20000000/4000.0)));
+    show(".");
+    _delay((unsigned long)((100)*(20000000/4000.0)));
+    show(".");
+    _delay((unsigned long)((100)*(20000000/4000.0)));
+    show(".");
+    _delay((unsigned long)((100)*(20000000/4000.0)));
+    LCD_command(0x01);
+}
+int printRandoms(int lower, int upper, int count)
+{
+    int z;
+    for (z = 0; z < count; z++) {
+        int num = (rand() % (upper - lower + 1)) + lower;
+        return num;
+    }
+}
+int random_number(int l, int u, int c)
+{
+    int lower = l, upper = u, count = c, rn;
+
+
+
+    srand(time(0));
+
+    rn = printRandoms(lower, upper, count);
+
+    return rn;
 }
