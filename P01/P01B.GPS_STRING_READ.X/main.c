@@ -44,6 +44,7 @@ void main()
 {
 /*DO NOT EDIT BELOW STATEMENTS*/
 TRISD=0x00;
+TRISB=0x00;
 TRISC3 = 1;
 TRISC4 = TRISC5 = 0;
 ser_int();
@@ -59,14 +60,19 @@ read_data();
     show("Connecting...");
     __delay_ms(500);
 
-    random_case = random_number(0, 1, 1);
-    corner_cases(random_case);
+    /*random_case = random_number(0, 1, 1);
+    corner_cases(random_case);*/
+    
+//print_data();
+corner_cases(1);
+int seven[11] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0xC0};
 
     while(1)
     {
         if (RC3 == 1)
         {
             reset_counter += 1;
+            PORTB = seven[reset_counter];
             while(reset_counter <= 10)
             {
                 LCD_command(0x01);
@@ -210,7 +216,7 @@ void refresh_text()
     LCD_command(0x94);
     show("PRESS PUSH BUTTON");
     LCD_command(0xD4);
-    show("FOR REFRESH DEVICE");
+    show("FOR RESTTING DEVICE");
 }
 void corner_cases(int number)
 {
@@ -238,6 +244,7 @@ void cloudy()
 }
 void low_battery()
 {
+    LCD_command(0x01);
     LCD_command(0x80);
     show("-!!!BATTERY LOW!!!-");
     __delay_ms(100);
@@ -255,8 +262,9 @@ void low_battery()
     show(".");
     __delay_ms(100);
     show(".");
-    __delay_ms(100);
+    __delay_ms(500);
     LCD_command(0x01);
+    while(1);
 }
 int printRandoms(int lower, int upper, int count)
 {
