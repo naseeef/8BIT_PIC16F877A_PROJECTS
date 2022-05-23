@@ -15,6 +15,8 @@
 #pragma config WRT = OFF        // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
 #pragma config CP = OFF         // Flash Program Memory Code Protection bit (Code protection off)
 
+//https://www.youtube.com/watch?v=7odL_O1rgBQ
+
 #include <xc.h>
 #define _XTAL_FREQ 20000000
 
@@ -36,48 +38,56 @@ void show(unsigned char *s);
 unsigned char key();
 void keyinit();
 void fetch_sizes();
-void lut();
-int fn_winding_time(int a, int b, int c);
+void lookuptable();
 void LCD_num(unsigned int val);
 void display_data();
+void attach_sizes();
+void winiding_time_check();
+void rotation();
+void result_display();
 
 unsigned char keypad[4][4]={{'7','8','9','/'},{'4','5','6','*'},{'1','2','3','-'},{'C','0','=','+'}};
 unsigned char rowloc,colloc;
-int coil_size, bobbin_size, no_turns, turn_time, winding_time;
+//unsigned char coil_size, bobbin_size; 
+unsigned char no_turns, turn_time;
+unsigned char b1,b2,c1,c2,n1,n2; // from fetch_sizes()
+unsigned char bs, cs, nt; // for attach_sizes()
+unsigned char winding_time;
+
+
+struct lut { unsigned char b_s; unsigned char c_s; unsigned char n_t; unsigned char t_t;}; 
+//b_s=bobbin size, c_s=coil size, n_t=no. of turns, t_t= turn time
 
 void main()
 {
-    unsigned int i;
     TRISB=0;
     TRISC=0;
-    PORTD = 0;
     LCD_init();
     keyinit();
-    unsigned char b;
-    
+
     while(1)
     {
         fetch_sizes();
-        lut();
-        winding_time = fn_winding_time(bobbin_size, turn_time, no_turns);
-        //winding_time = (const int)winding_time;
+        lookuptable();
+        attach_sizes();
         display_data();
-        LCD_cmd(0x01);
-        LCD_cmd(0x80);       
-        show("Winding Starts");
-        RB0 = 1; // Relay ON
-        //__delay_ms(winding_time);
-        __delay_ms(3000);
-        RB0 = 0; //Relay OFF
-        RB1 = 1; // Buzzer
-        LCD_cmd(0x01);
-        LCD_cmd(0x80);
-        show("Winding Completes");
-        LCD_cmd(0x94);
-        show("Total Time Taken:");
-        LCD_cmd(0xD4);
-        LCD_num((winding_time/60));
-        while(1);
+        winding_time = nt*turn_time;
+        winiding_time_check();
+        
+    unsigned char winding_time0  = winding_time;
+    while(winding_time0 != 0)
+    {
+        unsigned char wt = winding_time0 % 10;
+        LCD_dat(wt);
+        winding_time0 = winding_time0 / 10;
+    }
+    while(1);
+        
+//        if (winding_time > 0)
+//        {
+//            rotation();
+//            result_display();
+//        }
     }
 }
 
@@ -194,114 +204,188 @@ unsigned char key()
 
 void fetch_sizes()
 {
-    int i;
-    
-    LCD_cmd(0x80);
-    show("Enter the Coil Size:");
-    for(i=0;i<2;i++)
-    {
-        coil_size = coil_size*10+key();
-    }
-    __delay_ms(1000);
-    
+    LCD_cmd(0x01);
     LCD_cmd(0x80);
     show("Enter the Bobbin Size:");
-    for(i=0;i<1;i++)
-    {
-        bobbin_size = bobbin_size*10+key();
-    }
-    __delay_ms(1000);
+        b1=key();
+        LCD_dat(b1);
+        b2=key();
+        LCD_dat(b2);
+    __delay_ms(100);
     
+    LCD_cmd(0x01);
+    LCD_cmd(0x80);
+    show("Enter the Coil Size:");
+        c1=key();
+        LCD_dat(c1);
+        c2=key();
+        LCD_dat(c2);
+    __delay_ms(100);
+    
+    LCD_cmd(0x01);
     LCD_cmd(0x80);
     show("Enter the No. Turns:");
-    for(i=0;i<2;i++)
-    {
-        no_turns = no_turns*10+key();
-    }  
-    __delay_ms(1000);
+        n1=key();
+        LCD_dat(n1);
+        n2=key();
+        LCD_dat(n2);
+    __delay_ms(100);
 }
 
-void lut()
+void lookuptable()
 {
-    if (bobbin_size == 1)
+    
+    /*struct lut lut1 = {17, 10, 2.4, 1.0};
+    struct lut lut2 = {17, 15, 2.0, 0.8};
+    struct lut lut3 = {17, 20, 1.6, 0.6};
+    struct lut lut4 = {23, 10, 4.5, 1.8};
+    struct lut lut5 = {23, 15, 3.7, 1.5};
+    struct lut lut6 = {23, 20, 3.0, 1.2};
+    struct lut lut7 = {45, 10, 8.7, 3.5};
+    struct lut lut8 = {45, 15, 7.2, 3.1};
+    struct lut lut9 = {45, 20, 5.8, 2.7};
+    if (bobbin_size == 17 && coil_size == 10)
     {
-        turn_time = 100;
+         no_turns = lut1.n_t;
+         turn_time = lut1.t_t;
+    }*/
+        
+    if (b1 == '1')
+    {
+        if (c1 == '1')
+            {
+                if (c2 == '0')
+                {
+                    turn_time = '9';
+                }
+                else
+                {
+                    turn_time = '8';
+                }
+            }
+        else
+            {
+                turn_time = '7';
+            }
     }
-    else if (bobbin_size == 2)
+    else if (b1 == '2')
     {
-        turn_time = 125;
+        if (c1 == '1')
+            {
+                if (c2 == '0')
+                {
+                    turn_time = '6';
+                }
+                else
+                {
+                    turn_time = '5';
+                }
+            }
+        else
+            {
+                turn_time = '4';
+            }
     }
-    else if (bobbin_size == 3)
+    else if (b1 == '4')
     {
-        turn_time = 150;
-    }    
-}
-
-int fn_winding_time(int a, int b, int c)
-{
-    int d = a*b*c;
-    return d;
-}
-
-void LCD_num (unsigned int val)
-{
-    int remainder, digit1, digit2, digit3, digit4, result, result1;
-    if (val<=9)
-    {
-        LCD_dat (val+0x30);
+        if (c1 == '1')
+            {
+                if (c2 == '0')
+                {
+                    turn_time = '7';
+                }
+                else
+                {
+                    turn_time = '2';
+                }
+            }
+        else
+            {
+                turn_time = '1';
+            }
     }
-    else if (val>=10 && val <100)
+    else
     {
-        remainder = val % 10;
-        digit1 = remainder;
-        digit2 = val/10;
-        LCD_dat(digit2+0x30);
-        LCD_dat(digit1+0x30);
+        LCD_cmd(0x01);
+        LCD_cmd(0xC0);
+        show("Invalid Data Input!!");  
     }
-    else if (val>=100 && val <1000)
-    {
-        remainder = val % 10;
-        result1 = val /10;
-        digit1 = remainder;
-        remainder = result1%10;
-        digit2 = remainder;
-        digit3 = result1/10;
-        LCD_dat(digit3+0x30);
-        LCD_dat(digit2+0x30);
-        LCD_dat(digit1+0x30);
-    }
-    else if (val>=1000 && val <9999)
-    {
-        remainder = val % 10;
-        result1 = val /10;
-        digit1 = remainder;
-        remainder = result1%10;
-        digit2 = remainder;
-        result = result1/10;
-        remainder = result%10;
-        digit3=remainder;
-        digit4 = result/10;
-        LCD_dat(digit4+0x30);
-        LCD_dat(digit3+0x30);
-        LCD_dat(digit2+0x30);
-        LCD_dat(digit1+0x30);
-    }
+        
 }
 
 void display_data()
 {
         LCD_cmd(0x01);
+        LCD_cmd(0x80);
+        show("Entered Data: ");
+        
         LCD_cmd(0xC0);
-        show("Coil Size: ");
-        LCD_cmd(0xCB);
-        LCD_num(coil_size);
-        LCD_cmd(0x94);
         show("Bobbin Size: ");
-        LCD_cmd(0x9F);
-        LCD_num(bobbin_size);
+        LCD_cmd(0xCC);
+        LCD_dat(b1);
+        LCD_dat(b2);
+        
+        
+        LCD_cmd(0x94);
+        show("Coil Size: ");
+        LCD_cmd(0xA0);
+        LCD_dat(c1);
+        LCD_dat(c2);
+        
         LCD_cmd(0xD4);
-        show("No. Turns: ");
-        LCD_cmd(0xDF);
-        LCD_num(no_turns);
+        show("Total No. Turns: ");
+        LCD_cmd(0xE4);
+        LCD_dat(n1);
+        LCD_dat(n2);
+        
         __delay_ms(1000);
+         
+}
+
+void attach_sizes()
+{
+    bs = b1*10 + b2;
+    cs = c1*10 + c2;
+    nt = n1*10 + n2; 
+}
+
+void winiding_time_check()
+{
+        if (winding_time > 0)
+        {
+            RB2 = 1;
+        }
+}
+
+void rotation()
+{
+    LCD_cmd(0x01);
+    LCD_cmd(0x80);
+    show("Winding Starts");
+    RB4 = 1; // Relay ON
+    for (int i=0; i<winding_time; i++)
+    {
+        __delay_ms(1000);
+    }
+    RB1 = 1; // Buzzer
+    RB4 = 0; //Relay OFF
+}
+
+void result_display()
+{
+    LCD_cmd(0x01);
+    LCD_cmd(0x80);
+    show("Winding Completes");
+    LCD_cmd(0x94);
+    show("Total Time Taken:");
+    LCD_cmd(0xD4);
+    
+    unsigned char winding_time0  = winding_time;
+    while(winding_time0 != 0)
+    {
+        unsigned char wt = winding_time0 % 10;
+        LCD_dat(wt);
+        winding_time0 = winding_time0 / 10;
+    }
+    
 }
