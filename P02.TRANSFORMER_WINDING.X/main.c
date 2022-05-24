@@ -18,6 +18,7 @@
 //https://www.youtube.com/watch?v=7odL_O1rgBQ
 
 #include <xc.h>
+#include <math.h>
 #define _XTAL_FREQ 20000000
 
 #define rs RC2
@@ -39,12 +40,13 @@ unsigned char key();
 void keyinit();
 void fetch_sizes();
 void lookuptable();
-void LCD_num(unsigned int val);
 void display_data();
 void attach_sizes();
-void winiding_time_check();
-void rotation();
-void result_display();
+void winiding_time_check(unsigned char time);
+void rotation(unsigned char time);
+void result_display(unsigned int time);
+void LCD_num (unsigned int val);
+void welcome_text();
 
 unsigned char keypad[4][4]={{'7','8','9','/'},{'4','5','6','*'},{'1','2','3','-'},{'C','0','=','+'}};
 unsigned char rowloc,colloc;
@@ -52,18 +54,18 @@ unsigned char rowloc,colloc;
 unsigned char no_turns, turn_time;
 unsigned char b1,b2,c1,c2,n1,n2; // from fetch_sizes()
 unsigned char bs, cs, nt; // for attach_sizes()
-unsigned char winding_time;
-
 
 struct lut { unsigned char b_s; unsigned char c_s; unsigned char n_t; unsigned char t_t;}; 
-//b_s=bobbin size, c_s=coil size, n_t=no. of turns, t_t= turn time
+//b_s= bobbin size, c_s= coil size, n_t= no. of turns, t_t= turn time
 
 void main()
 {
     TRISB=0;
     TRISC=0;
     LCD_init();
+    welcome_text();
     keyinit();
+    unsigned char winding_time;
 
     while(1)
     {
@@ -71,23 +73,15 @@ void main()
         lookuptable();
         attach_sizes();
         display_data();
-        winding_time = nt*turn_time;
-        winiding_time_check();
+        winding_time = nt * turn_time;
+        winiding_time_check((unsigned char)winding_time);
         
-    unsigned char winding_time0  = winding_time;
-    while(winding_time0 != 0)
-    {
-        unsigned char wt = winding_time0 % 10;
-        LCD_dat(wt);
-        winding_time0 = winding_time0 / 10;
-    }
-    while(1);
-        
-//        if (winding_time > 0)
-//        {
-//            rotation();
-//            result_display();
-//        }
+        if (winding_time > 0)
+        {
+            rotation((unsigned char)winding_time);
+            result_display((unsigned int)winding_time);
+            while(1);
+        }
     }
 }
 
@@ -246,7 +240,6 @@ void lookuptable()
     struct lut lut9 = {45, 20, 5.8, 2.7};
     if (bobbin_size == 17 && coil_size == 10)
     {
-         no_turns = lut1.n_t;
          turn_time = lut1.t_t;
     }*/
         
@@ -256,16 +249,16 @@ void lookuptable()
             {
                 if (c2 == '0')
                 {
-                    turn_time = '9';
+                    turn_time = '1';
                 }
                 else
                 {
-                    turn_time = '8';
+                    turn_time = '2';
                 }
             }
         else
             {
-                turn_time = '7';
+                turn_time = '3';
             }
     }
     else if (b1 == '2')
@@ -274,11 +267,11 @@ void lookuptable()
             {
                 if (c2 == '0')
                 {
-                    turn_time = '6';
+                    turn_time = '2';
                 }
                 else
                 {
-                    turn_time = '5';
+                    turn_time = '3';
                 }
             }
         else
@@ -292,16 +285,16 @@ void lookuptable()
             {
                 if (c2 == '0')
                 {
-                    turn_time = '7';
+                    turn_time = '5';
                 }
                 else
                 {
-                    turn_time = '2';
+                    turn_time = '6';
                 }
             }
         else
             {
-                turn_time = '1';
+                turn_time = '7';
             }
     }
     else
@@ -349,21 +342,21 @@ void attach_sizes()
     nt = n1*10 + n2; 
 }
 
-void winiding_time_check()
+void winiding_time_check(unsigned char time)
 {
-        if (winding_time > 0)
+        if (time > 0)
         {
-            RB2 = 1;
+            RB7 = 1;
         }
 }
 
-void rotation()
+void rotation(unsigned char time)
 {
     LCD_cmd(0x01);
     LCD_cmd(0x80);
     show("Winding Starts");
     RB4 = 1; // Relay ON
-    for (int i=0; i<winding_time; i++)
+    for (int i=0; i<(time/60); i++)
     {
         __delay_ms(1000);
     }
@@ -371,7 +364,7 @@ void rotation()
     RB4 = 0; //Relay OFF
 }
 
-void result_display()
+void result_display(unsigned int time)
 {
     LCD_cmd(0x01);
     LCD_cmd(0x80);
@@ -379,13 +372,65 @@ void result_display()
     LCD_cmd(0x94);
     show("Total Time Taken:");
     LCD_cmd(0xD4);
-    
-    unsigned char winding_time0  = winding_time;
-    while(winding_time0 != 0)
+    time = time/60;
+    LCD_num(round(time));
+    show(" Seconds.");
+    __delay_ms(3000);
+}
+
+void LCD_num (unsigned int val)
+{
+    unsigned int remainder, digit1, digit2, digit3, digit4, result, result1;
+    if (val<=9)
     {
-        unsigned char wt = winding_time0 % 10;
-        LCD_dat(wt);
-        winding_time0 = winding_time0 / 10;
+        LCD_dat (val+0x30);
     }
-    
+    else if (val>=10 && val <100)
+    {
+        remainder = val % 10;
+        digit1 = remainder;
+        digit2 = val/10;
+        LCD_dat(digit2+0x30);
+        LCD_dat(digit1+0x30);
+    }
+    else if (val>=100 && val <1000)
+    {
+        remainder = val % 10;
+        result1 = val /10;
+        digit1 = remainder;
+        remainder = result1%10;
+        digit2 = remainder;
+        digit3 = result1/10;
+        LCD_dat(digit3+0x30);
+        LCD_dat(digit2+0x30);
+        LCD_dat(digit1+0x30);
+    }
+    else if (val>=1000 && val <9999)
+    {
+        remainder = val % 10;
+        result1 = val /10;
+        digit1 = remainder;
+        remainder = result1%10;
+        digit2 = remainder;
+        result = result1/10;
+        remainder = result%10;
+        digit3=remainder;
+        digit4 = result/10;
+        LCD_dat(digit4+0x30);
+        LCD_dat(digit3+0x30);
+        LCD_dat(digit2+0x30);
+        LCD_dat(digit1+0x30);
+    }
+}
+
+void welcome_text()
+{
+    LCD_cmd(0x01);
+    LCD_cmd(0x80);
+    show("!!    WELCOME    !!");
+    LCD_cmd(0x94);
+    show("TRANSFORMER WINDING");
+    LCD_cmd(0xD4);
+    show("      MACHINE      ");
+    __delay_ms(1000);
 }

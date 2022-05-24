@@ -1874,7 +1874,42 @@ extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
 # 20 "main.c" 2
-# 34 "main.c"
+
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 1 3
+
+
+
+# 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__unsupported.h" 1 3
+# 4 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 2 3
+# 30 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 3
+extern double fabs(double);
+extern double floor(double);
+extern double ceil(double);
+extern double modf(double, double *);
+extern double sqrt(double);
+extern double atof(const char *);
+extern double sin(double) ;
+extern double cos(double) ;
+extern double tan(double) ;
+extern double asin(double) ;
+extern double acos(double) ;
+extern double atan(double);
+extern double atan2(double, double) ;
+extern double log(double);
+extern double log10(double);
+extern double pow(double, double) ;
+extern double exp(double) ;
+extern double sinh(double) ;
+extern double cosh(double) ;
+extern double tanh(double);
+extern double eval_poly(double, const double *, int);
+extern double frexp(double, int *);
+extern double ldexp(double, int);
+extern double fmod(double, double);
+extern double trunc(double);
+extern double round(double);
+# 21 "main.c" 2
+# 35 "main.c"
 void LCD_init();
 void LCD_cmd(unsigned char a);
 void LCD_dat(unsigned char b);
@@ -1883,12 +1918,13 @@ unsigned char key();
 void keyinit();
 void fetch_sizes();
 void lookuptable();
-void LCD_num(unsigned int val);
 void display_data();
 void attach_sizes();
-void winiding_time_check();
-void rotation();
-void result_display();
+void winiding_time_check(unsigned char time);
+void rotation(unsigned char time);
+void result_display(unsigned int time);
+void LCD_num (unsigned int val);
+void welcome_text();
 
 unsigned char keypad[4][4]={{'7','8','9','/'},{'4','5','6','*'},{'1','2','3','-'},{'C','0','=','+'}};
 unsigned char rowloc,colloc;
@@ -1896,8 +1932,6 @@ unsigned char rowloc,colloc;
 unsigned char no_turns, turn_time;
 unsigned char b1,b2,c1,c2,n1,n2;
 unsigned char bs, cs, nt;
-unsigned char winding_time;
-
 
 struct lut { unsigned char b_s; unsigned char c_s; unsigned char n_t; unsigned char t_t;};
 
@@ -1907,7 +1941,9 @@ void main()
     TRISB=0;
     TRISC=0;
     LCD_init();
+    welcome_text();
     keyinit();
+    unsigned char winding_time;
 
     while(1)
     {
@@ -1915,23 +1951,15 @@ void main()
         lookuptable();
         attach_sizes();
         display_data();
-        winding_time = nt*turn_time;
-        winiding_time_check();
+        winding_time = nt * turn_time;
+        winiding_time_check((unsigned char)winding_time);
 
-    unsigned char winding_time0 = winding_time;
-    while(winding_time0 != 0)
-    {
-        unsigned char wt = winding_time0 % 10;
-        LCD_dat(wt);
-        winding_time0 = winding_time0 / 10;
-    }
-    while(1);
-
-
-
-
-
-
+        if (winding_time > 0)
+        {
+            rotation((unsigned char)winding_time);
+            result_display((unsigned int)winding_time);
+            while(1);
+        }
     }
 }
 
@@ -2078,23 +2106,23 @@ void fetch_sizes()
 
 void lookuptable()
 {
-# 253 "main.c"
+# 246 "main.c"
     if (b1 == '1')
     {
         if (c1 == '1')
             {
                 if (c2 == '0')
                 {
-                    turn_time = '9';
+                    turn_time = '1';
                 }
                 else
                 {
-                    turn_time = '8';
+                    turn_time = '2';
                 }
             }
         else
             {
-                turn_time = '7';
+                turn_time = '3';
             }
     }
     else if (b1 == '2')
@@ -2103,11 +2131,11 @@ void lookuptable()
             {
                 if (c2 == '0')
                 {
-                    turn_time = '6';
+                    turn_time = '2';
                 }
                 else
                 {
-                    turn_time = '5';
+                    turn_time = '3';
                 }
             }
         else
@@ -2121,16 +2149,16 @@ void lookuptable()
             {
                 if (c2 == '0')
                 {
-                    turn_time = '7';
+                    turn_time = '5';
                 }
                 else
                 {
-                    turn_time = '2';
+                    turn_time = '6';
                 }
             }
         else
             {
-                turn_time = '1';
+                turn_time = '7';
             }
     }
     else
@@ -2178,21 +2206,21 @@ void attach_sizes()
     nt = n1*10 + n2;
 }
 
-void winiding_time_check()
+void winiding_time_check(unsigned char time)
 {
-        if (winding_time > 0)
+        if (time > 0)
         {
-            RB2 = 1;
+            RB7 = 1;
         }
 }
 
-void rotation()
+void rotation(unsigned char time)
 {
     LCD_cmd(0x01);
     LCD_cmd(0x80);
     show("Winding Starts");
     RB4 = 1;
-    for (int i=0; i<winding_time; i++)
+    for (int i=0; i<(time/60); i++)
     {
         _delay((unsigned long)((1000)*(20000000/4000.0)));
     }
@@ -2200,7 +2228,7 @@ void rotation()
     RB4 = 0;
 }
 
-void result_display()
+void result_display(unsigned int time)
 {
     LCD_cmd(0x01);
     LCD_cmd(0x80);
@@ -2208,13 +2236,65 @@ void result_display()
     LCD_cmd(0x94);
     show("Total Time Taken:");
     LCD_cmd(0xD4);
+    time = time/60;
+    LCD_num(round(time));
+    show(" Seconds.");
+    _delay((unsigned long)((3000)*(20000000/4000.0)));
+}
 
-    unsigned char winding_time0 = winding_time;
-    while(winding_time0 != 0)
+void LCD_num (unsigned int val)
+{
+    unsigned int remainder, digit1, digit2, digit3, digit4, result, result1;
+    if (val<=9)
     {
-        unsigned char wt = winding_time0 % 10;
-        LCD_dat(wt);
-        winding_time0 = winding_time0 / 10;
+        LCD_dat (val+0x30);
     }
+    else if (val>=10 && val <100)
+    {
+        remainder = val % 10;
+        digit1 = remainder;
+        digit2 = val/10;
+        LCD_dat(digit2+0x30);
+        LCD_dat(digit1+0x30);
+    }
+    else if (val>=100 && val <1000)
+    {
+        remainder = val % 10;
+        result1 = val /10;
+        digit1 = remainder;
+        remainder = result1%10;
+        digit2 = remainder;
+        digit3 = result1/10;
+        LCD_dat(digit3+0x30);
+        LCD_dat(digit2+0x30);
+        LCD_dat(digit1+0x30);
+    }
+    else if (val>=1000 && val <9999)
+    {
+        remainder = val % 10;
+        result1 = val /10;
+        digit1 = remainder;
+        remainder = result1%10;
+        digit2 = remainder;
+        result = result1/10;
+        remainder = result%10;
+        digit3=remainder;
+        digit4 = result/10;
+        LCD_dat(digit4+0x30);
+        LCD_dat(digit3+0x30);
+        LCD_dat(digit2+0x30);
+        LCD_dat(digit1+0x30);
+    }
+}
 
+void welcome_text()
+{
+    LCD_cmd(0x01);
+    LCD_cmd(0x80);
+    show("!!    WELCOME    !!");
+    LCD_cmd(0x94);
+    show("TRANSFORMER WINDING");
+    LCD_cmd(0xD4);
+    show("      MACHINE      ");
+    _delay((unsigned long)((1000)*(20000000/4000.0)));
 }
