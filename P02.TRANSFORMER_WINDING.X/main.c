@@ -41,9 +41,9 @@ void keyinit();
 void fetch_sizes();
 void lookuptable();
 void display_data();
-void attach_sizes();
-void winiding_time_check(unsigned char time);
-void rotation(unsigned char time);
+unsigned char attach_sizes();
+void winiding_time_check(unsigned int time);
+void rotation(unsigned int time);
 void result_display(unsigned int time);
 void LCD_num (unsigned int val);
 void welcome_text();
@@ -53,7 +53,7 @@ unsigned char rowloc,colloc;
 //unsigned char coil_size, bobbin_size; 
 unsigned char no_turns, turn_time;
 unsigned char b1,b2,c1,c2,n1,n2; // from fetch_sizes()
-unsigned char bs, cs, nt; // for attach_sizes()
+unsigned char bs, cs; // for attach_sizes()
 
 struct lut { unsigned char b_s; unsigned char c_s; unsigned char n_t; unsigned char t_t;}; 
 //b_s= bobbin size, c_s= coil size, n_t= no. of turns, t_t= turn time
@@ -63,25 +63,32 @@ void main()
     TRISB=0;
     TRISC=0;
     LCD_init();
-    welcome_text();
+    //welcome_text();
     keyinit();
-    unsigned char winding_time;
+    unsigned int winding_time = 0;
+    unsigned char nt = 0;
 
     while(1)
     {
         fetch_sizes();
-        lookuptable();
-        attach_sizes();
-        display_data();
-        winding_time = nt * turn_time;
-        winiding_time_check((unsigned char)winding_time);
+        //lookuptable();
+        nt = attach_sizes();
+        LCD_cmd(0x01);
+        LCD_cmd(0x80);
+        LCD_num(nt-16);
+        while(1);
+        /*display_data();
+        winding_time = nt * (unsigned int)turn_time;
+        
+        LCD_num(winding_time);
+        __delay_ms(3000);
+        winiding_time_check(winding_time);
         
         if (winding_time > 0)
         {
-            rotation((unsigned char)winding_time);
-            result_display((unsigned int)winding_time);
-            while(1);
-        }
+            rotation(winding_time);
+            result_display(winding_time);
+        }*/
     }
 }
 
@@ -229,36 +236,32 @@ void fetch_sizes()
 void lookuptable()
 {
     
-    /*struct lut lut1 = {17, 10, 2.4, 1.0};
-    struct lut lut2 = {17, 15, 2.0, 0.8};
-    struct lut lut3 = {17, 20, 1.6, 0.6};
-    struct lut lut4 = {23, 10, 4.5, 1.8};
-    struct lut lut5 = {23, 15, 3.7, 1.5};
-    struct lut lut6 = {23, 20, 3.0, 1.2};
-    struct lut lut7 = {45, 10, 8.7, 3.5};
-    struct lut lut8 = {45, 15, 7.2, 3.1};
-    struct lut lut9 = {45, 20, 5.8, 2.7};
-    if (bobbin_size == 17 && coil_size == 10)
-    {
-         turn_time = lut1.t_t;
-    }*/
-        
+    struct lut lut1 = {17, 10, 2.4, '1'};
+    struct lut lut2 = {17, 15, 2.0, '2'};
+    struct lut lut3 = {17, 20, 1.6, '3'};
+    struct lut lut4 = {23, 10, 4.5, '2'};
+    struct lut lut5 = {23, 15, 3.7, '3'};
+    struct lut lut6 = {23, 20, 3.0, '4'};
+    struct lut lut7 = {45, 10, 8.7, '5'};
+    struct lut lut8 = {45, 15, 7.2, '6'};
+    struct lut lut9 = {45, 20, 5.8, '7'};
+  
     if (b1 == '1')
     {
         if (c1 == '1')
             {
                 if (c2 == '0')
                 {
-                    turn_time = '1';
+                    turn_time = lut1.t_t;
                 }
                 else
                 {
-                    turn_time = '2';
+                    turn_time = lut2.t_t;
                 }
             }
         else
             {
-                turn_time = '3';
+                turn_time = lut3.t_t;
             }
     }
     else if (b1 == '2')
@@ -267,16 +270,16 @@ void lookuptable()
             {
                 if (c2 == '0')
                 {
-                    turn_time = '2';
+                    turn_time = lut4.t_t;
                 }
                 else
                 {
-                    turn_time = '3';
+                    turn_time = lut5.t_t;
                 }
             }
         else
             {
-                turn_time = '4';
+                turn_time = lut6.t_t;
             }
     }
     else if (b1 == '4')
@@ -285,16 +288,16 @@ void lookuptable()
             {
                 if (c2 == '0')
                 {
-                    turn_time = '5';
+                    turn_time = lut7.t_t;
                 }
                 else
                 {
-                    turn_time = '6';
+                    turn_time = lut8.t_t;
                 }
             }
         else
             {
-                turn_time = '7';
+                turn_time = lut9.t_t;
             }
     }
     else
@@ -335,14 +338,18 @@ void display_data()
          
 }
 
-void attach_sizes()
+unsigned char attach_sizes()
 {
     bs = b1*10 + b2;
     cs = c1*10 + c2;
-    nt = n1*10 + n2; 
+    
+    unsigned char n3 = n1;
+    unsigned char n4 = n2;
+    unsigned char er;
+    return er = n3*10 + n4; 
 }
 
-void winiding_time_check(unsigned char time)
+void winiding_time_check(unsigned int time)
 {
         if (time > 0)
         {
@@ -350,7 +357,7 @@ void winiding_time_check(unsigned char time)
         }
 }
 
-void rotation(unsigned char time)
+void rotation(unsigned int time)
 {
     LCD_cmd(0x01);
     LCD_cmd(0x80);
