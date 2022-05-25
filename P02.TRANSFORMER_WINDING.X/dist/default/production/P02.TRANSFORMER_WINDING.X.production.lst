@@ -1,7 +1,7 @@
 
 
 Microchip MPLAB XC8 Assembler V2.32 build 20210201212658 
-                                                                                               Wed May 25 15:23:30 2022
+                                                                                               Wed May 25 15:30:43 2022
 
 Microchip MPLAB XC8 C Compiler v2.32 (Free license) build 20210201212658 Og1 
      1                           	processor	16F877A
@@ -1659,72 +1659,72 @@ Microchip MPLAB XC8 C Compiler v2.32 (Free license) build 20210201212658 Og1
   1643  0C2D  3089               	movlw	high (STR_11| (0+32768))
   1644  0C2E  00F4               	movwf	show@s+1
   1645  0C2F  120A  118A  2006  120A  158A  	fcall	_show
-  1646                           
-  1647                           ;main.c: 363:     LCD_cmd(0xD4);
-  1648  0C34  30D4               	movlw	212
-  1649  0C35  120A  158A  2204  120A  158A  	fcall	_LCD_cmd
-  1650  0C3A                     l2475:
-  1651                           
-  1652                           ;main.c: 364:     RB4 = 1;
-  1653  0C3A  1283               	bcf	3,5	;RP0=0, select bank0
-  1654  0C3B  1303               	bcf	3,6	;RP1=0, select bank0
-  1655  0C3C  1606               	bsf	6,4	;volatile
-  1656  0C3D                     l2477:
-  1657                           
-  1658                           ;main.c: 365:     for (int i=time; i>0; i--)
-  1659  0C3D  0857               	movf	rotation@time+1,w
-  1660  0C3E  00DC               	movwf	rotation@i+1
-  1661  0C3F  0856               	movf	rotation@time,w
-  1662  0C40  00DB               	movwf	rotation@i
-  1663  0C41                     l2479:
-  1664  0C41  085C               	movf	rotation@i+1,w
-  1665  0C42  3A80               	xorlw	128
-  1666  0C43  00FF               	movwf	btemp+1
-  1667  0C44  3080               	movlw	128
-  1668  0C45  027F               	subwf	btemp+1,w
-  1669  0C46  1D03               	skipz
-  1670  0C47  2C4A               	goto	u3395
-  1671  0C48  3001               	movlw	1
-  1672  0C49  025B               	subwf	rotation@i,w
-  1673  0C4A                     u3395:
-  1674  0C4A  1803               	skipnc
-  1675  0C4B  2C4D               	goto	u3391
-  1676  0C4C  2C4E               	goto	u3390
-  1677  0C4D                     u3391:
-  1678  0C4D  2C4F               	goto	l2483
-  1679  0C4E                     u3390:
-  1680  0C4E  2C72               	goto	l211
-  1681  0C4F                     l2483:
-  1682                           
-  1683                           ;main.c: 366:     {;main.c: 367:         _delay((unsigned long)((1000)*(20000000/4000.0)
+  1646  0C34                     l2475:
+  1647                           
+  1648                           ;main.c: 363:     RB4 = 1;
+  1649  0C34  1283               	bcf	3,5	;RP0=0, select bank0
+  1650  0C35  1303               	bcf	3,6	;RP1=0, select bank0
+  1651  0C36  1606               	bsf	6,4	;volatile
+  1652  0C37                     l2477:
+  1653                           
+  1654                           ;main.c: 364:     for (int i=time; i>0; i--)
+  1655  0C37  0857               	movf	rotation@time+1,w
+  1656  0C38  00DC               	movwf	rotation@i+1
+  1657  0C39  0856               	movf	rotation@time,w
+  1658  0C3A  00DB               	movwf	rotation@i
+  1659  0C3B                     l2479:
+  1660  0C3B  085C               	movf	rotation@i+1,w
+  1661  0C3C  3A80               	xorlw	128
+  1662  0C3D  00FF               	movwf	btemp+1
+  1663  0C3E  3080               	movlw	128
+  1664  0C3F  027F               	subwf	btemp+1,w
+  1665  0C40  1D03               	skipz
+  1666  0C41  2C44               	goto	u3395
+  1667  0C42  3001               	movlw	1
+  1668  0C43  025B               	subwf	rotation@i,w
+  1669  0C44                     u3395:
+  1670  0C44  1803               	skipnc
+  1671  0C45  2C47               	goto	u3391
+  1672  0C46  2C48               	goto	u3390
+  1673  0C47                     u3391:
+  1674  0C47  2C49               	goto	l2483
+  1675  0C48                     u3390:
+  1676  0C48  2C72               	goto	l211
+  1677  0C49                     l2483:
+  1678                           
+  1679                           ;main.c: 365:     {;main.c: 366:         _delay((unsigned long)((1000)*(20000000/4000.0)
       +                          ));
-  1684  0C4F  301A               	movlw	26
-  1685  0C50  1283               	bcf	3,5	;RP0=0, select bank0
-  1686  0C51  1303               	bcf	3,6	;RP1=0, select bank0
-  1687  0C52  00DA               	movwf	??_rotation+2
-  1688  0C53  305E               	movlw	94
-  1689  0C54  00D9               	movwf	??_rotation+1
-  1690  0C55  306D               	movlw	109
-  1691  0C56  00D8               	movwf	??_rotation
-  1692  0C57                     u3427:
-  1693  0C57  0BD8               	decfsz	??_rotation,f
-  1694  0C58  2C57               	goto	u3427
-  1695  0C59  0BD9               	decfsz	??_rotation+1,f
-  1696  0C5A  2C57               	goto	u3427
-  1697  0C5B  0BDA               	decfsz	??_rotation+2,f
-  1698  0C5C  2C57               	goto	u3427
-  1699  0C5D  2C5E               	nop2
-  1700  0C5E                     l2485:
-  1701                           
-  1702                           ;main.c: 368:         LCD_num(time);
-  1703  0C5E  1283               	bcf	3,5	;RP0=0, select bank0
-  1704  0C5F  1303               	bcf	3,6	;RP1=0, select bank0
-  1705  0C60  0857               	movf	rotation@time+1,w
-  1706  0C61  00C7               	movwf	LCD_num@val+1
-  1707  0C62  0856               	movf	rotation@time,w
-  1708  0C63  00C6               	movwf	LCD_num@val
-  1709  0C64  120A  118A  23B0  120A  158A  	fcall	_LCD_num
-  1710  0C69                     l2487:
+  1680  0C49  301A               	movlw	26
+  1681  0C4A  1283               	bcf	3,5	;RP0=0, select bank0
+  1682  0C4B  1303               	bcf	3,6	;RP1=0, select bank0
+  1683  0C4C  00DA               	movwf	??_rotation+2
+  1684  0C4D  305E               	movlw	94
+  1685  0C4E  00D9               	movwf	??_rotation+1
+  1686  0C4F  306D               	movlw	109
+  1687  0C50  00D8               	movwf	??_rotation
+  1688  0C51                     u3427:
+  1689  0C51  0BD8               	decfsz	??_rotation,f
+  1690  0C52  2C51               	goto	u3427
+  1691  0C53  0BD9               	decfsz	??_rotation+1,f
+  1692  0C54  2C51               	goto	u3427
+  1693  0C55  0BDA               	decfsz	??_rotation+2,f
+  1694  0C56  2C51               	goto	u3427
+  1695  0C57  2C58               	nop2
+  1696  0C58                     l2485:
+  1697                           
+  1698                           ;main.c: 367:         LCD_cmd(0xD4);
+  1699  0C58  30D4               	movlw	212
+  1700  0C59  120A  158A  2204  120A  158A  	fcall	_LCD_cmd
+  1701  0C5E                     l2487:
+  1702                           
+  1703                           ;main.c: 368:         LCD_num(i);
+  1704  0C5E  1283               	bcf	3,5	;RP0=0, select bank0
+  1705  0C5F  1303               	bcf	3,6	;RP1=0, select bank0
+  1706  0C60  085C               	movf	rotation@i+1,w
+  1707  0C61  00C7               	movwf	LCD_num@val+1
+  1708  0C62  085B               	movf	rotation@i,w
+  1709  0C63  00C6               	movwf	LCD_num@val
+  1710  0C64  120A  118A  23B0  120A  158A  	fcall	_LCD_num
   1711                           
   1712                           ;main.c: 369:     }
   1713  0C69  30FF               	movlw	255
@@ -1735,7 +1735,7 @@ Microchip MPLAB XC8 C Compiler v2.32 (Free license) build 20210201212658 Og1
   1718  0C6E  0ADC               	incf	rotation@i+1,f
   1719  0C6F  30FF               	movlw	255
   1720  0C70  07DC               	addwf	rotation@i+1,f
-  1721  0C71  2C41               	goto	l2479
+  1721  0C71  2C3B               	goto	l2479
   1722  0C72                     l211:
   1723                           
   1724                           ;main.c: 370:     RB1 = 1;
@@ -7485,7 +7485,7 @@ EEDATA             100      0       0       0        0.0%
 
 
 Microchip Technology PIC Macro Assembler V2.32 build 20210201212658 
-Symbol Table                                                                                   Wed May 25 15:23:30 2022
+Symbol Table                                                                                   Wed May 25 15:30:43 2022
 
                            pc 0002                ___bmul@product 0072                            l99 0CEE  
                           _b1 006C                            _b2 006B                            _c1 006A  
@@ -7615,21 +7615,21 @@ Symbol Table                                                                    
                         l1851 0659                          l1843 063B                          l1835 0629  
                         l1827 05ED                          l1819 05DD                          l1771 0573  
                         l1763 0560                          l1755 0551                          l1747 0D5D  
-                        l1739 0D46                          l2491 0D6E                          l2483 0C4F  
-                        l2475 0C3A                          l2467 0C0D                          l2397 0249  
+                        l1739 0D46                          l2491 0D6E                          l2483 0C49  
+                        l2475 0C34                          l2467 0C0D                          l2397 0249  
                         l2389 0235                          l1941 07D6                          l1933 07C0  
                         l1925 07A5                          l1917 076E                          l1909 075C  
                         l1861 0681                          l1845 0646                          l1837 0634  
                         l1829 05F1                          l1781 0589                          l1773 0578  
                         l1765 0568                          l1757 0555                          l1749 0D62  
-                        l2493 0D7A                          l2485 0C5E                          l2477 0C3D  
+                        l2493 0D7A                          l2485 0C58                          l2477 0C37  
                         l2469 0C16                          l2399 024E                          l1943 07DA  
                         l1935 07C1                          l1927 07AE                          l1919 0773  
                         l1871 069E                          l1863 068C                          l1855 0662  
                         l1839 0636                          l1847 064A                          l1791 059D  
                         l1783 058A                          l1775 057E                          l1767 0569  
                         l1759 0556                          l1951 0F60                          l2495 0D83  
-                        l2487 0C69                          l2479 0C41                          l1937 07C5  
+                        l2487 0C5E                          l2479 0C3B                          l1937 07C5  
                         l1929 07B3                          l1881 0704                          l1865 068E  
                         l1857 0679                          l1849 0654                          l1873 06A3  
                         l1785 058F                          l1793 059F                          l1777 057F  
@@ -7735,7 +7735,7 @@ Symbol Table                                                                    
                         u2731 02AC                          u2651 0272                          u3507 0113  
                         u3371 023E                          u3291 01F6                          u1931 0608  
                         u1851 055A                          u1771 0D32                          u1755 0D11  
-                        u3427 0C57                          u2580 17BC                          u2820 02EB  
+                        u3427 0C51                          u2580 17BC                          u2820 02EB  
                         u2740 02B8                          u2660 0277                          u1940 0612  
                         u1860 0560                          u3380 1718                          u2581 17BB  
                         u2565 17A5                          u2821 02E7                          u2741 02B4  
@@ -7743,11 +7743,11 @@ Symbol Table                                                                    
                         u1861 055F                          u3437 0DF0                          u3381 1717  
                         u2910 031D                          u2750 02C2                          u2670 0290  
                         u1950 0613                          u1870 057E                          u1790 0D45  
-                        u2590 0B57                          u3390 0C4E                          u3607 0A26  
+                        u2590 0B57                          u3390 0C48                          u3607 0A26  
                         u2495 09DB                          u2575 17B0                          u3527 0E84  
                         u2911 031C                          u2751 02BE                          u2671 028C  
                         u3447 0F03                          u1935 0605                          u1871 057D  
-                        u1791 0D44                          u2591 0B56                          u3391 0C4D  
+                        u1791 0D44                          u2591 0B56                          u3391 0C47  
                         u2920 0321                          u2904 0319                          u2840 02F2  
                         u2824 02E4                          u2680 029A                          u1960 0629  
                         u1880 0589                          u3617 0A3E                          u3537 0A58  
@@ -7758,7 +7758,7 @@ Symbol Table                                                                    
                         u1970 063A                          u1890 058F                          u3627 0A4A  
                         u3547 0A66                          u2931 0324                          u2851 02F5  
                         u2771 02C8                          u3467 0F2B                          u1971 0639  
-                        u1891 058E                          u3395 0C4A                          u2940 0329  
+                        u1891 058E                          u3395 0C44                          u2940 0329  
                         u2860 02FA                          u2780 02CD                          u2764 02C5  
                         u2684 0293                          u3557 0A72                          u2941 0328  
                         u2861 02F9                          u2781 02CC                          u3477 0F3F  

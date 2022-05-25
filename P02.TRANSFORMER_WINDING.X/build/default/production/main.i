@@ -2238,12 +2238,12 @@ void rotation(unsigned int time)
     show("Time Remaining:");
     LCD_cmd(0xD8);
     show("Seconds");
-    LCD_cmd(0xD4);
     RB4 = 1;
     for (int i=time; i>0; i--)
     {
         _delay((unsigned long)((1000)*(20000000/4000.0)));
-        LCD_num(time);
+        LCD_cmd(0xD4);
+        LCD_num(i);
     }
     RB1 = 1;
     RB4 = 0;

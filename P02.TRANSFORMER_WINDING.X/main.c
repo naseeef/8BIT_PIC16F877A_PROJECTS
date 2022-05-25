@@ -360,12 +360,12 @@ void rotation(unsigned int time)
     show("Time Remaining:");
     LCD_cmd(0xD8);
     show("Seconds");
-    LCD_cmd(0xD4);
     RB4 = 1; // Relay ON
     for (int i=time; i>0; i--)
     {
         __delay_ms(1000);
-        LCD_num(time);
+        LCD_cmd(0xD4);
+        LCD_num(i);
     }
     RB1 = 1; // Buzzer
     RB4 = 0; //Relay OFF

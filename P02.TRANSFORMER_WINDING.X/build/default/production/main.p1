@@ -1408,28 +1408,28 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 362:     show("Seconds");
 [e ( _show (1 :s 11C ]
 "363
-[; ;main.c: 363:     LCD_cmd(0xD4);
-[e ( _LCD_cmd (1 -> -> 212 `i `uc ]
-"364
-[; ;main.c: 364:     RB4 = 1;
+[; ;main.c: 363:     RB4 = 1;
 [e = _RB4 -> -> 1 `i `b ]
-"365
-[; ;main.c: 365:     for (int i=time; i>0; i--)
+"364
+[; ;main.c: 364:     for (int i=time; i>0; i--)
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> _time `i ]
 [e $ > _i -> 0 `i 158  ]
 [e $U 159  ]
 [e :U 158 ]
-"366
-[; ;main.c: 366:     {
+"365
+[; ;main.c: 365:     {
 {
-"367
-[; ;main.c: 367:         _delay((unsigned long)((1000)*(20000000/4000.0)));
+"366
+[; ;main.c: 366:         _delay((unsigned long)((1000)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"367
+[; ;main.c: 367:         LCD_cmd(0xD4);
+[e ( _LCD_cmd (1 -> -> 212 `i `uc ]
 "368
-[; ;main.c: 368:         LCD_num(time);
-[e ( _LCD_num (1 _time ]
+[; ;main.c: 368:         LCD_num(i);
+[e ( _LCD_num (1 -> _i `ui ]
 "369
 [; ;main.c: 369:     }
 }
