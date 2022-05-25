@@ -40,15 +40,16 @@ unsigned char key();
 void keyinit();
 void fetch_sizes();
 void lookuptable();
-void display_data();
+void display_data(unsigned char a);
 unsigned char attach_sizes();
 void winiding_time_check(unsigned int time);
 void rotation(unsigned int time);
 void result_display(unsigned int time);
 void LCD_num (unsigned int val);
 void welcome_text();
+void proceeding_text(unsigned char a,unsigned char b);
 
-unsigned char keypad[4][4]={{'7','8','9','/'},{'4','5','6','*'},{'1','2','3','-'},{'C','0','=','+'}};
+unsigned char keypad[4][4]={{7,8,9,'/'},{4,5,6,'*'},{1,2,3,'-'},{'C',0,'=','+'}};
 unsigned char rowloc,colloc;
 //unsigned char coil_size, bobbin_size; 
 unsigned char no_turns, turn_time;
@@ -63,32 +64,28 @@ void main()
     TRISB=0;
     TRISC=0;
     LCD_init();
-    //welcome_text();
+    welcome_text();
     keyinit();
-    unsigned int winding_time = 0;
+    unsigned char winding_time = 0;
     unsigned char nt = 0;
 
     while(1)
     {
         fetch_sizes();
-        //lookuptable();
+        lookuptable();
         nt = attach_sizes();
-        LCD_cmd(0x01);
-        LCD_cmd(0x80);
-        LCD_num(nt-16);
-        while(1);
-        /*display_data();
-        winding_time = nt * (unsigned int)turn_time;
+        display_data(nt);
+        winding_time = (nt) * turn_time;
+        proceeding_text(nt,winding_time);
         
-        LCD_num(winding_time);
-        __delay_ms(3000);
         winiding_time_check(winding_time);
         
         if (winding_time > 0)
         {
             rotation(winding_time);
             result_display(winding_time);
-        }*/
+            while(1);
+        }
     }
 }
 
@@ -209,48 +206,48 @@ void fetch_sizes()
     LCD_cmd(0x80);
     show("Enter the Bobbin Size:");
         b1=key();
-        LCD_dat(b1);
+        LCD_num(b1);
         b2=key();
-        LCD_dat(b2);
+        LCD_num(b2);
     __delay_ms(100);
     
     LCD_cmd(0x01);
     LCD_cmd(0x80);
     show("Enter the Coil Size:");
         c1=key();
-        LCD_dat(c1);
+        LCD_num(c1);
         c2=key();
-        LCD_dat(c2);
+        LCD_num(c2);
     __delay_ms(100);
     
     LCD_cmd(0x01);
     LCD_cmd(0x80);
     show("Enter the No. Turns:");
         n1=key();
-        LCD_dat(n1);
+        LCD_num(n1);
         n2=key();
-        LCD_dat(n2);
+        LCD_num(n2);
     __delay_ms(100);
 }
 
 void lookuptable()
 {
     
-    struct lut lut1 = {17, 10, 2.4, '1'};
-    struct lut lut2 = {17, 15, 2.0, '2'};
-    struct lut lut3 = {17, 20, 1.6, '3'};
-    struct lut lut4 = {23, 10, 4.5, '2'};
-    struct lut lut5 = {23, 15, 3.7, '3'};
-    struct lut lut6 = {23, 20, 3.0, '4'};
-    struct lut lut7 = {45, 10, 8.7, '5'};
-    struct lut lut8 = {45, 15, 7.2, '6'};
-    struct lut lut9 = {45, 20, 5.8, '7'};
+    struct lut lut1 = {17, 10, 2.4, 1};
+    struct lut lut2 = {17, 15, 2.0, 2};
+    struct lut lut3 = {17, 20, 1.6, 3};
+    struct lut lut4 = {23, 10, 4.5, 2};
+    struct lut lut5 = {23, 15, 3.7, 3};
+    struct lut lut6 = {23, 20, 3.0, 4};
+    struct lut lut7 = {45, 10, 8.7, 5};
+    struct lut lut8 = {45, 15, 7.2, 6};
+    struct lut lut9 = {45, 20, 5.8, 7};
   
-    if (b1 == '1')
+    if (b1 == 1)
     {
-        if (c1 == '1')
+        if (c1 == 1)
             {
-                if (c2 == '0')
+                if (c2 == 0)
                 {
                     turn_time = lut1.t_t;
                 }
@@ -264,11 +261,11 @@ void lookuptable()
                 turn_time = lut3.t_t;
             }
     }
-    else if (b1 == '2')
+    else if (b1 == 2)
     {
-        if (c1 == '1')
+        if (c1 == 1)
             {
-                if (c2 == '0')
+                if (c2 == 0)
                 {
                     turn_time = lut4.t_t;
                 }
@@ -282,11 +279,11 @@ void lookuptable()
                 turn_time = lut6.t_t;
             }
     }
-    else if (b1 == '4')
+    else if (b1 == 4)
     {
-        if (c1 == '1')
+        if (c1 == 1)
             {
-                if (c2 == '0')
+                if (c2 == 0)
                 {
                     turn_time = lut7.t_t;
                 }
@@ -309,7 +306,7 @@ void lookuptable()
         
 }
 
-void display_data()
+void display_data(unsigned char a)
 {
         LCD_cmd(0x01);
         LCD_cmd(0x80);
@@ -318,21 +315,18 @@ void display_data()
         LCD_cmd(0xC0);
         show("Bobbin Size: ");
         LCD_cmd(0xCC);
-        LCD_dat(b1);
-        LCD_dat(b2);
+        LCD_num(bs);
         
         
         LCD_cmd(0x94);
         show("Coil Size: ");
         LCD_cmd(0xA0);
-        LCD_dat(c1);
-        LCD_dat(c2);
+        LCD_num(cs);
         
         LCD_cmd(0xD4);
         show("Total No. Turns: ");
         LCD_cmd(0xE4);
-        LCD_dat(n1);
-        LCD_dat(n2);
+        LCD_num(a);
         
         __delay_ms(1000);
          
@@ -362,10 +356,16 @@ void rotation(unsigned int time)
     LCD_cmd(0x01);
     LCD_cmd(0x80);
     show("Winding Starts");
+    LCD_cmd(0x94);
+    show("Time Remaining:");
+    LCD_cmd(0xD8);
+    show("Seconds");
+    LCD_cmd(0xD4);
     RB4 = 1; // Relay ON
-    for (int i=0; i<(time/60); i++)
+    for (int i=time; i>0; i--)
     {
         __delay_ms(1000);
+        LCD_num(time);
     }
     RB1 = 1; // Buzzer
     RB4 = 0; //Relay OFF
@@ -379,7 +379,7 @@ void result_display(unsigned int time)
     LCD_cmd(0x94);
     show("Total Time Taken:");
     LCD_cmd(0xD4);
-    time = time/60;
+    //time = time/60;
     LCD_num(round(time));
     show(" Seconds.");
     __delay_ms(3000);
@@ -440,4 +440,27 @@ void welcome_text()
     LCD_cmd(0xD4);
     show("      MACHINE      ");
     __delay_ms(1000);
+}
+
+void proceeding_text(unsigned char a,unsigned char b)
+{
+        LCD_cmd(0x01);
+        LCD_cmd(0x80);
+        show("No. Turns: ");
+        LCD_num(a);
+        LCD_cmd(0xc0);
+        show("Time/Turn: ");
+        LCD_num(turn_time);
+        LCD_cmd(0x94);
+        show("Total Time: ");
+        LCD_num(b);
+        LCD_cmd(0xD4);
+        show("Proceeding");
+        __delay_ms(100);
+        LCD_dat('.');
+        __delay_ms(100);
+        LCD_dat('.');
+        __delay_ms(100);
+        LCD_dat('.');
+        __delay_ms(2000);    
 }

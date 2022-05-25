@@ -33,26 +33,40 @@
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"61 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
+"62 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
 [v _main main `(v  1 e 1 0 ]
-"95
+"92
 [v _LCD_init LCD_init `(v  1 e 1 0 ]
-"104
+"101
 [v _LCD_cmd LCD_cmd `(v  1 e 1 0 ]
-"121
+"118
 [v _LCD_dat LCD_dat `(v  1 e 1 0 ]
-"138
+"135
 [v _show show `(v  1 e 1 0 ]
-"146
+"143
 [v _keyinit keyinit `(v  1 e 1 0 ]
-"152
+"149
 [v _key key `(uc  1 e 1 0 ]
-"206
+"203
 [v _fetch_sizes fetch_sizes `(v  1 e 1 0 ]
-"341
+"233
+[v _lookuptable lookuptable `(v  1 e 1 0 ]
+"309
+[v _display_data display_data `(v  1 e 1 0 ]
+"335
 [v _attach_sizes attach_sizes `(uc  1 e 1 0 ]
+"346
+[v _winiding_time_check winiding_time_check `(v  1 e 1 0 ]
+"354
+[v _rotation rotation `(v  1 e 1 0 ]
+"374
+[v _result_display result_display `(v  1 e 1 0 ]
 "388
 [v _LCD_num LCD_num `(v  1 e 1 0 ]
+"433
+[v _welcome_text welcome_text `(v  1 e 1 0 ]
+"445
+[v _proceeding_text proceeding_text `(v  1 e 1 0 ]
 "279 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
 [v _PORTC PORTC `VEuc  1 e 1 @7 ]
 "341
@@ -89,88 +103,235 @@
 [v _RD6 RD6 `VEb  1 e 0 @70 ]
 "2775
 [v _RD7 RD7 `VEb  1 e 0 @71 ]
-"51 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
+"52 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
 [v _keypad keypad `[4][4]uc  1 e 16 0 ]
-"52
+"53
 [v _rowloc rowloc `uc  1 e 1 0 ]
 [v _colloc colloc `uc  1 e 1 0 ]
-"54
-[v _turn_time turn_time `uc  1 e 1 0 ]
 "55
+[v _turn_time turn_time `uc  1 e 1 0 ]
+"56
 [v _b1 b1 `uc  1 e 1 0 ]
 [v _b2 b2 `uc  1 e 1 0 ]
 [v _c1 c1 `uc  1 e 1 0 ]
 [v _c2 c2 `uc  1 e 1 0 ]
 [v _n1 n1 `uc  1 e 1 0 ]
 [v _n2 n2 `uc  1 e 1 0 ]
-"56
+"57
 [v _bs bs `uc  1 e 1 0 ]
 [v _cs cs `uc  1 e 1 0 ]
-"61
+"62
 [v _main main `(v  1 e 1 0 ]
 {
 "69
-[v main@nt nt `uc  1 a 1 11 ]
-"93
+[v main@winding_time winding_time `uc  1 a 1 70 ]
+"70
+[v main@nt nt `uc  1 a 1 69 ]
+"90
 } 0
-"146
+"346
+[v _winiding_time_check winiding_time_check `(v  1 e 1 0 ]
+{
+[v winiding_time_check@time time `ui  1 p 2 0 ]
+"352
+} 0
+"433
+[v _welcome_text welcome_text `(v  1 e 1 0 ]
+{
+"443
+} 0
+"354
+[v _rotation rotation `(v  1 e 1 0 ]
+{
+"365
+[v rotation@i i `i  1 a 2 59 ]
+"354
+[v rotation@time time `ui  1 p 2 54 ]
+"372
+} 0
+"374
+[v _result_display result_display `(v  1 e 1 0 ]
+{
+[v result_display@time time `ui  1 p 2 54 ]
+"386
+} 0
+"6 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\round.c
+[v _round round `(d  1 e 4 0 ]
+{
+"8
+[v round@f f `d  1 a 4 34 ]
+"6
+[v round@x x `d  1 p 4 30 ]
+"13
+} 0
+"13 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\trunc.c
+[v _trunc trunc `(d  1 e 4 0 ]
+{
+"15
+[v trunc@i i `d  1 a 4 16 ]
+"16
+[v trunc@expon expon `i  1 a 2 20 ]
+"13
+[v trunc@x x `d  1 p 4 11 ]
+"25
+} 0
+"254 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\frexp.c
+[v _frexp frexp `(d  1 e 4 0 ]
+{
+[v frexp@value value `d  1 p 4 0 ]
+[v frexp@eptr eptr `*.4i  1 p 1 4 ]
+"274
+} 0
+"4 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\fleq.c
+[v ___fleq __fleq `(b  1 e 0 0 ]
+{
+[v ___fleq@ff1 ff1 `d  1 p 4 0 ]
+[v ___fleq@ff2 ff2 `d  1 p 4 4 ]
+"12
+} 0
+"10 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\xxtofl.c
+[v ___xxtofl __xxtofl `(d  1 e 4 0 ]
+{
+[v ___xxtofl@sign sign `uc  1 a 1 wreg ]
+"13
+[v ___xxtofl@arg arg `ul  1 a 4 10 ]
+"12
+[v ___xxtofl@exp exp `uc  1 a 1 9 ]
+"10
+[v ___xxtofl@sign sign `uc  1 a 1 wreg ]
+[v ___xxtofl@val val `l  1 p 4 0 ]
+"15
+[v ___xxtofl@sign sign `uc  1 a 1 8 ]
+"44
+} 0
+"43 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\fltol.c
+[v ___fltol __fltol `(l  1 e 4 0 ]
+{
+"45
+[v ___fltol@exp1 exp1 `uc  1 a 1 10 ]
+[v ___fltol@sign1 sign1 `uc  1 a 1 9 ]
+"43
+[v ___fltol@f1 f1 `d  1 p 4 0 ]
+"70
+} 0
+"242 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\sprcadd.c
+[v ___flsub __flsub `(d  1 e 4 0 ]
+{
+[v ___flsub@a a `d  1 p 4 22 ]
+[v ___flsub@b b `d  1 p 4 26 ]
+"250
+} 0
+"10
+[v ___fladd __fladd `(d  1 e 4 0 ]
+{
+"17
+[v ___fladd@grs grs `uc  1 a 1 11 ]
+"15
+[v ___fladd@bexp bexp `uc  1 a 1 10 ]
+"16
+[v ___fladd@aexp aexp `uc  1 a 1 9 ]
+"13
+[v ___fladd@signs signs `uc  1 a 1 8 ]
+"10
+[v ___fladd@b b `d  1 p 4 0 ]
+[v ___fladd@a a `d  1 p 4 4 ]
+"237
+} 0
+"445 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
+[v _proceeding_text proceeding_text `(v  1 e 1 0 ]
+{
+[v proceeding_text@a a `uc  1 a 1 wreg ]
+[v proceeding_text@a a `uc  1 a 1 wreg ]
+[v proceeding_text@b b `uc  1 p 1 54 ]
+"447
+[v proceeding_text@a a `uc  1 a 1 58 ]
+"466
+} 0
+"233
+[v _lookuptable lookuptable `(v  1 e 1 0 ]
+{
+[s S103 lut 4 `uc 1 b_s 1 0 `uc 1 c_s 1 1 `uc 1 n_t 1 2 `uc 1 t_t 1 3 ]
+"244
+[v lookuptable@lut9 lut9 `S103  1 a 4 32 ]
+"243
+[v lookuptable@lut8 lut8 `S103  1 a 4 28 ]
+"242
+[v lookuptable@lut7 lut7 `S103  1 a 4 24 ]
+"241
+[v lookuptable@lut6 lut6 `S103  1 a 4 20 ]
+"240
+[v lookuptable@lut5 lut5 `S103  1 a 4 16 ]
+"239
+[v lookuptable@lut4 lut4 `S103  1 a 4 12 ]
+"238
+[v lookuptable@lut3 lut3 `S103  1 a 4 8 ]
+"237
+[v lookuptable@lut2 lut2 `S103  1 a 4 4 ]
+"236
+[v lookuptable@lut1 lut1 `S103  1 a 4 0 ]
+"234
+[v lookuptable@F998 F998 `S103  1 s 4 F998 ]
+"236
+[v lookuptable@F1000 F1000 `S103  1 s 4 F1000 ]
+"237
+[v lookuptable@F1002 F1002 `S103  1 s 4 F1002 ]
+"238
+[v lookuptable@F1004 F1004 `S103  1 s 4 F1004 ]
+"239
+[v lookuptable@F1006 F1006 `S103  1 s 4 F1006 ]
+"240
+[v lookuptable@F1008 F1008 `S103  1 s 4 F1008 ]
+"241
+[v lookuptable@F1010 F1010 `S103  1 s 4 F1010 ]
+"242
+[v lookuptable@F1012 F1012 `S103  1 s 4 F1012 ]
+"243
+[v lookuptable@F1014 F1014 `S103  1 s 4 F1014 ]
+"307
+} 0
+"143
 [v _keyinit keyinit `(v  1 e 1 0 ]
 {
-"150
+"147
 } 0
-"206
+"203
 [v _fetch_sizes fetch_sizes `(v  1 e 1 0 ]
 {
-"234
+"231
 } 0
-"138
+"149
+[v _key key `(uc  1 e 1 0 ]
+{
+"201
+} 0
+"309
+[v _display_data display_data `(v  1 e 1 0 ]
+{
+[v display_data@a a `uc  1 a 1 wreg ]
+[v display_data@a a `uc  1 a 1 wreg ]
+"311
+[v display_data@a a `uc  1 a 1 57 ]
+"333
+} 0
+"135
 [v _show show `(v  1 e 1 0 ]
 {
 [v show@s s `*.25uc  1 p 2 3 ]
-"144
+"141
 } 0
-"152
-[v _key key `(uc  1 e 1 0 ]
-{
-"204
-} 0
-"341
-[v _attach_sizes attach_sizes `(uc  1 e 1 0 ]
-{
-"347
-[v attach_sizes@n4 n4 `uc  1 a 1 8 ]
-"346
-[v attach_sizes@n3 n3 `uc  1 a 1 7 ]
-"348
-[v attach_sizes@er er `uc  1 a 1 6 ]
-"350
-} 0
-"4 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\Umul8.c
-[v ___bmul __bmul `(uc  1 e 1 0 ]
-{
-[v ___bmul@multiplier multiplier `uc  1 a 1 wreg ]
-"6
-[v ___bmul@product product `uc  1 a 1 2 ]
-"4
-[v ___bmul@multiplier multiplier `uc  1 a 1 wreg ]
-[v ___bmul@multiplicand multiplicand `uc  1 p 1 0 ]
-"6
-[v ___bmul@multiplier multiplier `uc  1 a 1 3 ]
-"51
-} 0
-"388 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
+"388
 [v _LCD_num LCD_num `(v  1 e 1 0 ]
 {
 "390
-[v LCD_num@remainder remainder `ui  1 a 2 12 ]
-[v LCD_num@result1 result1 `ui  1 a 2 10 ]
-[v LCD_num@digit2 digit2 `ui  1 a 2 8 ]
-[v LCD_num@digit1 digit1 `ui  1 a 2 6 ]
-[v LCD_num@digit3 digit3 `ui  1 a 2 4 ]
-[v LCD_num@result result `ui  1 a 2 2 ]
-[v LCD_num@digit4 digit4 `ui  1 a 2 0 ]
+[v LCD_num@remainder remainder `ui  1 a 2 52 ]
+[v LCD_num@result1 result1 `ui  1 a 2 50 ]
+[v LCD_num@digit2 digit2 `ui  1 a 2 48 ]
+[v LCD_num@digit1 digit1 `ui  1 a 2 46 ]
+[v LCD_num@digit3 digit3 `ui  1 a 2 44 ]
+[v LCD_num@result result `ui  1 a 2 42 ]
+[v LCD_num@digit4 digit4 `ui  1 a 2 40 ]
 "388
-[v LCD_num@val val `ui  1 p 2 8 ]
+[v LCD_num@val val `ui  1 p 2 38 ]
 "431
 } 0
 "5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwmod.c
@@ -195,26 +356,50 @@
 [v ___lwdiv@dividend dividend `ui  1 p 2 2 ]
 "30
 } 0
-"121 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
+"118 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
 [v _LCD_dat LCD_dat `(v  1 e 1 0 ]
 {
 [v LCD_dat@data data `uc  1 a 1 wreg ]
 [v LCD_dat@data data `uc  1 a 1 wreg ]
-"123
+"120
 [v LCD_dat@data data `uc  1 a 1 2 ]
-"136
+"133
 } 0
-"95
+"335
+[v _attach_sizes attach_sizes `(uc  1 e 1 0 ]
+{
+"341
+[v attach_sizes@n4 n4 `uc  1 a 1 8 ]
+"340
+[v attach_sizes@n3 n3 `uc  1 a 1 7 ]
+"342
+[v attach_sizes@er er `uc  1 a 1 6 ]
+"344
+} 0
+"4 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\Umul8.c
+[v ___bmul __bmul `(uc  1 e 1 0 ]
+{
+[v ___bmul@multiplier multiplier `uc  1 a 1 wreg ]
+"6
+[v ___bmul@product product `uc  1 a 1 2 ]
+"4
+[v ___bmul@multiplier multiplier `uc  1 a 1 wreg ]
+[v ___bmul@multiplicand multiplicand `uc  1 p 1 0 ]
+"6
+[v ___bmul@multiplier multiplier `uc  1 a 1 3 ]
+"51
+} 0
+"92 C:\Users\Naseef\Documents\MPLABXProjects\Projects\P02.TRANSFORMER_WINDING.X\main.c
 [v _LCD_init LCD_init `(v  1 e 1 0 ]
 {
-"102
+"99
 } 0
-"104
+"101
 [v _LCD_cmd LCD_cmd `(v  1 e 1 0 ]
 {
 [v LCD_cmd@cmd cmd `uc  1 a 1 wreg ]
 [v LCD_cmd@cmd cmd `uc  1 a 1 wreg ]
-"106
+"103
 [v LCD_cmd@cmd cmd `uc  1 a 1 2 ]
-"119
+"116
 } 0
