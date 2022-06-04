@@ -21,10 +21,9 @@
 #define _XTAL_FREQ 20000000
 
 void ADC_Init();
-//void display_analog(unsigned int AC0,unsigned int AC1,unsigned int AC2,unsigned int AC3);
 
 unsigned int AV[4]; // to store 4 analog channel values (HERE AFTER REFERED AS POT values)
-
+unsigned int sn=1; // declaration for serial number MAX=255;for more change the datatype
 void main() 
 {
     TRISB =0x00;
@@ -38,7 +37,9 @@ void main()
         GO_nDONE=1;
         while(GO_nDONE==1);
         __delay_ms(10);
-        
+       
+        tx_sn(sn); // fn for transmitting serial number to virtual terminal
+        tx(')'); // ")" after every serial number
         for (unsigned char i=0;i<4;i++)
         {
             LCD_num(AV[i]);   //print POT values in LCD && SENDING POT values to split its digits
@@ -56,12 +57,13 @@ void main()
                 }
             }
             // HERE j for loop completes printing one POT value in virtual terminal
-            __delay_ms(500);
+            __delay_ms(100);
         }
         // HERE i for loop completes printing 4 POT values in LCD
         tx(0x0d); // new after printing a set of values in virtual terminal
         LCD_Command(0x01); //clear LCD display after first a set of POT values
         __delay_ms(1000); // delay for 1 second for RECORDING VALUES IN EVERY ONE SECOND
+        sn += 1; // increment serial number after every set of reading
     }
 }
 
@@ -87,16 +89,3 @@ void ADC_Init ()
     AV[3]= ((ADRESH<<8)+ADRESL);
     
 }
-
-//void display_analog(unsigned int AC0,unsigned int AC1,unsigned int AC2,unsigned int AC3)
-/*{
-
-        LCD_Command (0xC0);
-        LCD_num(AC0);
-        LCD_Command (0xC5);
-        LCD_num(AC0);
-        LCD_Command (0xCA);
-        LCD_num(AC0);
-        LCD_Command (0xCF);
-        LCD_num(AC0);
-}*/
