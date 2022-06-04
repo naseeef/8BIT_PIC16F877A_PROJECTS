@@ -43,10 +43,10 @@ void main()
         {
             LCD_num(AV[i]);
             tx('a');
-            __delay_ms(300);
+            __delay_ms(500);
         }
         LCD_Command(0x01);
-        __delay_ms(800);
+        __delay_ms(1000);
     }
 }
 

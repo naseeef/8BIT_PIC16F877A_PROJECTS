@@ -1998,10 +1998,10 @@ void main()
         {
             LCD_num(AV[i]);
             tx('a');
-            _delay((unsigned long)((300)*(20000000/4000.0)));
+            _delay((unsigned long)((500)*(20000000/4000.0)));
         }
         LCD_Command(0x01);
-        _delay((unsigned long)((800)*(20000000/4000.0)));
+        _delay((unsigned long)((1000)*(20000000/4000.0)));
     }
 }
 
