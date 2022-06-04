@@ -509,21 +509,21 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 103 ]
 }
 "13
-[; ;./uart.h: 13: unsigned char tx(unsigned char a)
-[v _tx `(uc ~T0 @X0 1 ef1`uc ]
+[; ;./uart.h: 13: unsigned int tx(unsigned int a)
+[v _tx `(ui ~T0 @X0 1 ef1`ui ]
 "14
 [; ;./uart.h: 14: {
 {
 [e :U _tx ]
 "13
-[; ;./uart.h: 13: unsigned char tx(unsigned char a)
-[v _a `uc ~T0 @X0 1 r1 ]
+[; ;./uart.h: 13: unsigned int tx(unsigned int a)
+[v _a `ui ~T0 @X0 1 r1 ]
 "14
 [; ;./uart.h: 14: {
 [f ]
 "15
 [; ;./uart.h: 15:  TXREG=a;
-[e = _TXREG _a ]
+[e = _TXREG -> _a `uc ]
 "16
 [; ;./uart.h: 16:  while(!TXIF);
 [e $U 105  ]
@@ -625,8 +625,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 44:             LCD_num(AV[i]);
 [e ( _LCD_num (1 -> *U + &U _AV * -> -> _i `ui `ux -> -> # *U &U _AV `ui `ux `l ]
 "45
-[; ;main.c: 45:             tx('a');
-[e ( _tx (1 -> -> 97 `ui `uc ]
+[; ;main.c: 45:             tx(AV[i]);
+[e ( _tx (1 *U + &U _AV * -> -> _i `ui `ux -> -> # *U &U _AV `ui `ux ]
 "46
 [; ;main.c: 46:             _delay((unsigned long)((500)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]

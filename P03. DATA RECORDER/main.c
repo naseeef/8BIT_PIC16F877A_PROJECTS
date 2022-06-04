@@ -42,7 +42,7 @@ void main()
         for (int i=0;i<4;i++)
         {
             LCD_num(AV[i]);
-            tx('a');
+            tx(AV[i]);
             __delay_ms(500);
         }
         LCD_Command(0x01);

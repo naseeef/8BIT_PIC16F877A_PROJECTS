@@ -14,7 +14,7 @@
 "6 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/uart.h
 [v _ser_int ser_int `(v  1 e 1 0 ]
 "13
-[v _tx tx `(uc  1 e 1 0 ]
+[v _tx tx `(ui  1 e 2 0 ]
 "5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\aldiv.c
 [v ___aldiv __aldiv `(l  1 e 4 0 ]
 "5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwdiv.c
@@ -79,12 +79,9 @@
 "51
 } 0
 "13 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/uart.h
-[v _tx tx `(uc  1 e 1 0 ]
+[v _tx tx `(ui  1 e 2 0 ]
 {
-[v tx@a a `uc  1 a 1 wreg ]
-[v tx@a a `uc  1 a 1 wreg ]
-"15
-[v tx@a a `uc  1 a 1 0 ]
+[v tx@a a `ui  1 p 2 0 ]
 "18
 } 0
 "6

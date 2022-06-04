@@ -1948,7 +1948,7 @@ void show(unsigned char *s)
 
 # 1 "./uart.h" 1
 void ser_int();
-unsigned char tx(unsigned char);
+unsigned int tx(unsigned int);
 unsigned char rx();
 
 
@@ -1959,7 +1959,7 @@ void ser_int()
  SPBRG=31;
 }
 
-unsigned char tx(unsigned char a)
+unsigned int tx(unsigned int a)
 {
  TXREG=a;
  while(!TXIF);
@@ -1997,7 +1997,7 @@ void main()
         for (int i=0;i<4;i++)
         {
             LCD_num(AV[i]);
-            tx('a');
+            tx(AV[i]);
             _delay((unsigned long)((500)*(20000000/4000.0)));
         }
         LCD_Command(0x01);

@@ -1,5 +1,5 @@
 void ser_int();
-unsigned char tx(unsigned char);
+unsigned int tx(unsigned int);
 unsigned char rx();
 
 
@@ -10,7 +10,7 @@ void ser_int()
  SPBRG=31;
 }
  
-unsigned char tx(unsigned char a)
+unsigned int tx(unsigned int a)
 {
  TXREG=a;
  while(!TXIF);
