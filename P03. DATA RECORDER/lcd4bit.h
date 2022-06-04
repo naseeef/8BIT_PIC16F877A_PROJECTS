@@ -1,6 +1,6 @@
 void LCD_init(void);
 void LCD_Command(unsigned char cmnd);
-void LCD_num(long int val);
+unsigned int LCD_num(long int val);
 void LCD_Char(unsigned char data);
 void show(unsigned char *s);
 
@@ -44,11 +44,11 @@ void LCD_init (void)
     LCD_Command (0x01);
     __delay_ms(10);
 }
-void LCD_num (long int val)
+unsigned int LCD_num (long int val)
 {
     int calb_val = 200;
     unsigned int remainder, digit1, digit2, digit3, result, 
-    result1;
+    result1, avv;
     result = ((val*100)/calb_val);
     remainder = result% 10;
     result1 = result /10;
@@ -61,6 +61,9 @@ void LCD_num (long int val)
     LCD_Char('.');
     LCD_Char(digit2+0x30);
     LCD_Char(digit1+0x30);
+    
+    //unsigned int avv[3] = {digit3,digit2,digit1};
+    return avv = digit3*100+digit2*10+digit1;
 }
 void show(unsigned char *s)
 {

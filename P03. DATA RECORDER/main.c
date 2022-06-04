@@ -24,6 +24,7 @@ void ADC_Init();
 //void display_analog(unsigned int AC0,unsigned int AC1,unsigned int AC2,unsigned int AC3);
 
 unsigned int AV[4];
+unsigned int avv;
 
 void main() 
 {
@@ -42,7 +43,7 @@ void main()
         for (int i=0;i<4;i++)
         {
             LCD_num(AV[i]);
-            tx(AV[i]);
+            tx(avv);
             __delay_ms(500);
         }
         LCD_Command(0x01);

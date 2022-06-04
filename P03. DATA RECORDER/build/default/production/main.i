@@ -1876,7 +1876,7 @@ extern __bank0 __bit __timeout;
 # 1 "./lcd4bit.h" 1
 void LCD_init(void);
 void LCD_Command(unsigned char cmnd);
-void LCD_num(long int val);
+unsigned int LCD_num(long int val);
 void LCD_Char(unsigned char data);
 void show(unsigned char *s);
 
@@ -1920,11 +1920,11 @@ void LCD_init (void)
     LCD_Command (0x01);
     _delay((unsigned long)((10)*(20000000/4000.0)));
 }
-void LCD_num (long int val)
+unsigned int LCD_num (long int val)
 {
     int calb_val = 200;
     unsigned int remainder, digit1, digit2, digit3, result,
-    result1;
+    result1, avv;
     result = ((val*100)/calb_val);
     remainder = result% 10;
     result1 = result /10;
@@ -1937,6 +1937,9 @@ void LCD_num (long int val)
     LCD_Char('.');
     LCD_Char(digit2+0x30);
     LCD_Char(digit1+0x30);
+
+
+    return avv = digit3*100+digit2*10+digit1;
 }
 void show(unsigned char *s)
 {
@@ -1979,6 +1982,7 @@ void ADC_Init();
 
 
 unsigned int AV[4];
+unsigned int avv;
 
 void main()
 {
@@ -1997,7 +2001,7 @@ void main()
         for (int i=0;i<4;i++)
         {
             LCD_num(AV[i]);
-            tx(AV[i]);
+            tx(avv);
             _delay((unsigned long)((500)*(20000000/4000.0)));
         }
         LCD_Command(0x01);
