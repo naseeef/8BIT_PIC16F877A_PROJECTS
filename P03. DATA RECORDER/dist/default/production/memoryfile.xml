@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <executable name="dist/default/production\P03._DATA_RECORDER.production.hex">
+    <memory name="program">
+      <units>words</units>
+      <length>8192</length>
+      <used>971</used>
+      <free>7221</free>
+    </memory>
+    <memory name="data">
+      <units>bytes</units>
+      <length>368</length>
+      <used>59</used>
+      <free>309</free>
+    </memory>
+  </executable>
+</project>
