@@ -1876,9 +1876,12 @@ extern __bank0 __bit __timeout;
 # 1 "./lcd4bit.h" 1
 void LCD_init(void);
 void LCD_Command(unsigned char cmnd);
-unsigned int LCD_num(long int val);
+void LCD_num(long int val);
 void LCD_Char(unsigned char data);
 void show(unsigned char *s);
+unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int c);
+
+unsigned char avv[3];
 
 
 
@@ -1920,11 +1923,11 @@ void LCD_init (void)
     LCD_Command (0x01);
     _delay((unsigned long)((10)*(20000000/4000.0)));
 }
-unsigned int LCD_num (long int val)
+void LCD_num (long int val)
 {
     int calb_val = 200;
     unsigned int remainder, digit1, digit2, digit3, result,
-    result1, avv;
+    result1;
     result = ((val*100)/calb_val);
     remainder = result% 10;
     result1 = result /10;
@@ -1938,20 +1941,27 @@ unsigned int LCD_num (long int val)
     LCD_Char(digit2+0x30);
     LCD_Char(digit1+0x30);
 
-
-    return avv = digit3*100+digit2*10+digit1;
+    intdigits_chardigits(digit3,digit2,digit1);
 }
+
 void show(unsigned char *s)
 {
     while(*s) {
         LCD_Char(*s++);
     }
 }
+
+unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int c)
+{
+    avv[0] = (unsigned char)a;
+    avv[1] = (unsigned char)b;
+    avv[2] = (unsigned char)c;
+}
 # 19 "main.c" 2
 
 # 1 "./uart.h" 1
 void ser_int();
-unsigned int tx(unsigned int);
+unsigned char tx(unsigned char);
 unsigned char rx();
 
 
@@ -1962,7 +1972,7 @@ void ser_int()
  SPBRG=31;
 }
 
-unsigned int tx(unsigned int a)
+unsigned char tx(unsigned char a)
 {
  TXREG=a;
  while(!TXIF);
@@ -1982,7 +1992,6 @@ void ADC_Init();
 
 
 unsigned int AV[4];
-unsigned int avv;
 
 void main()
 {
@@ -1998,10 +2007,22 @@ void main()
         while(GO_nDONE==1);
         _delay((unsigned long)((10)*(20000000/4000.0)));
 
-        for (int i=0;i<4;i++)
+        for (unsigned char i=0;i<4;i++)
         {
             LCD_num(AV[i]);
-            tx(avv);
+            LCD_Char(" ");
+            for (unsigned char j=0;j<3;j++)
+            {
+                tx((avv[j]+0x30));
+                if (j == 0)
+                {
+                    tx('.');
+                }
+                else if (j == 2)
+                {
+                    tx(',');
+                }
+            }
             _delay((unsigned long)((500)*(20000000/4000.0)));
         }
         LCD_Command(0x01);
