@@ -1,8 +1,11 @@
 void LCD_init(void);
 void LCD_Command(unsigned char cmnd);
-unsigned int LCD_num(long int val);
+void LCD_num(long int val);
 void LCD_Char(unsigned char data);
 void show(unsigned char *s);
+unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int c);
+
+unsigned char avv[3];
 
 #define _XTAL_FREQ 20000000
 
@@ -44,11 +47,11 @@ void LCD_init (void)
     LCD_Command (0x01);
     __delay_ms(10);
 }
-unsigned int LCD_num (long int val)
+void LCD_num (long int val)
 {
     int calb_val = 200;
     unsigned int remainder, digit1, digit2, digit3, result, 
-    result1, avv;
+    result1;
     result = ((val*100)/calb_val);
     remainder = result% 10;
     result1 = result /10;
@@ -62,12 +65,19 @@ unsigned int LCD_num (long int val)
     LCD_Char(digit2+0x30);
     LCD_Char(digit1+0x30);
     
-    //unsigned int avv[3] = {digit3,digit2,digit1};
-    return avv = digit3*100+digit2*10+digit1;
+    intdigits_chardigits(digit3,digit2,digit1);
 }
+    
 void show(unsigned char *s)
 {
     while(*s) {
         LCD_Char(*s++);
     }
+}
+
+unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int c)
+{
+    avv[0] = (unsigned char)a;
+    avv[1] = (unsigned char)b;
+    avv[2] = (unsigned char)c;
 }
