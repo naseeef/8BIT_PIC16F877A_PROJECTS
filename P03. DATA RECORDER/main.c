@@ -23,7 +23,7 @@
 void ADC_Init();
 //void display_analog(unsigned int AC0,unsigned int AC1,unsigned int AC2,unsigned int AC3);
 
-unsigned int AV[4];
+unsigned int AV[4]; // to store 4 analog channel values (HERE AFTER REFERED AS POT values)
 
 void main() 
 {
@@ -41,24 +41,27 @@ void main()
         
         for (unsigned char i=0;i<4;i++)
         {
-            LCD_num(AV[i]);
-            LCD_Char(" ");
+            LCD_num(AV[i]);   //print POT values in LCD && SENDING POT values to split its digits
+            LCD_Char(" ");   //space between two POT values
             for (unsigned char j=0;j<3;j++)
             {
-                tx((avv[j]+0x30));
+                tx((avv[j]+0x30)); //SPLITED POT value digits in avv[] && print POT values in virtual terminal
                 if (j == 0)
                 {
-                    tx('.');
+                    tx('.'); // "." between volt and millivolt in virtual terminal
                 }
                 else if (j == 2)
                 {
-                    tx(',');
+                    tx(','); // "," between two POT voltages in virtual terminal
                 }
             }
+            // HERE j for loop completes printing one POT value in virtual terminal
             __delay_ms(500);
         }
-        LCD_Command(0x01);
-        __delay_ms(1000);
+        // HERE i for loop completes printing 4 POT values in LCD
+        tx(0x0d); // new after printing a set of values in virtual terminal
+        LCD_Command(0x01); //clear LCD display after first a set of POT values
+        __delay_ms(1000); // delay for 1 second for RECORDING VALUES IN EVERY ONE SECOND
     }
 }
 

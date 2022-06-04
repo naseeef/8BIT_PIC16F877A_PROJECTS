@@ -2023,8 +2023,11 @@ void main()
                     tx(',');
                 }
             }
+
             _delay((unsigned long)((500)*(20000000/4000.0)));
         }
+
+        tx(0x0d);
         LCD_Command(0x01);
         _delay((unsigned long)((1000)*(20000000/4000.0)));
     }

@@ -713,87 +713,90 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ < -> _j `i -> 3 `i 123  ]
 [e :U 124 ]
 }
-"58
-[; ;main.c: 58:             _delay((unsigned long)((500)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "59
-[; ;main.c: 59:         }
+[; ;main.c: 59:             _delay((unsigned long)((500)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"60
+[; ;main.c: 60:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 4 `i 120  ]
 [e :U 121 ]
 }
-"60
-[; ;main.c: 60:         LCD_Command(0x01);
-[e ( _LCD_Command (1 -> -> 1 `i `uc ]
-"61
-[; ;main.c: 61:         _delay((unsigned long)((1000)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "62
-[; ;main.c: 62:     }
+[; ;main.c: 62:         tx(0x0d);
+[e ( _tx (1 -> -> 13 `i `uc ]
+"63
+[; ;main.c: 63:         LCD_Command(0x01);
+[e ( _LCD_Command (1 -> -> 1 `i `uc ]
+"64
+[; ;main.c: 64:         _delay((unsigned long)((1000)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"65
+[; ;main.c: 65:     }
 }
 [e :U 114 ]
 [e $U 115  ]
 [e :U 116 ]
-"63
-[; ;main.c: 63: }
+"66
+[; ;main.c: 66: }
 [e :UE 113 ]
 }
-"65
-[; ;main.c: 65: void ADC_Init ()
+"68
+[; ;main.c: 68: void ADC_Init ()
 [v _ADC_Init `(v ~T0 @X0 1 ef ]
-"66
-[; ;main.c: 66: {
+"69
+[; ;main.c: 69: {
 {
 [e :U _ADC_Init ]
 [f ]
-"67
-[; ;main.c: 67:     ADCON0 = 0x85;
+"70
+[; ;main.c: 70:     ADCON0 = 0x85;
 [e = _ADCON0 -> -> 133 `i `uc ]
-"68
-[; ;main.c: 68:     ADCON1 = 0xC0;
-[e = _ADCON1 -> -> 192 `i `uc ]
-"69
-[; ;main.c: 69:     AV[0]= ((ADRESH<<8)+ADRESL);
-[e = *U + &U _AV * -> -> -> 0 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
 "71
-[; ;main.c: 71:     _delay((unsigned long)((10)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+[; ;main.c: 71:     ADCON1 = 0xC0;
+[e = _ADCON1 -> -> 192 `i `uc ]
 "72
-[; ;main.c: 72:     ADCON0 = 0x8D;
-[e = _ADCON0 -> -> 141 `i `uc ]
-"73
-[; ;main.c: 73:     ADCON1 = 0xC0;
-[e = _ADCON1 -> -> 192 `i `uc ]
+[; ;main.c: 72:     AV[0]= ((ADRESH<<8)+ADRESL);
+[e = *U + &U _AV * -> -> -> 0 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
 "74
-[; ;main.c: 74:     AV[1]= ((ADRESH<<8)+ADRESL);
-[e = *U + &U _AV * -> -> -> 1 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
+[; ;main.c: 74:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"75
+[; ;main.c: 75:     ADCON0 = 0x8D;
+[e = _ADCON0 -> -> 141 `i `uc ]
 "76
-[; ;main.c: 76:     _delay((unsigned long)((10)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+[; ;main.c: 76:     ADCON1 = 0xC0;
+[e = _ADCON1 -> -> 192 `i `uc ]
 "77
-[; ;main.c: 77:     ADCON0 = 0x95;
-[e = _ADCON0 -> -> 149 `i `uc ]
-"78
-[; ;main.c: 78:     ADCON1 = 0xC0;
-[e = _ADCON1 -> -> 192 `i `uc ]
+[; ;main.c: 77:     AV[1]= ((ADRESH<<8)+ADRESL);
+[e = *U + &U _AV * -> -> -> 1 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
 "79
-[; ;main.c: 79:     AV[2]= ((ADRESH<<8)+ADRESL);
-[e = *U + &U _AV * -> -> -> 2 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"81
-[; ;main.c: 81:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[; ;main.c: 79:     _delay((unsigned long)((10)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"82
-[; ;main.c: 82:     ADCON0 = 0x9D;
-[e = _ADCON0 -> -> 157 `i `uc ]
-"83
-[; ;main.c: 83:     ADCON1 = 0xC0;
+"80
+[; ;main.c: 80:     ADCON0 = 0x95;
+[e = _ADCON0 -> -> 149 `i `uc ]
+"81
+[; ;main.c: 81:     ADCON1 = 0xC0;
 [e = _ADCON1 -> -> 192 `i `uc ]
+"82
+[; ;main.c: 82:     AV[2]= ((ADRESH<<8)+ADRESL);
+[e = *U + &U _AV * -> -> -> 2 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
 "84
-[; ;main.c: 84:     AV[3]= ((ADRESH<<8)+ADRESL);
-[e = *U + &U _AV * -> -> -> 3 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
+[; ;main.c: 84:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"85
+[; ;main.c: 85:     ADCON0 = 0x9D;
+[e = _ADCON0 -> -> 157 `i `uc ]
 "86
-[; ;main.c: 86: }
+[; ;main.c: 86:     ADCON1 = 0xC0;
+[e = _ADCON1 -> -> 192 `i `uc ]
+"87
+[; ;main.c: 87:     AV[3]= ((ADRESH<<8)+ADRESL);
+[e = *U + &U _AV * -> -> -> 3 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
+"89
+[; ;main.c: 89: }
 [e :UE 129 ]
 }
 [a 1C 32 0 ]
