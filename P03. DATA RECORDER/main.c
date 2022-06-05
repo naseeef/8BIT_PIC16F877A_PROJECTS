@@ -31,6 +31,7 @@ void main()
 {
     TRISB =0x00;
     TRISC =0x00;
+    TRISD =0x01;
     
     LCD_init();                                     //LCD Initialization
     ser_int();                                      //UART Initialization
@@ -70,21 +71,21 @@ void main()
         
         /*---------------------DHT11 BEGINS----------------------------*/
         dht11_init();                                   //DHT11 Initialization        
-        find_response();
+        //find_response();
+        check_bit = 1;
         if(check_bit == 1)
         {
             LCD_Command(0x01);
             LCD_Command(0x80);
-            LCD_Char(check_bit+0x30);
-            while(1);            
+            show_multidigits(check_bit);      
             RH_byte_1 = read_dht11();
             RH_byte_2 = read_dht11();
             Temp_byte_1 = read_dht11();
             Temp_byte_2 = read_dht11();
             Summation = read_dht11();
             
-            if(Summation == ((RH_byte_1+RH_byte_2+Temp_byte_1+Temp_byte_2) & 0XFF))
-            {
+            //if(Summation == ((RH_byte_1+RH_byte_2+Temp_byte_1+Temp_byte_2) & 0XFF))
+            //{
                 Humidity = Temp_byte_1;
                 Temp = RH_byte_1;
                 
@@ -92,8 +93,8 @@ void main()
                 LCD_Command(0x80);
                 show_multidigits(Humidity);
                 LCD_Command(0xC0);
-                show_multidigits(Temp);
-            }
+                show_multidigits(Temp); 
+            //}
         }
         /*---------------------DHT11 COMPLETES----------------------------*/
         

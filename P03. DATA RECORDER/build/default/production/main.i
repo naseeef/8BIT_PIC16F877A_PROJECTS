@@ -2091,29 +2091,31 @@ unsigned char check_bit, Summation;
 void dht11_init();
 void find_response();
 char read_dht11();
-
+# 24 "./dht11.h"
 void dht11_init()
 {
-    TRISDbits.TRISD0= 0;
-    PORTDbits.RD0 = 0;
+    TRISD = 0;
+    PORTD = 0;
     _delay((unsigned long)((18)*(20000000/4000.0)));
-    PORTDbits.RD0 = 1;
+    PORTD = 0xFF;
     _delay((unsigned long)((30)*(20000000/4000000.0)));
-    TRISDbits.TRISD0 = 1;
+    TRISD = 0xFF;
  }
 
  void find_response()
 {
     check_bit = 0;
     _delay((unsigned long)((40)*(20000000/4000000.0)));
-    if (PORTDbits.RD0 == 0)
+
+    if (RD0 == 0)
     {
         _delay((unsigned long)((80)*(20000000/4000000.0)));
-        if (PORTDbits.RD0 == 1)
+
+        if (RD0 == 1)
         {
             check_bit = 1;
         }
-        _delay((unsigned long)((50)*(20000000/4000000.0)));;
+        _delay((unsigned long)((50)*(20000000/4000000.0)));
     }
  }
 
@@ -2122,16 +2124,19 @@ char read_dht11()
     char data, for_count;
     for(for_count = 0; for_count < 8; for_count++)
     {
-        while(!PORTDbits.RD0);
+
+        while(!RD0);
         _delay((unsigned long)((30)*(20000000/4000000.0)));
-        if(PORTDbits.RD0 == 0)
+
+        if(RD0 == 0)
         {
             data&= ~(1<<(7 - for_count));
         }
         else
         {
             data|= (1 << (7 - for_count));
-            while(PORTDbits.RD0);
+
+            while(RD0);
         }
     }
     return data;
@@ -2150,6 +2155,7 @@ void main()
 {
     TRISB =0x00;
     TRISC =0x00;
+    TRISD =0x01;
 
     LCD_init();
     ser_int();
@@ -2189,21 +2195,21 @@ void main()
 
 
         dht11_init();
-        find_response();
+
+        check_bit = 1;
         if(check_bit == 1)
         {
             LCD_Command(0x01);
             LCD_Command(0x80);
-            LCD_Char(check_bit+0x30);
-            while(1);
+            show_multidigits(check_bit);
             RH_byte_1 = read_dht11();
             RH_byte_2 = read_dht11();
             Temp_byte_1 = read_dht11();
             Temp_byte_2 = read_dht11();
             Summation = read_dht11();
 
-            if(Summation == ((RH_byte_1+RH_byte_2+Temp_byte_1+Temp_byte_2) & 0XFF))
-            {
+
+
                 Humidity = Temp_byte_1;
                 Temp = RH_byte_1;
 
@@ -2212,7 +2218,7 @@ void main()
                 show_multidigits(Humidity);
                 LCD_Command(0xC0);
                 show_multidigits(Temp);
-            }
+
         }
 
 

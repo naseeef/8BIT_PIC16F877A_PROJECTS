@@ -36,28 +36,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 "1067
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 1067: extern volatile unsigned char RCREG __attribute__((address(0x01A)));
 [v _RCREG `Vuc ~T0 @X0 0 e@26 ]
-"1506
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 1506:     struct {
-[s S60 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S60 . TRISD0 TRISD1 TRISD2 TRISD3 TRISD4 TRISD5 TRISD6 TRISD7 ]
-"1505
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 1505: typedef union {
-[u S59 `S60 1 ]
-[n S59 . . ]
-"1517
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 1517: extern volatile TRISDbits_t TRISDbits __attribute__((address(0x088)));
-[v _TRISDbits `VS59 ~T0 @X0 0 e@136 ]
-"347
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 347:     struct {
-[s S12 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S12 . RD0 RD1 RD2 RD3 RD4 RD5 RD6 RD7 ]
-"346
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 346: typedef union {
-[u S11 `S12 1 ]
-[n S11 . . ]
-"358
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 358: extern volatile PORTDbits_t PORTDbits __attribute__((address(0x008)));
-[v _PORTDbits `VS11 ~T0 @X0 0 e@8 ]
+"1500
+[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 1500: extern volatile unsigned char TRISD __attribute__((address(0x088)));
+[v _TRISD `Vuc ~T0 @X0 0 e@136 ]
+"341
+[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 341: extern volatile unsigned char PORTD __attribute__((address(0x008)));
+[v _PORTD `Vuc ~T0 @X0 0 e@8 ]
+"2754
+[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 2754: extern volatile __bit RD0 __attribute__((address(0x40)));
+[v _RD0 `Vb ~T0 @X0 0 e@64 ]
 [p mainexit ]
 "1376
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 1376: extern volatile unsigned char TRISB __attribute__((address(0x086)));
@@ -947,161 +934,161 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./dht11.h: 8: unsigned char check_bit, Summation;
 [v _check_bit `uc ~T0 @X0 1 e ]
 [v _Summation `uc ~T0 @X0 1 e ]
-"14
-[; ;./dht11.h: 14: void dht11_init()
-[v _dht11_init `(v ~T0 @X0 1 ef ]
-"15
-[; ;./dht11.h: 15: {
-{
-[e :U _dht11_init ]
-[f ]
-"16
-[; ;./dht11.h: 16:     TRISDbits.TRISD0= 0;
-[e = . . _TRISDbits 0 0 -> -> 0 `i `uc ]
-"17
-[; ;./dht11.h: 17:     PORTDbits.RD0 = 0;
-[e = . . _PORTDbits 0 0 -> -> 0 `i `uc ]
-"18
-[; ;./dht11.h: 18:     _delay((unsigned long)((18)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 18 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"19
-[; ;./dht11.h: 19:     PORTDbits.RD0 = 1;
-[e = . . _PORTDbits 0 0 -> -> 1 `i `uc ]
-"20
-[; ;./dht11.h: 20:     _delay((unsigned long)((30)*(20000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 30 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"21
-[; ;./dht11.h: 21:     TRISDbits.TRISD0 = 1;
-[e = . . _TRISDbits 0 0 -> -> 1 `i `uc ]
-"22
-[; ;./dht11.h: 22:  }
-[e :UE 129 ]
-}
 "24
-[; ;./dht11.h: 24:  void find_response()
-[v _find_response `(v ~T0 @X0 1 ef ]
+[; ;./dht11.h: 24: void dht11_init()
+[v _dht11_init `(v ~T0 @X0 1 ef ]
 "25
 [; ;./dht11.h: 25: {
 {
-[e :U _find_response ]
+[e :U _dht11_init ]
 [f ]
 "26
-[; ;./dht11.h: 26:     check_bit = 0;
-[e = _check_bit -> -> 0 `i `uc ]
+[; ;./dht11.h: 26:     TRISD = 0;
+[e = _TRISD -> -> 0 `i `uc ]
 "27
-[; ;./dht11.h: 27:     _delay((unsigned long)((40)*(20000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 40 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+[; ;./dht11.h: 27:     PORTD = 0;
+[e = _PORTD -> -> 0 `i `uc ]
 "28
-[; ;./dht11.h: 28:     if (PORTDbits.RD0 == 0)
-[e $ ! == -> . . _PORTDbits 0 0 `i -> 0 `i 131  ]
+[; ;./dht11.h: 28:     _delay((unsigned long)((18)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 18 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "29
-[; ;./dht11.h: 29:     {
-{
+[; ;./dht11.h: 29:     PORTD = 0xFF;
+[e = _PORTD -> -> 255 `i `uc ]
 "30
-[; ;./dht11.h: 30:         _delay((unsigned long)((80)*(20000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 80 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+[; ;./dht11.h: 30:     _delay((unsigned long)((30)*(20000000/4000000.0)));
+[e ( __delay (1 -> * -> -> 30 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
 "31
-[; ;./dht11.h: 31:         if (PORTDbits.RD0 == 1)
-[e $ ! == -> . . _PORTDbits 0 0 `i -> 1 `i 132  ]
+[; ;./dht11.h: 31:     TRISD = 0xFF;
+[e = _TRISD -> -> 255 `i `uc ]
 "32
-[; ;./dht11.h: 32:         {
-{
-"33
-[; ;./dht11.h: 33:             check_bit = 1;
-[e = _check_bit -> -> 1 `i `uc ]
+[; ;./dht11.h: 32:  }
+[e :UE 129 ]
+}
 "34
-[; ;./dht11.h: 34:         }
+[; ;./dht11.h: 34:  void find_response()
+[v _find_response `(v ~T0 @X0 1 ef ]
+"35
+[; ;./dht11.h: 35: {
+{
+[e :U _find_response ]
+[f ]
+"36
+[; ;./dht11.h: 36:     check_bit = 0;
+[e = _check_bit -> -> 0 `i `uc ]
+"37
+[; ;./dht11.h: 37:     _delay((unsigned long)((40)*(20000000/4000000.0)));
+[e ( __delay (1 -> * -> -> 40 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"39
+[; ;./dht11.h: 39:     if (RD0 == 0)
+[e $ ! == -> _RD0 `i -> 0 `i 131  ]
+"40
+[; ;./dht11.h: 40:     {
+{
+"41
+[; ;./dht11.h: 41:         _delay((unsigned long)((80)*(20000000/4000000.0)));
+[e ( __delay (1 -> * -> -> 80 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"43
+[; ;./dht11.h: 43:         if (RD0 == 1)
+[e $ ! == -> _RD0 `i -> 1 `i 132  ]
+"44
+[; ;./dht11.h: 44:         {
+{
+"45
+[; ;./dht11.h: 45:             check_bit = 1;
+[e = _check_bit -> -> 1 `i `uc ]
+"46
+[; ;./dht11.h: 46:         }
 }
 [e :U 132 ]
-"35
-[; ;./dht11.h: 35:         _delay((unsigned long)((50)*(20000000/4000000.0)));;
+"47
+[; ;./dht11.h: 47:         _delay((unsigned long)((50)*(20000000/4000000.0)));
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"36
-[; ;./dht11.h: 36:     }
+"48
+[; ;./dht11.h: 48:     }
 }
 [e :U 131 ]
-"37
-[; ;./dht11.h: 37:  }
+"49
+[; ;./dht11.h: 49:  }
 [e :UE 130 ]
 }
-"39
-[; ;./dht11.h: 39: char read_dht11()
+"51
+[; ;./dht11.h: 51: char read_dht11()
 [v _read_dht11 `(uc ~T0 @X0 1 ef ]
-"40
-[; ;./dht11.h: 40: {
+"52
+[; ;./dht11.h: 52: {
 {
 [e :U _read_dht11 ]
 [f ]
-"41
-[; ;./dht11.h: 41:     char data, for_count;
+"53
+[; ;./dht11.h: 53:     char data, for_count;
 [v _data `uc ~T0 @X0 1 a ]
 [v _for_count `uc ~T0 @X0 1 a ]
-"42
-[; ;./dht11.h: 42:     for(for_count = 0; for_count < 8; for_count++)
+"54
+[; ;./dht11.h: 54:     for(for_count = 0; for_count < 8; for_count++)
 {
 [e = _for_count -> -> 0 `i `uc ]
 [e $ < -> _for_count `i -> 8 `i 134  ]
 [e $U 135  ]
 [e :U 134 ]
-"43
-[; ;./dht11.h: 43:     {
+"55
+[; ;./dht11.h: 55:     {
 {
-"44
-[; ;./dht11.h: 44:         while(!PORTDbits.RD0);
+"57
+[; ;./dht11.h: 57:         while(!RD0);
 [e $U 137  ]
 [e :U 138 ]
 [e :U 137 ]
-[e $ ! != -> . . _PORTDbits 0 0 `i -> 0 `i 138  ]
+[e $ ! _RD0 138  ]
 [e :U 139 ]
-"45
-[; ;./dht11.h: 45:         _delay((unsigned long)((30)*(20000000/4000000.0)));
+"58
+[; ;./dht11.h: 58:         _delay((unsigned long)((30)*(20000000/4000000.0)));
 [e ( __delay (1 -> * -> -> 30 `i `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"46
-[; ;./dht11.h: 46:         if(PORTDbits.RD0 == 0)
-[e $ ! == -> . . _PORTDbits 0 0 `i -> 0 `i 140  ]
-"47
-[; ;./dht11.h: 47:         {
+"60
+[; ;./dht11.h: 60:         if(RD0 == 0)
+[e $ ! == -> _RD0 `i -> 0 `i 140  ]
+"61
+[; ;./dht11.h: 61:         {
 {
-"48
-[; ;./dht11.h: 48:             data&= ~(1<<(7 - for_count));
+"62
+[; ;./dht11.h: 62:             data&= ~(1<<(7 - for_count));
 [e =& _data -> ~ << -> 1 `i - -> 7 `i -> _for_count `i `uc ]
-"49
-[; ;./dht11.h: 49:         }
+"63
+[; ;./dht11.h: 63:         }
 }
 [e $U 141  ]
-"50
-[; ;./dht11.h: 50:         else
+"64
+[; ;./dht11.h: 64:         else
 [e :U 140 ]
-"51
-[; ;./dht11.h: 51:         {
+"65
+[; ;./dht11.h: 65:         {
 {
-"52
-[; ;./dht11.h: 52:             data|= (1 << (7 - for_count));
+"66
+[; ;./dht11.h: 66:             data|= (1 << (7 - for_count));
 [e =| _data -> << -> 1 `i - -> 7 `i -> _for_count `i `uc ]
-"53
-[; ;./dht11.h: 53:             while(PORTDbits.RD0);
+"68
+[; ;./dht11.h: 68:             while(RD0);
 [e $U 142  ]
 [e :U 143 ]
 [e :U 142 ]
-[e $ != -> . . _PORTDbits 0 0 `i -> 0 `i 143  ]
+[e $ _RD0 143  ]
 [e :U 144 ]
-"54
-[; ;./dht11.h: 54:         }
+"69
+[; ;./dht11.h: 69:         }
 }
 [e :U 141 ]
-"55
-[; ;./dht11.h: 55:     }
+"70
+[; ;./dht11.h: 70:     }
 }
 [e ++ _for_count -> -> 1 `i `uc ]
 [e $ < -> _for_count `i -> 8 `i 134  ]
 [e :U 135 ]
 }
-"56
-[; ;./dht11.h: 56:     return data;
+"71
+[; ;./dht11.h: 71:     return data;
 [e ) _data ]
 [e $UE 133  ]
-"57
-[; ;./dht11.h: 57: }
+"72
+[; ;./dht11.h: 72: }
 [e :UE 133 ]
 }
 "27 main.c
@@ -1128,270 +1115,257 @@ Version 4.0 HI-TECH Software Intermediate Code
 "33
 [; ;main.c: 33:     TRISC =0x00;
 [e = _TRISC -> -> 0 `i `uc ]
-"35
-[; ;main.c: 35:     LCD_init();
-[e ( _LCD_init ..  ]
+"34
+[; ;main.c: 34:     TRISD =0x01;
+[e = _TRISD -> -> 1 `i `uc ]
 "36
-[; ;main.c: 36:     ser_int();
-[e ( _ser_int ..  ]
+[; ;main.c: 36:     LCD_init();
+[e ( _LCD_init ..  ]
 "37
-[; ;main.c: 37:     while (1)
-[e :U 147 ]
+[; ;main.c: 37:     ser_int();
+[e ( _ser_int ..  ]
 "38
-[; ;main.c: 38:     {
-{
+[; ;main.c: 38:     while (1)
+[e :U 147 ]
 "39
-[; ;main.c: 39:         ADC_Init ();
-[e ( _ADC_Init ..  ]
+[; ;main.c: 39:     {
+{
 "40
-[; ;main.c: 40:         GO_nDONE=1;
-[e = _GO_nDONE -> -> 1 `i `b ]
+[; ;main.c: 40:         ADC_Init ();
+[e ( _ADC_Init ..  ]
 "41
-[; ;main.c: 41:         while(GO_nDONE==1);
+[; ;main.c: 41:         GO_nDONE=1;
+[e = _GO_nDONE -> -> 1 `i `b ]
+"42
+[; ;main.c: 42:         while(GO_nDONE==1);
 [e $U 149  ]
 [e :U 150 ]
 [e :U 149 ]
 [e $ == -> _GO_nDONE `i -> 1 `i 150  ]
 [e :U 151 ]
-"42
-[; ;main.c: 42:         _delay((unsigned long)((10)*(20000000/4000.0)));
+"43
+[; ;main.c: 43:         _delay((unsigned long)((10)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"44
-[; ;main.c: 44:         tx_sn(sn);
-[e ( _tx_sn (1 _sn ]
 "45
-[; ;main.c: 45:         tx(')');
+[; ;main.c: 45:         tx_sn(sn);
+[e ( _tx_sn (1 _sn ]
+"46
+[; ;main.c: 46:         tx(')');
 [e ( _tx (1 -> -> 41 `ui `uc ]
-"48
-[; ;main.c: 48:         for (unsigned char i=0;i<4;i++)
+"49
+[; ;main.c: 49:         for (unsigned char i=0;i<4;i++)
 {
 [v _i `uc ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 4 `i 152  ]
 [e $U 153  ]
 [e :U 152 ]
-"49
-[; ;main.c: 49:         {
-{
 "50
-[; ;main.c: 50:             LCD_num(AV[i]);
-[e ( _LCD_num (1 -> *U + &U _AV * -> _i `ux -> -> # *U &U _AV `ui `ux `l ]
+[; ;main.c: 50:         {
+{
 "51
-[; ;main.c: 51:             LCD_Char(" ");
-[e ( _LCD_Char (1 -> :s 1C `uc ]
+[; ;main.c: 51:             LCD_num(AV[i]);
+[e ( _LCD_num (1 -> *U + &U _AV * -> _i `ux -> -> # *U &U _AV `ui `ux `l ]
 "52
-[; ;main.c: 52:             for (unsigned char j=0;j<3;j++)
+[; ;main.c: 52:             LCD_Char(" ");
+[e ( _LCD_Char (1 -> :s 1C `uc ]
+"53
+[; ;main.c: 53:             for (unsigned char j=0;j<3;j++)
 {
 [v _j `uc ~T0 @X0 1 a ]
 [e = _j -> -> 0 `i `uc ]
 [e $ < -> _j `i -> 3 `i 155  ]
 [e $U 156  ]
 [e :U 155 ]
-"53
-[; ;main.c: 53:             {
-{
 "54
-[; ;main.c: 54:                 tx((avv[j]+0x30));
-[e ( _tx (1 -> + -> *U + &U _avv * -> _j `ux -> -> # *U &U _avv `ui `ux `i -> 48 `i `uc ]
-"55
-[; ;main.c: 55:                 if (j == 0)
-[e $ ! == -> _j `i -> 0 `i 158  ]
-"56
-[; ;main.c: 56:                 {
+[; ;main.c: 54:             {
 {
+"55
+[; ;main.c: 55:                 tx((avv[j]+0x30));
+[e ( _tx (1 -> + -> *U + &U _avv * -> _j `ux -> -> # *U &U _avv `ui `ux `i -> 48 `i `uc ]
+"56
+[; ;main.c: 56:                 if (j == 0)
+[e $ ! == -> _j `i -> 0 `i 158  ]
 "57
-[; ;main.c: 57:                     tx('.');
-[e ( _tx (1 -> -> 46 `ui `uc ]
+[; ;main.c: 57:                 {
+{
 "58
-[; ;main.c: 58:                 }
+[; ;main.c: 58:                     tx('.');
+[e ( _tx (1 -> -> 46 `ui `uc ]
+"59
+[; ;main.c: 59:                 }
 }
 [e $U 159  ]
-"59
-[; ;main.c: 59:                 else if (j == 2)
+"60
+[; ;main.c: 60:                 else if (j == 2)
 [e :U 158 ]
 [e $ ! == -> _j `i -> 2 `i 160  ]
-"60
-[; ;main.c: 60:                 {
-{
 "61
-[; ;main.c: 61:                     tx(',');
-[e ( _tx (1 -> -> 44 `ui `uc ]
+[; ;main.c: 61:                 {
+{
 "62
-[; ;main.c: 62:                 }
+[; ;main.c: 62:                     tx(',');
+[e ( _tx (1 -> -> 44 `ui `uc ]
+"63
+[; ;main.c: 63:                 }
 }
 [e :U 160 ]
 [e :U 159 ]
-"63
-[; ;main.c: 63:             }
+"64
+[; ;main.c: 64:             }
 }
 [e ++ _j -> -> 1 `i `uc ]
 [e $ < -> _j `i -> 3 `i 155  ]
 [e :U 156 ]
 }
-"65
-[; ;main.c: 65:             _delay((unsigned long)((100)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "66
-[; ;main.c: 66:         }
+[; ;main.c: 66:             _delay((unsigned long)((100)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"67
+[; ;main.c: 67:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 4 `i 152  ]
 [e :U 153 ]
 }
-"72
-[; ;main.c: 72:         dht11_init();
-[e ( _dht11_init ..  ]
 "73
-[; ;main.c: 73:         find_response();
-[e ( _find_response ..  ]
-"74
-[; ;main.c: 74:         if(check_bit == 1)
-[e $ ! == -> _check_bit `i -> 1 `i 161  ]
+[; ;main.c: 73:         dht11_init();
+[e ( _dht11_init ..  ]
 "75
-[; ;main.c: 75:         {
-{
+[; ;main.c: 75:         check_bit = 1;
+[e = _check_bit -> -> 1 `i `uc ]
 "76
-[; ;main.c: 76:             LCD_Command(0x01);
-[e ( _LCD_Command (1 -> -> 1 `i `uc ]
+[; ;main.c: 76:         if(check_bit == 1)
+[e $ ! == -> _check_bit `i -> 1 `i 161  ]
 "77
-[; ;main.c: 77:             LCD_Command(0x80);
-[e ( _LCD_Command (1 -> -> 128 `i `uc ]
-"78
-[; ;main.c: 78:             LCD_Char(check_bit+0x30);
-[e ( _LCD_Char (1 -> + -> _check_bit `i -> 48 `i `uc ]
-"79
-[; ;main.c: 79:             while(1);
-[e :U 163 ]
-[e :U 162 ]
-[e $U 163  ]
-[e :U 164 ]
-"80
-[; ;main.c: 80:             RH_byte_1 = read_dht11();
-[e = _RH_byte_1 -> ( _read_dht11 ..  `uc ]
-"81
-[; ;main.c: 81:             RH_byte_2 = read_dht11();
-[e = _RH_byte_2 -> ( _read_dht11 ..  `uc ]
-"82
-[; ;main.c: 82:             Temp_byte_1 = read_dht11();
-[e = _Temp_byte_1 -> ( _read_dht11 ..  `uc ]
-"83
-[; ;main.c: 83:             Temp_byte_2 = read_dht11();
-[e = _Temp_byte_2 -> ( _read_dht11 ..  `uc ]
-"84
-[; ;main.c: 84:             Summation = read_dht11();
-[e = _Summation -> ( _read_dht11 ..  `uc ]
-"86
-[; ;main.c: 86:             if(Summation == ((RH_byte_1+RH_byte_2+Temp_byte_1+Temp_byte_2) & 0XFF))
-[e $ ! == -> _Summation `i & + + + -> _RH_byte_1 `i -> _RH_byte_2 `i -> _Temp_byte_1 `i -> _Temp_byte_2 `i -> 255 `i 165  ]
-"87
-[; ;main.c: 87:             {
+[; ;main.c: 77:         {
 {
-"88
-[; ;main.c: 88:                 Humidity = Temp_byte_1;
-[e = _Humidity _Temp_byte_1 ]
-"89
-[; ;main.c: 89:                 Temp = RH_byte_1;
-[e = _Temp _RH_byte_1 ]
-"91
-[; ;main.c: 91:                 LCD_Command(0x01);
+"78
+[; ;main.c: 78:             LCD_Command(0x01);
 [e ( _LCD_Command (1 -> -> 1 `i `uc ]
-"92
-[; ;main.c: 92:                 LCD_Command(0x80);
+"79
+[; ;main.c: 79:             LCD_Command(0x80);
 [e ( _LCD_Command (1 -> -> 128 `i `uc ]
+"80
+[; ;main.c: 80:             show_multidigits(check_bit);
+[e ( _show_multidigits (1 -> _check_bit `ui ]
+"81
+[; ;main.c: 81:             RH_byte_1 = read_dht11();
+[e = _RH_byte_1 -> ( _read_dht11 ..  `uc ]
+"82
+[; ;main.c: 82:             RH_byte_2 = read_dht11();
+[e = _RH_byte_2 -> ( _read_dht11 ..  `uc ]
+"83
+[; ;main.c: 83:             Temp_byte_1 = read_dht11();
+[e = _Temp_byte_1 -> ( _read_dht11 ..  `uc ]
+"84
+[; ;main.c: 84:             Temp_byte_2 = read_dht11();
+[e = _Temp_byte_2 -> ( _read_dht11 ..  `uc ]
+"85
+[; ;main.c: 85:             Summation = read_dht11();
+[e = _Summation -> ( _read_dht11 ..  `uc ]
+"89
+[; ;main.c: 89:                 Humidity = Temp_byte_1;
+[e = _Humidity _Temp_byte_1 ]
+"90
+[; ;main.c: 90:                 Temp = RH_byte_1;
+[e = _Temp _RH_byte_1 ]
+"92
+[; ;main.c: 92:                 LCD_Command(0x01);
+[e ( _LCD_Command (1 -> -> 1 `i `uc ]
 "93
-[; ;main.c: 93:                 show_multidigits(Humidity);
-[e ( _show_multidigits (1 -> _Humidity `ui ]
+[; ;main.c: 93:                 LCD_Command(0x80);
+[e ( _LCD_Command (1 -> -> 128 `i `uc ]
 "94
-[; ;main.c: 94:                 LCD_Command(0xC0);
-[e ( _LCD_Command (1 -> -> 192 `i `uc ]
+[; ;main.c: 94:                 show_multidigits(Humidity);
+[e ( _show_multidigits (1 -> _Humidity `ui ]
 "95
-[; ;main.c: 95:                 show_multidigits(Temp);
-[e ( _show_multidigits (1 -> _Temp `ui ]
+[; ;main.c: 95:                 LCD_Command(0xC0);
+[e ( _LCD_Command (1 -> -> 192 `i `uc ]
 "96
-[; ;main.c: 96:             }
-}
-[e :U 165 ]
-"97
-[; ;main.c: 97:         }
+[; ;main.c: 96:                 show_multidigits(Temp);
+[e ( _show_multidigits (1 -> _Temp `ui ]
+"98
+[; ;main.c: 98:         }
 }
 [e :U 161 ]
-"100
-[; ;main.c: 100:         tx(0x0d);
-[e ( _tx (1 -> -> 13 `i `uc ]
 "101
-[; ;main.c: 101:         LCD_Command(0x01);
-[e ( _LCD_Command (1 -> -> 1 `i `uc ]
+[; ;main.c: 101:         tx(0x0d);
+[e ( _tx (1 -> -> 13 `i `uc ]
 "102
-[; ;main.c: 102:         _delay((unsigned long)((1000)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+[; ;main.c: 102:         LCD_Command(0x01);
+[e ( _LCD_Command (1 -> -> 1 `i `uc ]
 "103
-[; ;main.c: 103:         sn += 1;
-[e =+ _sn -> -> 1 `i `ui ]
+[; ;main.c: 103:         _delay((unsigned long)((1000)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "104
-[; ;main.c: 104:     }
+[; ;main.c: 104:         sn += 1;
+[e =+ _sn -> -> 1 `i `ui ]
+"105
+[; ;main.c: 105:     }
 }
 [e :U 146 ]
 [e $U 147  ]
 [e :U 148 ]
-"105
-[; ;main.c: 105: }
+"106
+[; ;main.c: 106: }
 [e :UE 145 ]
 }
-"107
-[; ;main.c: 107: void ADC_Init ()
-[v _ADC_Init `(v ~T0 @X0 1 ef ]
 "108
-[; ;main.c: 108: {
+[; ;main.c: 108: void ADC_Init ()
+[v _ADC_Init `(v ~T0 @X0 1 ef ]
+"109
+[; ;main.c: 109: {
 {
 [e :U _ADC_Init ]
 [f ]
-"109
-[; ;main.c: 109:     ADCON0 = 0x85;
-[e = _ADCON0 -> -> 133 `i `uc ]
 "110
-[; ;main.c: 110:     ADCON1 = 0xC0;
-[e = _ADCON1 -> -> 192 `i `uc ]
+[; ;main.c: 110:     ADCON0 = 0x85;
+[e = _ADCON0 -> -> 133 `i `uc ]
 "111
-[; ;main.c: 111:     AV[0]= ((ADRESH<<8)+ADRESL);
+[; ;main.c: 111:     ADCON1 = 0xC0;
+[e = _ADCON1 -> -> 192 `i `uc ]
+"112
+[; ;main.c: 112:     AV[0]= ((ADRESH<<8)+ADRESL);
 [e = *U + &U _AV * -> -> -> 0 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"113
-[; ;main.c: 113:     _delay((unsigned long)((10)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "114
-[; ;main.c: 114:     ADCON0 = 0x8D;
-[e = _ADCON0 -> -> 141 `i `uc ]
+[; ;main.c: 114:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "115
-[; ;main.c: 115:     ADCON1 = 0xC0;
-[e = _ADCON1 -> -> 192 `i `uc ]
+[; ;main.c: 115:     ADCON0 = 0x8D;
+[e = _ADCON0 -> -> 141 `i `uc ]
 "116
-[; ;main.c: 116:     AV[1]= ((ADRESH<<8)+ADRESL);
+[; ;main.c: 116:     ADCON1 = 0xC0;
+[e = _ADCON1 -> -> 192 `i `uc ]
+"117
+[; ;main.c: 117:     AV[1]= ((ADRESH<<8)+ADRESL);
 [e = *U + &U _AV * -> -> -> 1 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"118
-[; ;main.c: 118:     _delay((unsigned long)((10)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "119
-[; ;main.c: 119:     ADCON0 = 0x95;
-[e = _ADCON0 -> -> 149 `i `uc ]
-"120
-[; ;main.c: 120:     ADCON1 = 0xC0;
-[e = _ADCON1 -> -> 192 `i `uc ]
-"121
-[; ;main.c: 121:     AV[2]= ((ADRESH<<8)+ADRESL);
-[e = *U + &U _AV * -> -> -> 2 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"123
-[; ;main.c: 123:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[; ;main.c: 119:     _delay((unsigned long)((10)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"124
-[; ;main.c: 124:     ADCON0 = 0x9D;
-[e = _ADCON0 -> -> 157 `i `uc ]
-"125
-[; ;main.c: 125:     ADCON1 = 0xC0;
+"120
+[; ;main.c: 120:     ADCON0 = 0x95;
+[e = _ADCON0 -> -> 149 `i `uc ]
+"121
+[; ;main.c: 121:     ADCON1 = 0xC0;
 [e = _ADCON1 -> -> 192 `i `uc ]
+"122
+[; ;main.c: 122:     AV[2]= ((ADRESH<<8)+ADRESL);
+[e = *U + &U _AV * -> -> -> 2 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
+"124
+[; ;main.c: 124:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"125
+[; ;main.c: 125:     ADCON0 = 0x9D;
+[e = _ADCON0 -> -> 157 `i `uc ]
 "126
-[; ;main.c: 126:     AV[3]= ((ADRESH<<8)+ADRESL);
+[; ;main.c: 126:     ADCON1 = 0xC0;
+[e = _ADCON1 -> -> 192 `i `uc ]
+"127
+[; ;main.c: 127:     AV[3]= ((ADRESH<<8)+ADRESL);
 [e = *U + &U _AV * -> -> -> 3 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"128
-[; ;main.c: 128: }
-[e :UE 166 ]
+"129
+[; ;main.c: 129: }
+[e :UE 162 ]
 }
 [a 1C 32 0 ]
