@@ -1,72 +1,66 @@
+#define DHT22_PIN   PORTDbits.RD0
+#define DHT22_PIN_DIR     TRISDbits.TRISD0
+
 #define _XTAL_FREQ 20000000
 
-//#define DHT11_Data_Pin_Direction  TRISDbits.TRISD0
-//#define DHT11_Data_Pin   PORTDbits.RD0
+uint8_t dht22_read_byte();
+void dht22_read(uint16_t *dht22_humi, int16_t *dht22_temp);
 
-// Variables for DHT11
-unsigned char Humidity, Temp, RH_byte_1, RH_byte_2, Temp_byte_1, Temp_byte_2; 
-unsigned char check_bit, Summation;
-
-void dht11_init();
-void find_response();
-char read_dht11();
-
-//void dht11_init()
-//{
-//    DHT11_Data_Pin_Direction= 0; //Configure RD0 as output
-//    DHT11_Data_Pin = 0; //RD0 sends 0 to the sensor
-//    __delay_ms(18);
-//    DHT11_Data_Pin = 1; //RD0 sends 1 to the sensor
-//    __delay_us(30);
-//    DHT11_Data_Pin_Direction = 1; //Configure RD0 as input
-// }
-
-void dht11_init()
+void problem(char a)
 {
-    TRISD = 0; //Configure RD0 as output
-    PORTD = 0; //RD0 sends 0 to the sensor
-    __delay_ms(18);
-    PORTD = 0xFF; //RD0 sends 1 to the sensor
-    __delay_us(30);
-    TRISD = 0xFF; //Configure RD0 as input
- }
-
- void find_response()
-{
-    check_bit = 0;
-    __delay_us(40);
-//    if (DHT11_Data_Pin == 0)
-    if (RD0 == 0)
+    LCD_Command(0x01);
+    LCD_Command(0x80);
+    if (a==0)
     {
-        __delay_us(80);
-//        if (DHT11_Data_Pin == 1)
-        if (RD0 == 1)
-        {
-            check_bit = 1;
-        }          
-        __delay_us(50);
+        show("XXX after this line");
     }
- }
- 
-char read_dht11()
-{
-    char data, for_count;
-    for(for_count = 0; for_count < 8; for_count++)
+    else if(a==1)
     {
-//        while(!DHT11_Data_Pin);
-        while(!RD0);
-        __delay_us(30);
-//        if(DHT11_Data_Pin == 0)
-        if(RD0 == 0)
-        {
-            data&= ~(1<<(7 - for_count)); //Clear bit (7-b)
-        }
-        else
-        {
-            data|= (1 << (7 - for_count)); //Set bit (7-b)
-//            while(DHT11_Data_Pin);
-            while(RD0);
-        }
+        show("XXX before this line");
     }
-    return data;
+    while(1);
+}
+
+uint8_t dht22_read_byte()
+{
+  uint8_t i = 8, dht22_byte = 0;
+  while(i--)
+  {
+    while( !DHT22_PIN );
+    __delay_ms(40);
+    if( DHT22_PIN )
+    {
+      dht22_byte |= (1 << i);   // set bit i
+      while( DHT22_PIN );
+    }
+  }
+  return(dht22_byte);
+}
+
+void dht22_read(uint16_t *dht22_humi, int16_t *dht22_temp)
+{
+  // send start signal
+  DHT22_PIN     = 0;   // connection pin output low
+  DHT22_PIN_DIR = 0;   // configure connection pin as output
+  __delay_ms(25);        // wait 25 ms
+  DHT22_PIN     = 1;   // connection pin output high
+  __delay_ms(30);        // wait 30 us
+  DHT22_PIN_DIR = 1;   // configure connection pin as input
+  // check sensor response
+  problem(0);
+  while( DHT22_PIN );
+  problem(1);
+  while(!DHT22_PIN );
+  while( DHT22_PIN );
+  // read data
+  *dht22_humi = dht22_read_byte();  // read humidity byte 1
+  *dht22_humi = (*dht22_humi << 8) | dht22_read_byte();  // read humidity byte 2
+  *dht22_temp = dht22_read_byte();  // read temperature byte 1
+  *dht22_temp = (*dht22_temp << 8) | dht22_read_byte();  // read temperature byte 2
+  dht22_read_byte();               // read checksum (skipped)
+  if(*dht22_temp & 0x8000)// if temperature is negative
+  {
+    *dht22_temp &= 0x7FFF;
+    *dht22_temp *= -1;
+  }
 }
