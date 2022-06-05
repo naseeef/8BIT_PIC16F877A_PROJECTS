@@ -4,6 +4,7 @@ void LCD_num(long int val);
 void LCD_Char(unsigned char data);
 void show(unsigned char *s);
 unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int c);
+void show_multidigits (unsigned int val);
 
 unsigned char avv[3];
 
@@ -80,4 +81,49 @@ unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int 
     avv[0] = (unsigned char)a;
     avv[1] = (unsigned char)b;
     avv[2] = (unsigned char)c;
+}
+
+void show_multidigits (unsigned int val)
+{
+    int remainder, digit1, digit2, digit3, digit4, result, result1;
+    if (val<=9)
+    {
+       LCD_Char(val+0x30);
+    }
+    else if (val>=10 && val <100)
+    {
+        remainder = val % 10;
+        digit1 = remainder;
+        digit2 = val/10;
+        LCD_Char(digit2+0x48);
+        LCD_Char(digit1+0x48);
+    }
+    else if (val>=100 && val <1000)
+    {
+        remainder = val % 10;
+        result1 = val /10;
+        digit1 = remainder;
+        remainder = result1%10;
+        digit2 = remainder;
+        digit3 = result1/10;
+        LCD_Char(digit3+0x30);
+        LCD_Char(digit2+0x30);
+        LCD_Char(digit1+0x30);
+    }
+    else if (val>=1000 && val <9999)
+    {
+        remainder = val % 10;
+        result1 = val /10;
+        digit1 = remainder;
+        remainder = result1%10;
+        digit2 = remainder;
+        result = result1/10;
+        remainder = result%10;
+        digit3=remainder;
+        digit4 = result/10;
+        LCD_Char(digit4+0x30);
+        LCD_Char(digit3+0x30);
+        LCD_Char(digit2+0x30);
+        LCD_Char(digit1+0x30);
+    }
 }
