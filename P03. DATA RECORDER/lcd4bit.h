@@ -95,8 +95,8 @@ void show_multidigits (unsigned int val)
         remainder = val % 10;
         digit1 = remainder;
         digit2 = val/10;
-        LCD_Char(digit2+0x48);
-        LCD_Char(digit1+0x48);
+        LCD_Char(digit2+0x30);
+        LCD_Char(digit1+0x30);
     }
     else if (val>=100 && val <1000)
     {
