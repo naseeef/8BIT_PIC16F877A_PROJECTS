@@ -78,7 +78,7 @@
      <ITEM name="TopLineAddress">00000000</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="842" x="1490" flags="00008023" y="545" h="496" pid="0" iid="7">
+   <POPUP w="842" x="1525" flags="00008023" y="487" h="496" pid="0" iid="7">
     <PROPERTIES>
      <ITEM name="AutoEcho">0</ITEM>
      <ITEM name="HexMode">0</ITEM>

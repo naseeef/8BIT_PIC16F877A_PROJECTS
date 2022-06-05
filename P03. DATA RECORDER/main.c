@@ -18,12 +18,15 @@
 #include <xc.h>
 #include "lcd4bit.h"
 #include "uart.h"
+#include "dht11.h"
+
 #define _XTAL_FREQ 20000000
 
 void ADC_Init();
 
 unsigned int AV[4]; // to store 4 analog channel values (HERE AFTER REFERED AS POT values)
 unsigned int sn=1; // declaration for serial number MAX=255;for more change the datatype
+
 void main() 
 {
     TRISB =0x00;
@@ -40,6 +43,8 @@ void main()
        
         tx_sn(sn); // fn for transmitting serial number to virtual terminal
         tx(')'); // ")" after every serial number
+        
+        /*---------------------POT BEGINS----------------------------*/
         for (unsigned char i=0;i<4;i++)
         {
             LCD_num(AV[i]);   //print POT values in LCD && SENDING POT values to split its digits
@@ -60,6 +65,38 @@ void main()
             __delay_ms(100);
         }
         // HERE i for loop completes printing 4 POT values in LCD
+        
+        /*---------------------POT COMPLETES----------------------------*/
+        
+        /*---------------------DHT11 BEGINS----------------------------*/
+        dht11_init();                                   //DHT11 Initialization        
+        find_response();
+        if(check_bit == 1)
+        {
+            LCD_Command(0x01);
+            LCD_Command(0x80);
+            LCD_Char(check_bit+0x30);
+            while(1);            
+            RH_byte_1 = read_dht11();
+            RH_byte_2 = read_dht11();
+            Temp_byte_1 = read_dht11();
+            Temp_byte_2 = read_dht11();
+            Summation = read_dht11();
+            
+            if(Summation == ((RH_byte_1+RH_byte_2+Temp_byte_1+Temp_byte_2) & 0XFF))
+            {
+                Humidity = Temp_byte_1;
+                Temp = RH_byte_1;
+                
+                LCD_Command(0x01);
+                LCD_Command(0x80);
+                show_multidigits(Humidity);
+                LCD_Command(0xC0);
+                show_multidigits(Temp);
+            }
+        }
+        /*---------------------DHT11 COMPLETES----------------------------*/
+        
         tx(0x0d); // new after printing a set of values in virtual terminal
         LCD_Command(0x01); //clear LCD display after first a set of POT values
         __delay_ms(1000); // delay for 1 second for RECORDING VALUES IN EVERY ONE SECOND

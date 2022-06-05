@@ -1880,6 +1880,7 @@ void LCD_num(long int val);
 void LCD_Char(unsigned char data);
 void show(unsigned char *s);
 unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int c);
+void show_multidigits (unsigned int val);
 
 unsigned char avv[3];
 
@@ -1957,6 +1958,51 @@ unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int 
     avv[1] = (unsigned char)b;
     avv[2] = (unsigned char)c;
 }
+
+void show_multidigits (unsigned int val)
+{
+    int remainder, digit1, digit2, digit3, digit4, result, result1;
+    if (val<=9)
+    {
+       LCD_Char(val+0x30);
+    }
+    else if (val>=10 && val <100)
+    {
+        remainder = val % 10;
+        digit1 = remainder;
+        digit2 = val/10;
+        LCD_Char(digit2+0x48);
+        LCD_Char(digit1+0x48);
+    }
+    else if (val>=100 && val <1000)
+    {
+        remainder = val % 10;
+        result1 = val /10;
+        digit1 = remainder;
+        remainder = result1%10;
+        digit2 = remainder;
+        digit3 = result1/10;
+        LCD_Char(digit3+0x30);
+        LCD_Char(digit2+0x30);
+        LCD_Char(digit1+0x30);
+    }
+    else if (val>=1000 && val <9999)
+    {
+        remainder = val % 10;
+        result1 = val /10;
+        digit1 = remainder;
+        remainder = result1%10;
+        digit2 = remainder;
+        result = result1/10;
+        remainder = result%10;
+        digit3=remainder;
+        digit4 = result/10;
+        LCD_Char(digit4+0x30);
+        LCD_Char(digit3+0x30);
+        LCD_Char(digit2+0x30);
+        LCD_Char(digit1+0x30);
+    }
+}
 # 19 "main.c" 2
 
 # 1 "./uart.h" 1
@@ -2032,12 +2078,74 @@ void tx_sn (unsigned int val)
 }
 # 20 "main.c" 2
 
+# 1 "./dht11.h" 1
+
+
+
+
+
+
+unsigned char Humidity, Temp, RH_byte_1, RH_byte_2, Temp_byte_1, Temp_byte_2;
+unsigned char check_bit, Summation;
+
+void dht11_init();
+void find_response();
+char read_dht11();
+
+void dht11_init()
+{
+    TRISDbits.TRISD0= 0;
+    PORTDbits.RD0 = 0;
+    _delay((unsigned long)((18)*(20000000/4000.0)));
+    PORTDbits.RD0 = 1;
+    _delay((unsigned long)((30)*(20000000/4000000.0)));
+    TRISDbits.TRISD0 = 1;
+ }
+
+ void find_response()
+{
+    check_bit = 0;
+    _delay((unsigned long)((40)*(20000000/4000000.0)));
+    if (PORTDbits.RD0 == 0)
+    {
+        _delay((unsigned long)((80)*(20000000/4000000.0)));
+        if (PORTDbits.RD0 == 1)
+        {
+            check_bit = 1;
+        }
+        _delay((unsigned long)((50)*(20000000/4000000.0)));;
+    }
+ }
+
+char read_dht11()
+{
+    char data, for_count;
+    for(for_count = 0; for_count < 8; for_count++)
+    {
+        while(!PORTDbits.RD0);
+        _delay((unsigned long)((30)*(20000000/4000000.0)));
+        if(PORTDbits.RD0 == 0)
+        {
+            data&= ~(1<<(7 - for_count));
+        }
+        else
+        {
+            data|= (1 << (7 - for_count));
+            while(PORTDbits.RD0);
+        }
+    }
+    return data;
+}
+# 21 "main.c" 2
+
+
 
 
 void ADC_Init();
 
 unsigned int AV[4];
 unsigned int sn=1;
+
 void main()
 {
     TRISB =0x00;
@@ -2054,6 +2162,8 @@ void main()
 
         tx_sn(sn);
         tx(')');
+
+
         for (unsigned char i=0;i<4;i++)
         {
             LCD_num(AV[i]);
@@ -2073,6 +2183,38 @@ void main()
 
             _delay((unsigned long)((100)*(20000000/4000.0)));
         }
+
+
+
+
+
+        dht11_init();
+        find_response();
+        if(check_bit == 1)
+        {
+            LCD_Command(0x01);
+            LCD_Command(0x80);
+            LCD_Char(check_bit+0x30);
+            while(1);
+            RH_byte_1 = read_dht11();
+            RH_byte_2 = read_dht11();
+            Temp_byte_1 = read_dht11();
+            Temp_byte_2 = read_dht11();
+            Summation = read_dht11();
+
+            if(Summation == ((RH_byte_1+RH_byte_2+Temp_byte_1+Temp_byte_2) & 0XFF))
+            {
+                Humidity = Temp_byte_1;
+                Temp = RH_byte_1;
+
+                LCD_Command(0x01);
+                LCD_Command(0x80);
+                show_multidigits(Humidity);
+                LCD_Command(0xC0);
+                show_multidigits(Temp);
+            }
+        }
+
 
         tx(0x0d);
         LCD_Command(0x01);
