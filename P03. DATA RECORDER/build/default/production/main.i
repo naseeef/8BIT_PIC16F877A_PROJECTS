@@ -1971,8 +1971,8 @@ void show_multidigits (unsigned int val)
         remainder = val % 10;
         digit1 = remainder;
         digit2 = val/10;
-        LCD_Char(digit2+0x48);
-        LCD_Char(digit1+0x48);
+        LCD_Char(digit2+0x30);
+        LCD_Char(digit1+0x30);
     }
     else if (val>=100 && val <1000)
     {
@@ -2084,62 +2084,66 @@ void tx_sn (unsigned int val)
 
 
 
+uint8_t dht22_read_byte();
+void dht22_read(uint16_t *dht22_humi, int16_t *dht22_temp);
 
-unsigned char Humidity, Temp, RH_byte_1, RH_byte_2, Temp_byte_1, Temp_byte_2;
-unsigned char check_bit, Summation;
-
-void dht11_init();
-void find_response();
-char read_dht11();
-# 24 "./dht11.h"
-void dht11_init()
+void problem(char a)
 {
-    TRISD = 0;
-    PORTD = 0;
-    _delay((unsigned long)((18)*(20000000/4000.0)));
-    PORTD = 0xFF;
-    _delay((unsigned long)((30)*(20000000/4000000.0)));
-    TRISD = 0xFF;
- }
-
- void find_response()
-{
-    check_bit = 0;
-    _delay((unsigned long)((40)*(20000000/4000000.0)));
-
-    if (RD0 == 0)
+    LCD_Command(0x01);
+    LCD_Command(0x80);
+    if (a==0)
     {
-        _delay((unsigned long)((80)*(20000000/4000000.0)));
-
-        if (RD0 == 1)
-        {
-            check_bit = 1;
-        }
-        _delay((unsigned long)((50)*(20000000/4000000.0)));
+        show("XXX after this line");
     }
- }
-
-char read_dht11()
-{
-    char data, for_count;
-    for(for_count = 0; for_count < 8; for_count++)
+    else if(a==1)
     {
-
-        while(!RD0);
-        _delay((unsigned long)((30)*(20000000/4000000.0)));
-
-        if(RD0 == 0)
-        {
-            data&= ~(1<<(7 - for_count));
-        }
-        else
-        {
-            data|= (1 << (7 - for_count));
-
-            while(RD0);
-        }
+        show("XXX before this line");
     }
-    return data;
+    while(1);
+}
+
+uint8_t dht22_read_byte()
+{
+  uint8_t i = 8, dht22_byte = 0;
+  while(i--)
+  {
+    while( !PORTDbits.RD0 );
+    _delay((unsigned long)((40)*(20000000/4000.0)));
+    if( PORTDbits.RD0 )
+    {
+      dht22_byte |= (1 << i);
+      while( PORTDbits.RD0 );
+    }
+  }
+  return(dht22_byte);
+}
+
+void dht22_read(uint16_t *dht22_humi, int16_t *dht22_temp)
+{
+
+  PORTDbits.RD0 = 0;
+  TRISDbits.TRISD0 = 0;
+  _delay((unsigned long)((25)*(20000000/4000.0)));
+  PORTDbits.RD0 = 1;
+  _delay((unsigned long)((30)*(20000000/4000.0)));
+  TRISDbits.TRISD0 = 1;
+
+  problem(0);
+  while( PORTDbits.RD0 );
+  problem(1);
+  while(!PORTDbits.RD0 );
+  while( PORTDbits.RD0 );
+
+  *dht22_humi = dht22_read_byte();
+  *dht22_humi = (*dht22_humi << 8) | dht22_read_byte();
+  *dht22_temp = dht22_read_byte();
+  *dht22_temp = (*dht22_temp << 8) | dht22_read_byte();
+  dht22_read_byte();
+  if(*dht22_temp & 0x8000)
+  {
+    *dht22_temp &= 0x7FFF;
+    *dht22_temp *= -1;
+  }
 }
 # 21 "main.c" 2
 
@@ -2147,15 +2151,18 @@ char read_dht11()
 
 
 void ADC_Init();
+void print_serialnumber();
+void print_analogvoltages();
 
 unsigned int AV[4];
 unsigned int sn=1;
+unsigned char message[3];
+unsigned int humidity, temperature;
 
 void main()
 {
     TRISB =0x00;
     TRISC =0x00;
-    TRISD =0x01;
 
     LCD_init();
     ser_int();
@@ -2166,60 +2173,19 @@ void main()
         while(GO_nDONE==1);
         _delay((unsigned long)((10)*(20000000/4000.0)));
 
-        tx_sn(sn);
-        tx(')');
+
+        print_serialnumber();
+
+        print_analogvoltages();
 
 
-        for (unsigned char i=0;i<4;i++)
-        {
-            LCD_num(AV[i]);
-            LCD_Char(" ");
-            for (unsigned char j=0;j<3;j++)
-            {
-                tx((avv[j]+0x30));
-                if (j == 0)
-                {
-                    tx('.');
-                }
-                else if (j == 2)
-                {
-                    tx(',');
-                }
-            }
-
-            _delay((unsigned long)((100)*(20000000/4000.0)));
-        }
-
-
-
-
-
-        dht11_init();
-
-        check_bit = 1;
-        if(check_bit == 1)
-        {
-            LCD_Command(0x01);
-            LCD_Command(0x80);
-            show_multidigits(check_bit);
-            RH_byte_1 = read_dht11();
-            RH_byte_2 = read_dht11();
-            Temp_byte_1 = read_dht11();
-            Temp_byte_2 = read_dht11();
-            Summation = read_dht11();
-
-
-
-                Humidity = Temp_byte_1;
-                Temp = RH_byte_1;
-
-                LCD_Command(0x01);
-                LCD_Command(0x80);
-                show_multidigits(Humidity);
-                LCD_Command(0xC0);
-                show_multidigits(Temp);
-
-        }
+        dht22_read(&humidity, &temperature);
+        LCD_Command(0x01);
+        LCD_Command(0x80);
+        show_multidigits(humidity);
+        LCD_Command(0xC0);
+        show_multidigits(temperature);
+        _delay((unsigned long)((1000)*(20000000/4000.0)));
 
 
         tx(0x0d);
@@ -2249,5 +2215,35 @@ void ADC_Init ()
     ADCON0 = 0x9D;
     ADCON1 = 0xC0;
     AV[3]= ((ADRESH<<8)+ADRESL);
+
+}
+
+void print_serialnumber()
+{
+    tx_sn(sn);
+    tx(')');
+}
+
+void print_analogvoltages()
+{
+    for (unsigned char i=0;i<4;i++)
+        {
+            LCD_num(AV[i]);
+            LCD_Char(' ');
+            for (unsigned char j=0;j<3;j++)
+            {
+                tx((avv[j]+0x30));
+                if (j == 0)
+                {
+                    tx('.');
+                }
+                else if (j == 2)
+                {
+                    tx(',');
+                }
+            }
+
+            _delay((unsigned long)((100)*(20000000/4000.0)));
+        }
 
 }

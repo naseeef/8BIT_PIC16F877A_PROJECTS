@@ -23,79 +23,41 @@
 #define _XTAL_FREQ 20000000
 
 void ADC_Init();
+void print_serialnumber();
+void print_analogvoltages();
 
 unsigned int AV[4]; // to store 4 analog channel values (HERE AFTER REFERED AS POT values)
 unsigned int sn=1; // declaration for serial number MAX=255;for more change the datatype
+unsigned char message[3]; // array to store DTH11 output values
+unsigned int humidity, temperature; // DTH11 variables
 
 void main() 
 {
     TRISB =0x00;
     TRISC =0x00;
-    TRISD =0x01;
     
-    LCD_init();                                     //LCD Initialization
-    ser_int();                                      //UART Initialization
+    LCD_init();             //LCD Initialization
+    ser_int();              //UART Initialization
     while (1)
     {
-        ADC_Init ();                                    //ADC Initialization
+        ADC_Init ();       //ADC Initialization
         GO_nDONE=1;
         while(GO_nDONE==1);
         __delay_ms(10);
-       
-        tx_sn(sn); // fn for transmitting serial number to virtual terminal
-        tx(')'); // ")" after every serial number
         
+        /*---------------------SERIAL NUMBER--------------------------*/
+        print_serialnumber();
         /*---------------------POT BEGINS----------------------------*/
-        for (unsigned char i=0;i<4;i++)
-        {
-            LCD_num(AV[i]);   //print POT values in LCD && SENDING POT values to split its digits
-            LCD_Char(" ");   //space between two POT values
-            for (unsigned char j=0;j<3;j++)
-            {
-                tx((avv[j]+0x30)); //SPLITED POT value digits in avv[] && print POT values in virtual terminal
-                if (j == 0)
-                {
-                    tx('.'); // "." between volt and millivolt in virtual terminal
-                }
-                else if (j == 2)
-                {
-                    tx(','); // "," between two POT voltages in virtual terminal
-                }
-            }
-            // HERE j for loop completes printing one POT value in virtual terminal
-            __delay_ms(100);
-        }
-        // HERE i for loop completes printing 4 POT values in LCD
-        
+        print_analogvoltages();
         /*---------------------POT COMPLETES----------------------------*/
-        
         /*---------------------DHT11 BEGINS----------------------------*/
-        dht11_init();                                   //DHT11 Initialization        
-        //find_response();
-        check_bit = 1;
-        if(check_bit == 1)
-        {
-            LCD_Command(0x01);
-            LCD_Command(0x80);
-            show_multidigits(check_bit);      
-            RH_byte_1 = read_dht11();
-            RH_byte_2 = read_dht11();
-            Temp_byte_1 = read_dht11();
-            Temp_byte_2 = read_dht11();
-            Summation = read_dht11();
-            
-            //if(Summation == ((RH_byte_1+RH_byte_2+Temp_byte_1+Temp_byte_2) & 0XFF))
-            //{
-                Humidity = Temp_byte_1;
-                Temp = RH_byte_1;
-                
-                LCD_Command(0x01);
-                LCD_Command(0x80);
-                show_multidigits(Humidity);
-                LCD_Command(0xC0);
-                show_multidigits(Temp); 
-            //}
-        }
+        dht22_read(&humidity, &temperature);
+        LCD_Command(0x01);
+        LCD_Command(0x80);
+        show_multidigits(humidity);
+        LCD_Command(0xC0);
+        show_multidigits(temperature);
+        __delay_ms(1000);
         /*---------------------DHT11 COMPLETES----------------------------*/
         
         tx(0x0d); // new after printing a set of values in virtual terminal
@@ -126,4 +88,34 @@ void ADC_Init ()
     ADCON1 = 0xC0; // Right Justified, ADCS2 = 1.
     AV[3]= ((ADRESH<<8)+ADRESL);
     
+}
+
+void print_serialnumber()
+{
+    tx_sn(sn); // fn for transmitting serial number to virtual terminal
+    tx(')'); // ")" after every serial number    
+}
+
+void print_analogvoltages()
+{
+    for (unsigned char i=0;i<4;i++)
+        {
+            LCD_num(AV[i]);   //print POT values in LCD && SENDING POT values to split its digits
+            LCD_Char(' ');   //space between two POT values
+            for (unsigned char j=0;j<3;j++)
+            {
+                tx((avv[j]+0x30)); //SPLITED POT value digits in avv[] && print POT values in virtual terminal
+                if (j == 0)
+                {
+                    tx('.'); // "." between volt and millivolt in virtual terminal
+                }
+                else if (j == 2)
+                {
+                    tx(','); // "," between two POT voltages in virtual terminal
+                }
+            }
+            // HERE j for loop completes printing one POT value in virtual terminal
+            __delay_ms(100);
+        }
+        // HERE i for loop completes printing 4 POT values in LCD    
 }
