@@ -2078,72 +2078,54 @@ void tx_sn (unsigned int val)
 }
 # 20 "main.c" 2
 
-# 1 "./dht11.h" 1
+# 1 "./d2h11.h" 1
 
 
+unsigned char Check, T_byte1, T_byte2,
+RH_byte1, RH_byte2, Ch ;
+unsigned Temp, RH, Sum ;
 
-
-
-uint8_t dht22_read_byte();
-void dht22_read(uint16_t *dht22_humi, int16_t *dht22_temp);
-
-void problem(char a)
+void StartSignal()
 {
-    LCD_Command(0x01);
-    LCD_Command(0x80);
-    if (a==0)
+    TRISDbits.TRISD0 = 0;
+    PORTDbits.RD0 = 0;
+    _delay((unsigned long)((25)*(20000000/4000.0)));
+    PORTDbits.RD0 = 1;
+    _delay((unsigned long)((30)*(20000000/4000000.0)));
+    TRISDbits.TRISD0 = 1;
+ }
+
+void CheckResponse()
+{
+    Check = 0;
+    _delay((unsigned long)((40)*(20000000/4000000.0)));
+    if (PORTDbits.RD0 == 0)
     {
-        show("XXX after this line");
+        _delay((unsigned long)((80)*(20000000/4000000.0)));
+        if (PORTDbits.RD0 == 1)
+        {
+            _delay((unsigned long)((50)*(20000000/4000000.0)));
+           Check = 1;
+        }
     }
-    else if(a==1)
-    {
-        show("XXX before this line");
-    }
-    while(1);
 }
 
-uint8_t dht22_read_byte()
+char ReadData()
 {
-  uint8_t i = 8, dht22_byte = 0;
-  while(i--)
-  {
-    while( !PORTDbits.RD0 );
-    _delay((unsigned long)((40)*(20000000/4000.0)));
-    if( PORTDbits.RD0 )
+    char i, j;
+    for(j = 0; j < 8; j++)
     {
-      dht22_byte |= (1 << i);
-      while( PORTDbits.RD0 );
+        while(!PORTDbits.RD0);
+        _delay((unsigned long)((30)*(20000000/4000000.0)));
+        if(PORTDbits.RD0 == 0)
+        i&= ~(1<<(7 - j));
+        else
+        {
+            i|= (1 << (7 - j));
+            while(PORTDbits.RD0);
+        }
     }
-  }
-  return(dht22_byte);
-}
-
-void dht22_read(uint16_t *dht22_humi, int16_t *dht22_temp)
-{
-
-  PORTDbits.RD0 = 0;
-  TRISDbits.TRISD0 = 0;
-  _delay((unsigned long)((25)*(20000000/4000.0)));
-  PORTDbits.RD0 = 1;
-  _delay((unsigned long)((30)*(20000000/4000.0)));
-  TRISDbits.TRISD0 = 1;
-
-  problem(0);
-  while( PORTDbits.RD0 );
-  problem(1);
-  while(!PORTDbits.RD0 );
-  while( PORTDbits.RD0 );
-
-  *dht22_humi = dht22_read_byte();
-  *dht22_humi = (*dht22_humi << 8) | dht22_read_byte();
-  *dht22_temp = dht22_read_byte();
-  *dht22_temp = (*dht22_temp << 8) | dht22_read_byte();
-  dht22_read_byte();
-  if(*dht22_temp & 0x8000)
-  {
-    *dht22_temp &= 0x7FFF;
-    *dht22_temp *= -1;
-  }
+    return i;
 }
 # 21 "main.c" 2
 
@@ -2179,12 +2161,33 @@ void main()
         print_analogvoltages();
 
 
-        dht22_read(&humidity, &temperature);
-        LCD_Command(0x01);
-        LCD_Command(0x80);
-        show_multidigits(humidity);
+        StartSignal();
+        CheckResponse();
+        if(Check == 1)
+        {
+            RH_byte1 = ReadData();
+            RH_byte2 = ReadData();
+            T_byte1 = ReadData();
+            T_byte2 = ReadData();
+            Sum = ReadData();
+            if(Sum == ((RH_byte1+RH_byte2+T_byte1+T_byte2) & 0XFF))
+            {
+                Temp = T_byte1;
+                RH = RH_byte1;
+            }
+        }
         LCD_Command(0xC0);
-        show_multidigits(temperature);
+        show("Temp:");
+        LCD_Command(0xC5);
+        show_multidigits (Temp);
+        tx_sn(Temp);
+        tx(',');
+        LCD_Command(0xC9);
+        show("Humi:");
+        LCD_Command(0xCE);
+        show_multidigits(RH);
+        tx_sn(RH);
+        tx(',');
         _delay((unsigned long)((1000)*(20000000/4000.0)));
 
 

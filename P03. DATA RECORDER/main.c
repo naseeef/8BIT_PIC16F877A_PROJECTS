@@ -18,7 +18,7 @@
 #include <xc.h>
 #include "lcd4bit.h"
 #include "uart.h"
-#include "dht11.h"
+#include "d2h11.h"
 
 #define _XTAL_FREQ 20000000
 
@@ -51,12 +51,33 @@ void main()
         print_analogvoltages();
         /*---------------------POT COMPLETES----------------------------*/
         /*---------------------DHT11 BEGINS----------------------------*/
-        dht22_read(&humidity, &temperature);
-        LCD_Command(0x01);
-        LCD_Command(0x80);
-        show_multidigits(humidity);
+        StartSignal();
+        CheckResponse();
+        if(Check == 1)
+        {
+            RH_byte1 = ReadData();
+            RH_byte2 = ReadData();
+            T_byte1 = ReadData();
+            T_byte2 = ReadData();
+            Sum = ReadData();
+            if(Sum == ((RH_byte1+RH_byte2+T_byte1+T_byte2) & 0XFF))
+            {
+                Temp = T_byte1;
+                RH = RH_byte1;
+            }
+        }        
         LCD_Command(0xC0);
-        show_multidigits(temperature);
+        show("Temp:");
+        LCD_Command(0xC5);
+        show_multidigits (Temp);
+        tx_sn(Temp);
+        tx(',');
+        LCD_Command(0xC9);
+        show("Humi:");
+        LCD_Command(0xCE);
+        show_multidigits(RH);
+        tx_sn(RH);
+        tx(',');
         __delay_ms(1000);
         /*---------------------DHT11 COMPLETES----------------------------*/
         
