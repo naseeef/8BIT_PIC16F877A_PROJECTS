@@ -40,6 +40,13 @@ void LCD_Char (unsigned char data)
 }
 void LCD_init (void)
 {
+    TRISBbits.TRISB7 =0;
+    TRISBbits.TRISB6 =0;
+    TRISBbits.TRISB5 =0;
+    TRISBbits.TRISB4 =0;
+    TRISCbits.TRISC0 =0;
+    TRISCbits.TRISC1 =0;
+    
     LCD_Command (0x02); 
     LCD_Command (0x28); //Send four bit initialization of LCD
     LCD_Command (0x80); //Cursor at Home position
