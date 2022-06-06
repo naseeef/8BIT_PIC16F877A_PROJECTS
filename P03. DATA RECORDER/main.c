@@ -25,6 +25,7 @@
 void ADC_Init();
 void print_serialnumber();
 void print_analogvoltages();
+void print_dht11data();
 
 unsigned int AV[4]; // to store 4 analog channel values (HERE AFTER REFERED AS POT values)
 unsigned int sn=1; // declaration for serial number MAX=255;for more change the datatype
@@ -33,13 +34,12 @@ unsigned int humidity, temperature; // DTH11 variables
 
 void main() 
 {
-    TRISB =0x00;
-    TRISC =0x00;
-    
     LCD_init();             //LCD Initialization
     ser_int();              //UART Initialization
     while (1)
     {
+        LCD_Command(0x01); //clear LCD display after first a set of POT values
+        
         ADC_Init ();       //ADC Initialization
         GO_nDONE=1;
         while(GO_nDONE==1);
@@ -51,38 +51,10 @@ void main()
         print_analogvoltages();
         /*---------------------POT COMPLETES----------------------------*/
         /*---------------------DHT11 BEGINS----------------------------*/
-        StartSignal();
-        CheckResponse();
-        if(Check == 1)
-        {
-            RH_byte1 = ReadData();
-            RH_byte2 = ReadData();
-            T_byte1 = ReadData();
-            T_byte2 = ReadData();
-            Sum = ReadData();
-            if(Sum == ((RH_byte1+RH_byte2+T_byte1+T_byte2) & 0XFF))
-            {
-                Temp = T_byte1;
-                RH = RH_byte1;
-            }
-        }        
-        LCD_Command(0xC0);
-        show("Temp:");
-        LCD_Command(0xC5);
-        show_multidigits (Temp);
-        tx_sn(Temp);
-        tx(',');
-        LCD_Command(0xC9);
-        show("Humi:");
-        LCD_Command(0xCE);
-        show_multidigits(RH);
-        tx_sn(RH);
-        tx(',');
-        __delay_ms(1000);
+        print_dht11data();
         /*---------------------DHT11 COMPLETES----------------------------*/
         
         tx(0x0d); // new after printing a set of values in virtual terminal
-        LCD_Command(0x01); //clear LCD display after first a set of POT values
         __delay_ms(1000); // delay for 1 second for RECORDING VALUES IN EVERY ONE SECOND
         sn += 1; // increment serial number after every set of reading
     }
@@ -139,4 +111,35 @@ void print_analogvoltages()
             __delay_ms(100);
         }
         // HERE i for loop completes printing 4 POT values in LCD    
+}
+
+void print_dht11data()
+{
+        StartSignal();
+        CheckResponse();
+        if(Check == 1)
+        {
+            RH_byte1 = ReadData();
+            RH_byte2 = ReadData();
+            T_byte1 = ReadData();
+            T_byte2 = ReadData();
+            Sum = ReadData();
+            if(Sum == ((RH_byte1+RH_byte2+T_byte1+T_byte2) & 0XFF))
+            {
+                Temp = T_byte1;
+                RH = RH_byte1;
+            }
+        }        
+        LCD_Command(0xC0);
+        show("Temp:");
+        LCD_Command(0xC5);
+        show_multidigits (Temp);
+        tx_sn(Temp);
+        tx(',');
+        LCD_Command(0xC9);
+        show("Humi:");
+        LCD_Command(0xCE);
+        show_multidigits(RH);
+        tx_sn(RH);
+        tx(',');
 }

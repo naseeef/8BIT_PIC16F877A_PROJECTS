@@ -1916,6 +1916,13 @@ void LCD_Char (unsigned char data)
 }
 void LCD_init (void)
 {
+    TRISBbits.TRISB7 =0;
+    TRISBbits.TRISB6 =0;
+    TRISBbits.TRISB5 =0;
+    TRISBbits.TRISB4 =0;
+    TRISCbits.TRISC0 =0;
+    TRISCbits.TRISC1 =0;
+
     LCD_Command (0x02);
     LCD_Command (0x28);
     LCD_Command (0x80);
@@ -2135,6 +2142,7 @@ char ReadData()
 void ADC_Init();
 void print_serialnumber();
 void print_analogvoltages();
+void print_dht11data();
 
 unsigned int AV[4];
 unsigned int sn=1;
@@ -2143,13 +2151,12 @@ unsigned int humidity, temperature;
 
 void main()
 {
-    TRISB =0x00;
-    TRISC =0x00;
-
     LCD_init();
     ser_int();
     while (1)
     {
+        LCD_Command(0x01);
+
         ADC_Init ();
         GO_nDONE=1;
         while(GO_nDONE==1);
@@ -2161,38 +2168,10 @@ void main()
         print_analogvoltages();
 
 
-        StartSignal();
-        CheckResponse();
-        if(Check == 1)
-        {
-            RH_byte1 = ReadData();
-            RH_byte2 = ReadData();
-            T_byte1 = ReadData();
-            T_byte2 = ReadData();
-            Sum = ReadData();
-            if(Sum == ((RH_byte1+RH_byte2+T_byte1+T_byte2) & 0XFF))
-            {
-                Temp = T_byte1;
-                RH = RH_byte1;
-            }
-        }
-        LCD_Command(0xC0);
-        show("Temp:");
-        LCD_Command(0xC5);
-        show_multidigits (Temp);
-        tx_sn(Temp);
-        tx(',');
-        LCD_Command(0xC9);
-        show("Humi:");
-        LCD_Command(0xCE);
-        show_multidigits(RH);
-        tx_sn(RH);
-        tx(',');
-        _delay((unsigned long)((1000)*(20000000/4000.0)));
+        print_dht11data();
 
 
         tx(0x0d);
-        LCD_Command(0x01);
         _delay((unsigned long)((1000)*(20000000/4000.0)));
         sn += 1;
     }
@@ -2249,4 +2228,35 @@ void print_analogvoltages()
             _delay((unsigned long)((100)*(20000000/4000.0)));
         }
 
+}
+
+void print_dht11data()
+{
+        StartSignal();
+        CheckResponse();
+        if(Check == 1)
+        {
+            RH_byte1 = ReadData();
+            RH_byte2 = ReadData();
+            T_byte1 = ReadData();
+            T_byte2 = ReadData();
+            Sum = ReadData();
+            if(Sum == ((RH_byte1+RH_byte2+T_byte1+T_byte2) & 0XFF))
+            {
+                Temp = T_byte1;
+                RH = RH_byte1;
+            }
+        }
+        LCD_Command(0xC0);
+        show("Temp:");
+        LCD_Command(0xC5);
+        show_multidigits (Temp);
+        tx_sn(Temp);
+        tx(',');
+        LCD_Command(0xC9);
+        show("Humi:");
+        LCD_Command(0xCE);
+        show_multidigits(RH);
+        tx_sn(RH);
+        tx(',');
 }
