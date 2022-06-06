@@ -31,7 +31,7 @@ void CheckResponse()
  //////////////////////////////
 char ReadData()
 {
-    char i, j;
+    char i, j; 
     for(j = 0; j < 8; j++)
     {
         while(!PORTDbits.RD0); //Wait until PORTD.F0 goes HIGH
