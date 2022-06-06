@@ -1,0 +1,199 @@
+[p GLOBOPT AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PICREGULAR PICMID ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F877A ]
+[d frameptr 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+"10 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\Umul8_16.c
+[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
+"6 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\pic\__eeprom.c
+[v ___eecpymem __eecpymem `(v  1 e 1 0 ]
+"39
+[v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+"27 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.A.DTH11_INTERFACING.X\main_dht11.c
+[v _LCD_Command LCD_Command `(v  1 e 1 0 ]
+"41
+[v _LCD_init LCD_init `(v  1 e 1 0 ]
+"51
+[v _LCD_Char LCD_Char `(v  1 e 1 0 ]
+"65
+[v _show show `(v  1 e 1 0 ]
+"71
+[v _show_multidigits show_multidigits `(v  1 e 1 0 ]
+"137
+[v _ReadData ReadData `(uc  1 e 1 0 ]
+"150
+[v _main main `(v  1 e 1 0 ]
+"183
+[v _StartSignal2 StartSignal2 `(v  1 e 1 0 ]
+"192
+[v _CheckResponse2 CheckResponse2 `(v  1 e 1 0 ]
+"217 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
+[v _PORTB PORTB `VEuc  1 e 1 @6 ]
+[s S52 . 1 `uc 1 RD0 1 0 :1:0 
+`uc 1 RD1 1 0 :1:1 
+`uc 1 RD2 1 0 :1:2 
+`uc 1 RD3 1 0 :1:3 
+`uc 1 RD4 1 0 :1:4 
+`uc 1 RD5 1 0 :1:5 
+`uc 1 RD6 1 0 :1:6 
+`uc 1 RD7 1 0 :1:7 
+]
+"358
+[u S61 . 1 `S52 1 . 1 0 ]
+[v _PORTDbits PORTDbits `VES61  1 e 1 @8 ]
+"1376
+[v _TRISB TRISB `VEuc  1 e 1 @134 ]
+"1438
+[v _TRISC TRISC `VEuc  1 e 1 @135 ]
+[s S31 . 1 `uc 1 TRISD0 1 0 :1:0 
+`uc 1 TRISD1 1 0 :1:1 
+`uc 1 TRISD2 1 0 :1:2 
+`uc 1 TRISD3 1 0 :1:3 
+`uc 1 TRISD4 1 0 :1:4 
+`uc 1 TRISD5 1 0 :1:5 
+`uc 1 TRISD6 1 0 :1:6 
+`uc 1 TRISD7 1 0 :1:7 
+]
+"1517
+[u S40 . 1 `S31 1 . 1 0 ]
+[v _TRISDbits TRISDbits `VES40  1 e 1 @136 ]
+"2709
+[v _RC0 RC0 `VEb  1 e 0 @56 ]
+"2712
+[v _RC1 RC1 `VEb  1 e 0 @57 ]
+"23 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.A.DTH11_INTERFACING.X\main_dht11.c
+[v _Check Check `uc  1 e 1 0 ]
+[v _T_byte1 T_byte1 `uc  1 e 1 0 ]
+[v _T_byte2 T_byte2 `uc  1 e 1 0 ]
+"24
+[v _RH_byte1 RH_byte1 `uc  1 e 1 0 ]
+[v _RH_byte2 RH_byte2 `uc  1 e 1 0 ]
+"25
+[v _Temp Temp `ui  1 e 2 0 ]
+[v _RH RH `ui  1 e 2 0 ]
+[v _Sum Sum `ui  1 e 2 0 ]
+"150
+[v _main main `(v  1 e 1 0 ]
+{
+"181
+} 0
+"71
+[v _show_multidigits show_multidigits `(v  1 e 1 0 ]
+{
+"73
+[v show_multidigits@remainder remainder `i  1 a 2 12 ]
+[v show_multidigits@result1 result1 `i  1 a 2 10 ]
+[v show_multidigits@digit2 digit2 `i  1 a 2 8 ]
+[v show_multidigits@digit1 digit1 `i  1 a 2 6 ]
+[v show_multidigits@digit3 digit3 `i  1 a 2 4 ]
+[v show_multidigits@result result `i  1 a 2 2 ]
+[v show_multidigits@digit4 digit4 `i  1 a 2 0 ]
+"71
+[v show_multidigits@val val `ui  1 p 2 9 ]
+"114
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwmod@counter counter `uc  1 a 1 5 ]
+"5
+[v ___lwmod@divisor divisor `ui  1 p 2 0 ]
+[v ___lwmod@dividend dividend `ui  1 p 2 2 ]
+"25
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwdiv@quotient quotient `ui  1 a 2 5 ]
+"11
+[v ___lwdiv@counter counter `uc  1 a 1 7 ]
+"5
+[v ___lwdiv@divisor divisor `ui  1 p 2 0 ]
+[v ___lwdiv@dividend dividend `ui  1 p 2 2 ]
+"30
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+{
+"10
+[v ___awmod@sign sign `uc  1 a 1 6 ]
+[v ___awmod@counter counter `uc  1 a 1 5 ]
+"5
+[v ___awmod@divisor divisor `i  1 p 2 0 ]
+[v ___awmod@dividend dividend `i  1 p 2 2 ]
+"34
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+{
+"10
+[v ___awdiv@quotient quotient `i  1 a 2 7 ]
+"11
+[v ___awdiv@sign sign `uc  1 a 1 6 ]
+[v ___awdiv@counter counter `uc  1 a 1 5 ]
+"5
+[v ___awdiv@divisor divisor `i  1 p 2 0 ]
+[v ___awdiv@dividend dividend `i  1 p 2 2 ]
+"41
+} 0
+"65 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.A.DTH11_INTERFACING.X\main_dht11.c
+[v _show show `(v  1 e 1 0 ]
+{
+[v show@s s `*.24uc  1 a 1 wreg ]
+[v show@s s `*.24uc  1 a 1 wreg ]
+[v show@s s `*.24uc  1 a 1 4 ]
+"70
+} 0
+"51
+[v _LCD_Char LCD_Char `(v  1 e 1 0 ]
+{
+[v LCD_Char@data data `uc  1 a 1 wreg ]
+[v LCD_Char@data data `uc  1 a 1 wreg ]
+"53
+[v LCD_Char@data data `uc  1 a 1 2 ]
+"64
+} 0
+"183
+[v _StartSignal2 StartSignal2 `(v  1 e 1 0 ]
+{
+"190
+} 0
+"137
+[v _ReadData ReadData `(uc  1 e 1 0 ]
+{
+"138
+[v ReadData@j j `uc  1 a 1 3 ]
+[v ReadData@i i `uc  1 a 1 2 ]
+"148
+} 0
+"41
+[v _LCD_init LCD_init `(v  1 e 1 0 ]
+{
+"50
+} 0
+"27
+[v _LCD_Command LCD_Command `(v  1 e 1 0 ]
+{
+[v LCD_Command@cmnd cmnd `uc  1 a 1 wreg ]
+[v LCD_Command@cmnd cmnd `uc  1 a 1 wreg ]
+"29
+[v LCD_Command@cmnd cmnd `uc  1 a 1 2 ]
+"40
+} 0
+"192
+[v _CheckResponse2 CheckResponse2 `(v  1 e 1 0 ]
+{
+"206
+} 0
