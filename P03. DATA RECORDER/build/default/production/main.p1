@@ -135,6 +135,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 "27 main.c
 [; ;main.c: 27: void print_serialnumber();
 [v _print_serialnumber `(v ~T0 @X0 0 e? ]
+"30
+[; ;main.c: 30: void rtc_getdata();
+[v _rtc_getdata `(v ~T0 @X0 0 e? ]
+"31
+[; ;main.c: 31: void rtc_lcd_data();
+[v _rtc_lcd_data `(v ~T0 @X0 0 e? ]
+"32
+[; ;main.c: 32: void rtc_terminal_data();
+[v _rtc_terminal_data `(v ~T0 @X0 0 e? ]
 "26
 [; ;main.c: 26: void ADC_Init();
 [v _ADC_Init `(v ~T0 @X0 0 e? ]
@@ -1532,437 +1541,545 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./ds1307.h: 104: }
 [e :UE 167 ]
 }
-"32 main.c
-[; ;main.c: 32: unsigned int AV[4];
+"34 main.c
+[; ;main.c: 34: unsigned int AV[4];
 [v _AV `ui ~T0 @X0 -> 4 `i e ]
-"33
-[; ;main.c: 33: unsigned int sn=1;
+"35
+[; ;main.c: 35: unsigned int sn=1;
 [v _sn `ui ~T0 @X0 1 e ]
 [i _sn
 -> -> 1 `i `ui
 ]
-"34
-[; ;main.c: 34: unsigned char message[3];
+"36
+[; ;main.c: 36: unsigned char message[3];
 [v _message `uc ~T0 @X0 -> 3 `i e ]
-"35
-[; ;main.c: 35: unsigned int humidity, temperature;
+"37
+[; ;main.c: 37: unsigned int humidity, temperature;
 [v _humidity `ui ~T0 @X0 1 e ]
 [v _temperature `ui ~T0 @X0 1 e ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"37
-[; ;main.c: 37: void main()
+"39
+[; ;main.c: 39: void main()
 [v _main `(v ~T0 @X0 1 ef ]
-"38
-[; ;main.c: 38: {
+"40
+[; ;main.c: 40: {
 {
 [e :U _main ]
 [f ]
-"39
-[; ;main.c: 39:     LCD_init();
-[e ( _LCD_init ..  ]
-"40
-[; ;main.c: 40:     ser_int();
-[e ( _ser_int ..  ]
 "41
-[; ;main.c: 41:     while (1)
-[e :U 170 ]
+[; ;main.c: 41:     LCD_init();
+[e ( _LCD_init ..  ]
 "42
-[; ;main.c: 42:     {
-{
+[; ;main.c: 42:     ser_int();
+[e ( _ser_int ..  ]
 "43
-[; ;main.c: 43:         LCD_Command(0x01);
+[; ;main.c: 43:     while (1)
+[e :U 170 ]
+"44
+[; ;main.c: 44:     {
+{
+"45
+[; ;main.c: 45:         LCD_Command(0x01);
 [e ( _LCD_Command (1 -> -> 1 `i `uc ]
-"46
-[; ;main.c: 46:         print_serialnumber();
-[e ( _print_serialnumber ..  ]
 "48
-[; ;main.c: 48:         rtc_int();
-[e ( _rtc_int ..  ]
-"49
-[; ;main.c: 49:         sec =rtc_read_byte(0x00);
-[e = _sec ( _rtc_read_byte (1 -> -> 0 `i `uc ]
+[; ;main.c: 48:         print_serialnumber();
+[e ( _print_serialnumber ..  ]
 "50
-[; ;main.c: 50:         min =rtc_read_byte(0x01);
-[e = _min ( _rtc_read_byte (1 -> -> 1 `i `uc ]
+[; ;main.c: 50:         rtc_int();
+[e ( _rtc_int ..  ]
 "51
-[; ;main.c: 51:         hour =rtc_read_byte(0x02);
-[e = _hour ( _rtc_read_byte (1 -> -> 2 `i `uc ]
+[; ;main.c: 51:         rtc_getdata();
+[e ( _rtc_getdata ..  ]
 "52
-[; ;main.c: 52:         day =rtc_read_byte(0x03);
-[e = _day ( _rtc_read_byte (1 -> -> 3 `i `uc ]
+[; ;main.c: 52:         rtc_lcd_data();
+[e ( _rtc_lcd_data ..  ]
 "53
-[; ;main.c: 53:         date =rtc_read_byte(0x04);
-[e = _date ( _rtc_read_byte (1 -> -> 4 `i `uc ]
-"54
-[; ;main.c: 54:         month=rtc_read_byte(0x05);
-[e = _month ( _rtc_read_byte (1 -> -> 5 `i `uc ]
-"55
-[; ;main.c: 55:         year =rtc_read_byte(0x06);
-[e = _year ( _rtc_read_byte (1 -> -> 6 `i `uc ]
-"57
-[; ;main.c: 57:         LCD_Command(0x80);
-[e ( _LCD_Command (1 -> -> 128 `i `uc ]
-"58
-[; ;main.c: 58:         LCD_Char(convup(hour));
-[e ( _LCD_Char (1 ( _convup (1 _hour ]
-"59
-[; ;main.c: 59:         LCD_Char(convd(hour));
-[e ( _LCD_Char (1 ( _convd (1 _hour ]
-"60
-[; ;main.c: 60:         LCD_Char(':');
-[e ( _LCD_Char (1 -> -> 58 `ui `uc ]
-"61
-[; ;main.c: 61:         LCD_Char(convup(min));
-[e ( _LCD_Char (1 ( _convup (1 _min ]
-"62
-[; ;main.c: 62:         LCD_Char(convd(min));
-[e ( _LCD_Char (1 ( _convd (1 _min ]
-"63
-[; ;main.c: 63:         LCD_Char(':');
-[e ( _LCD_Char (1 -> -> 58 `ui `uc ]
-"64
-[; ;main.c: 64:         LCD_Char(convup(sec));
-[e ( _LCD_Char (1 ( _convup (1 _sec ]
-"65
-[; ;main.c: 65:         LCD_Char(convd(sec));
-[e ( _LCD_Char (1 ( _convd (1 _sec ]
-"67
-[; ;main.c: 67:         LCD_Command(0x89);
-[e ( _LCD_Command (1 -> -> 137 `i `uc ]
-"68
-[; ;main.c: 68:         LCD_Char(convup(date));
-[e ( _LCD_Char (1 ( _convup (1 _date ]
-"69
-[; ;main.c: 69:         LCD_Char(convd(date));
-[e ( _LCD_Char (1 ( _convd (1 _date ]
-"70
-[; ;main.c: 70:         LCD_Char(':');
-[e ( _LCD_Char (1 -> -> 58 `ui `uc ]
-"71
-[; ;main.c: 71:         LCD_Char(convup(month));
-[e ( _LCD_Char (1 ( _convup (1 _month ]
-"72
-[; ;main.c: 72:         LCD_Char(convd(month));
-[e ( _LCD_Char (1 ( _convd (1 _month ]
-"73
-[; ;main.c: 73:         LCD_Char(':');
-[e ( _LCD_Char (1 -> -> 58 `ui `uc ]
-"74
-[; ;main.c: 74:         LCD_Char(convup(year));
-[e ( _LCD_Char (1 ( _convup (1 _year ]
-"75
-[; ;main.c: 75:         LCD_Char(convd(year));
-[e ( _LCD_Char (1 ( _convd (1 _year ]
-"76
-[; ;main.c: 76:         LCD_Char('/');
-[e ( _LCD_Char (1 -> -> 47 `ui `uc ]
-"77
-[; ;main.c: 77:         LCD_Char(convup(day));
-[e ( _LCD_Char (1 ( _convup (1 _day ]
-"78
-[; ;main.c: 78:         LCD_Char(convd(day));
-[e ( _LCD_Char (1 ( _convd (1 _day ]
-"81
-[; ;main.c: 81:         ADC_Init ();
+[; ;main.c: 53:         rtc_terminal_data();
+[e ( _rtc_terminal_data ..  ]
+"56
+[; ;main.c: 56:         ADC_Init ();
 [e ( _ADC_Init ..  ]
-"82
-[; ;main.c: 82:         GO_nDONE=1;
+"57
+[; ;main.c: 57:         GO_nDONE=1;
 [e = _GO_nDONE -> -> 1 `i `b ]
-"83
-[; ;main.c: 83:         while(GO_nDONE==1);
+"58
+[; ;main.c: 58:         while(GO_nDONE==1);
 [e $U 172  ]
 [e :U 173 ]
 [e :U 172 ]
 [e $ == -> _GO_nDONE `i -> 1 `i 173  ]
 [e :U 174 ]
-"84
-[; ;main.c: 84:         _delay((unsigned long)((10)*(20000000/4000.0)));
+"59
+[; ;main.c: 59:         _delay((unsigned long)((10)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"85
-[; ;main.c: 85:         LCD_Command(0xC0);
+"60
+[; ;main.c: 60:         LCD_Command(0xC0);
 [e ( _LCD_Command (1 -> -> 192 `i `uc ]
-"86
-[; ;main.c: 86:         print_analogvoltages();
+"61
+[; ;main.c: 61:         print_analogvoltages();
 [e ( _print_analogvoltages ..  ]
-"89
-[; ;main.c: 89:         print_dht11data();
+"64
+[; ;main.c: 64:         print_dht11data();
 [e ( _print_dht11data ..  ]
-"92
-[; ;main.c: 92:         tx(0x0d);
+"67
+[; ;main.c: 67:         tx(0x0d);
 [e ( _tx (1 -> -> 13 `i `uc ]
-"93
-[; ;main.c: 93:         _delay((unsigned long)((1000)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"94
-[; ;main.c: 94:         sn += 1;
+"68
+[; ;main.c: 68:         _delay((unsigned long)((250)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 250 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"69
+[; ;main.c: 69:         sn += 1;
 [e =+ _sn -> -> 1 `i `ui ]
-"95
-[; ;main.c: 95:     }
+"70
+[; ;main.c: 70:     }
 }
 [e :U 169 ]
 [e $U 170  ]
 [e :U 171 ]
-"96
-[; ;main.c: 96: }
+"71
+[; ;main.c: 71: }
 [e :UE 168 ]
 }
-"98
-[; ;main.c: 98: void ADC_Init ()
+"73
+[; ;main.c: 73: void ADC_Init ()
 [v _ADC_Init `(v ~T0 @X0 1 ef ]
-"99
-[; ;main.c: 99: {
+"74
+[; ;main.c: 74: {
 {
 [e :U _ADC_Init ]
 [f ]
-"100
-[; ;main.c: 100:     ADCON0 = 0x85;
+"75
+[; ;main.c: 75:     ADCON0 = 0x85;
 [e = _ADCON0 -> -> 133 `i `uc ]
-"101
-[; ;main.c: 101:     ADCON1 = 0xC0;
+"76
+[; ;main.c: 76:     ADCON1 = 0xC0;
 [e = _ADCON1 -> -> 192 `i `uc ]
-"102
-[; ;main.c: 102:     AV[0]= ((ADRESH<<8)+ADRESL);
+"77
+[; ;main.c: 77:     AV[0]= ((ADRESH<<8)+ADRESL);
 [e = *U + &U _AV * -> -> -> 0 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"104
-[; ;main.c: 104:     _delay((unsigned long)((10)*(20000000/4000.0)));
+"79
+[; ;main.c: 79:     _delay((unsigned long)((10)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"105
-[; ;main.c: 105:     ADCON0 = 0x8D;
+"80
+[; ;main.c: 80:     ADCON0 = 0x8D;
 [e = _ADCON0 -> -> 141 `i `uc ]
-"106
-[; ;main.c: 106:     ADCON1 = 0xC0;
+"81
+[; ;main.c: 81:     ADCON1 = 0xC0;
 [e = _ADCON1 -> -> 192 `i `uc ]
-"107
-[; ;main.c: 107:     AV[1]= ((ADRESH<<8)+ADRESL);
+"82
+[; ;main.c: 82:     AV[1]= ((ADRESH<<8)+ADRESL);
 [e = *U + &U _AV * -> -> -> 1 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"109
-[; ;main.c: 109:     _delay((unsigned long)((10)*(20000000/4000.0)));
+"84
+[; ;main.c: 84:     _delay((unsigned long)((10)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"110
-[; ;main.c: 110:     ADCON0 = 0x95;
+"85
+[; ;main.c: 85:     ADCON0 = 0x95;
 [e = _ADCON0 -> -> 149 `i `uc ]
-"111
-[; ;main.c: 111:     ADCON1 = 0xC0;
+"86
+[; ;main.c: 86:     ADCON1 = 0xC0;
 [e = _ADCON1 -> -> 192 `i `uc ]
-"112
-[; ;main.c: 112:     AV[2]= ((ADRESH<<8)+ADRESL);
+"87
+[; ;main.c: 87:     AV[2]= ((ADRESH<<8)+ADRESL);
 [e = *U + &U _AV * -> -> -> 2 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"114
-[; ;main.c: 114:     _delay((unsigned long)((10)*(20000000/4000.0)));
+"89
+[; ;main.c: 89:     _delay((unsigned long)((10)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"115
-[; ;main.c: 115:     ADCON0 = 0x9D;
+"90
+[; ;main.c: 90:     ADCON0 = 0x9D;
 [e = _ADCON0 -> -> 157 `i `uc ]
-"116
-[; ;main.c: 116:     ADCON1 = 0xC0;
+"91
+[; ;main.c: 91:     ADCON1 = 0xC0;
 [e = _ADCON1 -> -> 192 `i `uc ]
-"117
-[; ;main.c: 117:     AV[3]= ((ADRESH<<8)+ADRESL);
+"92
+[; ;main.c: 92:     AV[3]= ((ADRESH<<8)+ADRESL);
 [e = *U + &U _AV * -> -> -> 3 `i `ui `ux -> -> # *U &U _AV `ui `ux -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
-"119
-[; ;main.c: 119: }
+"94
+[; ;main.c: 94: }
 [e :UE 175 ]
 }
-"121
-[; ;main.c: 121: void print_serialnumber()
+"96
+[; ;main.c: 96: void print_serialnumber()
 [v _print_serialnumber `(v ~T0 @X0 1 ef ]
-"122
-[; ;main.c: 122: {
+"97
+[; ;main.c: 97: {
 {
 [e :U _print_serialnumber ]
 [f ]
-"123
-[; ;main.c: 123:     tx_sn(sn);
+"98
+[; ;main.c: 98:     tx_sn(sn);
 [e ( _tx_sn (1 _sn ]
-"124
-[; ;main.c: 124:     tx(')');
+"99
+[; ;main.c: 99:     tx(')');
 [e ( _tx (1 -> -> 41 `ui `uc ]
-"125
-[; ;main.c: 125: }
+"100
+[; ;main.c: 100: }
 [e :UE 176 ]
 }
-"127
-[; ;main.c: 127: void print_analogvoltages()
+"102
+[; ;main.c: 102: void print_analogvoltages()
 [v _print_analogvoltages `(v ~T0 @X0 1 ef ]
-"128
-[; ;main.c: 128: {
+"103
+[; ;main.c: 103: {
 {
 [e :U _print_analogvoltages ]
 [f ]
-"129
-[; ;main.c: 129:     for (unsigned char i=0;i<4;i++)
+"104
+[; ;main.c: 104:     for (unsigned char i=0;i<4;i++)
 {
 [v _i `uc ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 4 `i 178  ]
 [e $U 179  ]
 [e :U 178 ]
-"130
-[; ;main.c: 130:         {
+"105
+[; ;main.c: 105:         {
 {
-"131
-[; ;main.c: 131:             LCD_num(AV[i]);
+"106
+[; ;main.c: 106:             LCD_num(AV[i]);
 [e ( _LCD_num (1 -> *U + &U _AV * -> _i `ux -> -> # *U &U _AV `ui `ux `l ]
-"132
-[; ;main.c: 132:             LCD_Char(' ');
+"107
+[; ;main.c: 107:             LCD_Char(' ');
 [e ( _LCD_Char (1 -> -> 32 `ui `uc ]
-"133
-[; ;main.c: 133:             for (unsigned char j=0;j<3;j++)
+"108
+[; ;main.c: 108:             for (unsigned char j=0;j<3;j++)
 {
 [v _j `uc ~T0 @X0 1 a ]
 [e = _j -> -> 0 `i `uc ]
 [e $ < -> _j `i -> 3 `i 181  ]
 [e $U 182  ]
 [e :U 181 ]
-"134
-[; ;main.c: 134:             {
+"109
+[; ;main.c: 109:             {
 {
-"135
-[; ;main.c: 135:                 tx((avv[j]+0x30));
+"110
+[; ;main.c: 110:                 tx((avv[j]+0x30));
 [e ( _tx (1 -> + -> *U + &U _avv * -> _j `ux -> -> # *U &U _avv `ui `ux `i -> 48 `i `uc ]
-"136
-[; ;main.c: 136:                 if (j == 0)
+"111
+[; ;main.c: 111:                 if (j == 0)
 [e $ ! == -> _j `i -> 0 `i 184  ]
-"137
-[; ;main.c: 137:                 {
+"112
+[; ;main.c: 112:                 {
 {
-"138
-[; ;main.c: 138:                     tx('.');
+"113
+[; ;main.c: 113:                     tx('.');
 [e ( _tx (1 -> -> 46 `ui `uc ]
-"139
-[; ;main.c: 139:                 }
+"114
+[; ;main.c: 114:                 }
 }
 [e $U 185  ]
-"140
-[; ;main.c: 140:                 else if (j == 2)
+"115
+[; ;main.c: 115:                 else if (j == 2)
 [e :U 184 ]
 [e $ ! == -> _j `i -> 2 `i 186  ]
-"141
-[; ;main.c: 141:                 {
+"116
+[; ;main.c: 116:                 {
 {
-"142
-[; ;main.c: 142:                     tx(',');
+"117
+[; ;main.c: 117:                     tx(',');
 [e ( _tx (1 -> -> 44 `ui `uc ]
-"143
-[; ;main.c: 143:                 }
+"118
+[; ;main.c: 118:                 }
 }
 [e :U 186 ]
 [e :U 185 ]
-"144
-[; ;main.c: 144:             }
+"119
+[; ;main.c: 119:             }
 }
 [e ++ _j -> -> 1 `i `uc ]
 [e $ < -> _j `i -> 3 `i 181  ]
 [e :U 182 ]
 }
-"146
-[; ;main.c: 146:             _delay((unsigned long)((100)*(20000000/4000.0)));
+"121
+[; ;main.c: 121:             _delay((unsigned long)((100)*(20000000/4000.0)));
 [e ( __delay (1 -> * -> -> 100 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"147
-[; ;main.c: 147:         }
+"122
+[; ;main.c: 122:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 4 `i 178  ]
 [e :U 179 ]
 }
-"149
-[; ;main.c: 149: }
+"124
+[; ;main.c: 124: }
 [e :UE 177 ]
 }
-"151
-[; ;main.c: 151: void print_dht11data()
+"126
+[; ;main.c: 126: void print_dht11data()
 [v _print_dht11data `(v ~T0 @X0 1 ef ]
-"152
-[; ;main.c: 152: {
+"127
+[; ;main.c: 127: {
 {
 [e :U _print_dht11data ]
 [f ]
-"153
-[; ;main.c: 153:         StartSignal();
+"128
+[; ;main.c: 128:         StartSignal();
 [e ( _StartSignal ..  ]
-"154
-[; ;main.c: 154:         CheckResponse();
+"129
+[; ;main.c: 129:         CheckResponse();
 [e ( _CheckResponse ..  ]
-"155
-[; ;main.c: 155:         if(Check == 1)
+"130
+[; ;main.c: 130:         if(Check == 1)
 [e $ ! == -> _Check `i -> 1 `i 188  ]
-"156
-[; ;main.c: 156:         {
+"131
+[; ;main.c: 131:         {
 {
-"157
-[; ;main.c: 157:             RH_byte1 = ReadData();
+"132
+[; ;main.c: 132:             RH_byte1 = ReadData();
 [e = _RH_byte1 -> ( _ReadData ..  `uc ]
-"158
-[; ;main.c: 158:             RH_byte2 = ReadData();
+"133
+[; ;main.c: 133:             RH_byte2 = ReadData();
 [e = _RH_byte2 -> ( _ReadData ..  `uc ]
-"159
-[; ;main.c: 159:             T_byte1 = ReadData();
+"134
+[; ;main.c: 134:             T_byte1 = ReadData();
 [e = _T_byte1 -> ( _ReadData ..  `uc ]
-"160
-[; ;main.c: 160:             T_byte2 = ReadData();
+"135
+[; ;main.c: 135:             T_byte2 = ReadData();
 [e = _T_byte2 -> ( _ReadData ..  `uc ]
-"161
-[; ;main.c: 161:             Sum = ReadData();
+"136
+[; ;main.c: 136:             Sum = ReadData();
 [e = _Sum -> ( _ReadData ..  `ui ]
-"162
-[; ;main.c: 162:             if(Sum == ((RH_byte1+RH_byte2+T_byte1+T_byte2) & 0XFF))
+"137
+[; ;main.c: 137:             if(Sum == ((RH_byte1+RH_byte2+T_byte1+T_byte2) & 0XFF))
 [e $ ! == _Sum -> & + + + -> _RH_byte1 `i -> _RH_byte2 `i -> _T_byte1 `i -> _T_byte2 `i -> 255 `i `ui 189  ]
-"163
-[; ;main.c: 163:             {
+"138
+[; ;main.c: 138:             {
 {
-"164
-[; ;main.c: 164:                 Temp = T_byte1;
+"139
+[; ;main.c: 139:                 Temp = T_byte1;
 [e = _Temp -> _T_byte1 `ui ]
-"165
-[; ;main.c: 165:                 RH = RH_byte1;
+"140
+[; ;main.c: 140:                 RH = RH_byte1;
 [e = _RH -> _RH_byte1 `ui ]
-"166
-[; ;main.c: 166:             }
+"141
+[; ;main.c: 141:             }
 }
 [e :U 189 ]
-"167
-[; ;main.c: 167:         }
+"142
+[; ;main.c: 142:         }
 }
 [e :U 188 ]
-"168
-[; ;main.c: 168:         LCD_Command(0x94);
+"143
+[; ;main.c: 143:         LCD_Command(0x94);
 [e ( _LCD_Command (1 -> -> 148 `i `uc ]
-"169
-[; ;main.c: 169:         show("Temp:");
+"144
+[; ;main.c: 144:         show("Temp:");
 [e ( _show (1 :s 1C ]
-"170
-[; ;main.c: 170:         LCD_Command(0x99);
+"145
+[; ;main.c: 145:         LCD_Command(0x99);
 [e ( _LCD_Command (1 -> -> 153 `i `uc ]
-"171
-[; ;main.c: 171:         show_multidigits (Temp);
+"146
+[; ;main.c: 146:         show_multidigits (Temp);
 [e ( _show_multidigits (1 _Temp ]
-"172
-[; ;main.c: 172:         tx_sn(Temp);
+"147
+[; ;main.c: 147:         tx_sn(Temp);
 [e ( _tx_sn (1 _Temp ]
-"173
-[; ;main.c: 173:         tx(',');
+"148
+[; ;main.c: 148:         tx(',');
 [e ( _tx (1 -> -> 44 `ui `uc ]
-"174
-[; ;main.c: 174:         LCD_Command(0x9D);
+"149
+[; ;main.c: 149:         LCD_Command(0x9D);
 [e ( _LCD_Command (1 -> -> 157 `i `uc ]
-"175
-[; ;main.c: 175:         show("Humi:");
+"150
+[; ;main.c: 150:         show("Humi:");
 [e ( _show (1 :s 2C ]
-"176
-[; ;main.c: 176:         LCD_Command(0xA2);
+"151
+[; ;main.c: 151:         LCD_Command(0xA2);
 [e ( _LCD_Command (1 -> -> 162 `i `uc ]
-"177
-[; ;main.c: 177:         show_multidigits(RH);
+"152
+[; ;main.c: 152:         show_multidigits(RH);
 [e ( _show_multidigits (1 _RH ]
-"178
-[; ;main.c: 178:         tx_sn(RH);
+"153
+[; ;main.c: 153:         tx_sn(RH);
 [e ( _tx_sn (1 _RH ]
-"179
-[; ;main.c: 179:         tx(',');
+"154
+[; ;main.c: 154:         tx(',');
 [e ( _tx (1 -> -> 44 `ui `uc ]
-"180
-[; ;main.c: 180: }
+"155
+[; ;main.c: 155: }
 [e :UE 187 ]
+}
+"157
+[; ;main.c: 157: void rtc_getdata()
+[v _rtc_getdata `(v ~T0 @X0 1 ef ]
+"158
+[; ;main.c: 158: {
+{
+[e :U _rtc_getdata ]
+[f ]
+"159
+[; ;main.c: 159:     sec =rtc_read_byte(0x00);
+[e = _sec ( _rtc_read_byte (1 -> -> 0 `i `uc ]
+"160
+[; ;main.c: 160:     min =rtc_read_byte(0x01);
+[e = _min ( _rtc_read_byte (1 -> -> 1 `i `uc ]
+"161
+[; ;main.c: 161:     hour =rtc_read_byte(0x02);
+[e = _hour ( _rtc_read_byte (1 -> -> 2 `i `uc ]
+"162
+[; ;main.c: 162:     day =rtc_read_byte(0x03);
+[e = _day ( _rtc_read_byte (1 -> -> 3 `i `uc ]
+"163
+[; ;main.c: 163:     date =rtc_read_byte(0x04);
+[e = _date ( _rtc_read_byte (1 -> -> 4 `i `uc ]
+"164
+[; ;main.c: 164:     month=rtc_read_byte(0x05);
+[e = _month ( _rtc_read_byte (1 -> -> 5 `i `uc ]
+"165
+[; ;main.c: 165:     year =rtc_read_byte(0x06);
+[e = _year ( _rtc_read_byte (1 -> -> 6 `i `uc ]
+"166
+[; ;main.c: 166: }
+[e :UE 190 ]
+}
+"167
+[; ;main.c: 167: void rtc_lcd_data()
+[v _rtc_lcd_data `(v ~T0 @X0 1 ef ]
+"168
+[; ;main.c: 168: {
+{
+[e :U _rtc_lcd_data ]
+[f ]
+"169
+[; ;main.c: 169:         LCD_Command(0x80);
+[e ( _LCD_Command (1 -> -> 128 `i `uc ]
+"170
+[; ;main.c: 170:         LCD_Char(convup(hour));
+[e ( _LCD_Char (1 ( _convup (1 _hour ]
+"171
+[; ;main.c: 171:         LCD_Char(convd(hour));
+[e ( _LCD_Char (1 ( _convd (1 _hour ]
+"172
+[; ;main.c: 172:         LCD_Char(':');
+[e ( _LCD_Char (1 -> -> 58 `ui `uc ]
+"173
+[; ;main.c: 173:         LCD_Char(convup(min));
+[e ( _LCD_Char (1 ( _convup (1 _min ]
+"174
+[; ;main.c: 174:         LCD_Char(convd(min));
+[e ( _LCD_Char (1 ( _convd (1 _min ]
+"175
+[; ;main.c: 175:         LCD_Char(':');
+[e ( _LCD_Char (1 -> -> 58 `ui `uc ]
+"176
+[; ;main.c: 176:         LCD_Char(convup(sec));
+[e ( _LCD_Char (1 ( _convup (1 _sec ]
+"177
+[; ;main.c: 177:         LCD_Char(convd(sec));
+[e ( _LCD_Char (1 ( _convd (1 _sec ]
+"179
+[; ;main.c: 179:         LCD_Command(0x89);
+[e ( _LCD_Command (1 -> -> 137 `i `uc ]
+"180
+[; ;main.c: 180:         LCD_Char(convup(date));
+[e ( _LCD_Char (1 ( _convup (1 _date ]
+"181
+[; ;main.c: 181:         LCD_Char(convd(date));
+[e ( _LCD_Char (1 ( _convd (1 _date ]
+"182
+[; ;main.c: 182:         LCD_Char(':');
+[e ( _LCD_Char (1 -> -> 58 `ui `uc ]
+"183
+[; ;main.c: 183:         LCD_Char(convup(month));
+[e ( _LCD_Char (1 ( _convup (1 _month ]
+"184
+[; ;main.c: 184:         LCD_Char(convd(month));
+[e ( _LCD_Char (1 ( _convd (1 _month ]
+"185
+[; ;main.c: 185:         LCD_Char(':');
+[e ( _LCD_Char (1 -> -> 58 `ui `uc ]
+"186
+[; ;main.c: 186:         LCD_Char(convup(year));
+[e ( _LCD_Char (1 ( _convup (1 _year ]
+"187
+[; ;main.c: 187:         LCD_Char(convd(year));
+[e ( _LCD_Char (1 ( _convd (1 _year ]
+"188
+[; ;main.c: 188:         LCD_Char('/');
+[e ( _LCD_Char (1 -> -> 47 `ui `uc ]
+"189
+[; ;main.c: 189:         LCD_Char(convup(day));
+[e ( _LCD_Char (1 ( _convup (1 _day ]
+"190
+[; ;main.c: 190:         LCD_Char(convd(day));
+[e ( _LCD_Char (1 ( _convd (1 _day ]
+"191
+[; ;main.c: 191: }
+[e :UE 191 ]
+}
+"192
+[; ;main.c: 192: void rtc_terminal_data()
+[v _rtc_terminal_data `(v ~T0 @X0 1 ef ]
+"193
+[; ;main.c: 193: {
+{
+[e :U _rtc_terminal_data ]
+[f ]
+"194
+[; ;main.c: 194:         tx(convup(hour));
+[e ( _tx (1 ( _convup (1 _hour ]
+"195
+[; ;main.c: 195:         tx(convd(hour));
+[e ( _tx (1 ( _convd (1 _hour ]
+"196
+[; ;main.c: 196:         tx(':');
+[e ( _tx (1 -> -> 58 `ui `uc ]
+"197
+[; ;main.c: 197:         tx(convup(min));
+[e ( _tx (1 ( _convup (1 _min ]
+"198
+[; ;main.c: 198:         tx(convd(min));
+[e ( _tx (1 ( _convd (1 _min ]
+"199
+[; ;main.c: 199:         tx(':');
+[e ( _tx (1 -> -> 58 `ui `uc ]
+"200
+[; ;main.c: 200:         tx(convup(sec));
+[e ( _tx (1 ( _convup (1 _sec ]
+"201
+[; ;main.c: 201:         tx(convd(sec));
+[e ( _tx (1 ( _convd (1 _sec ]
+"203
+[; ;main.c: 203:         tx(',');
+[e ( _tx (1 -> -> 44 `ui `uc ]
+"205
+[; ;main.c: 205:         tx(convup(date));
+[e ( _tx (1 ( _convup (1 _date ]
+"206
+[; ;main.c: 206:         tx(convd(date));
+[e ( _tx (1 ( _convd (1 _date ]
+"207
+[; ;main.c: 207:         tx(':');
+[e ( _tx (1 -> -> 58 `ui `uc ]
+"208
+[; ;main.c: 208:         tx(convup(month));
+[e ( _tx (1 ( _convup (1 _month ]
+"209
+[; ;main.c: 209:         tx(convd(month));
+[e ( _tx (1 ( _convd (1 _month ]
+"210
+[; ;main.c: 210:         tx(':');
+[e ( _tx (1 -> -> 58 `ui `uc ]
+"211
+[; ;main.c: 211:         tx(convup(year));
+[e ( _tx (1 ( _convup (1 _year ]
+"212
+[; ;main.c: 212:         tx(convd(year));
+[e ( _tx (1 ( _convd (1 _year ]
+"214
+[; ;main.c: 214:         tx(',');
+[e ( _tx (1 -> -> 44 `ui `uc ]
+"215
+[; ;main.c: 215:         tx(convup(day));
+[e ( _tx (1 ( _convup (1 _day ]
+"216
+[; ;main.c: 216:         tx(convd(day));
+[e ( _tx (1 ( _convd (1 _day ]
+"218
+[; ;main.c: 218:         tx(',');
+[e ( _tx (1 -> -> 44 `ui `uc ]
+"219
+[; ;main.c: 219: }
+[e :UE 192 ]
 }
 [a 1C 84 101 109 112 58 0 ]
 [a 2C 72 117 109 105 58 0 ]

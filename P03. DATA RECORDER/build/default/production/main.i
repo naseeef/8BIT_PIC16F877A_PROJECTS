@@ -2250,7 +2250,9 @@ void ADC_Init();
 void print_serialnumber();
 void print_analogvoltages();
 void print_dht11data();
-
+void rtc_getdata();
+void rtc_lcd_data();
+void rtc_terminal_data();
 
 unsigned int AV[4];
 unsigned int sn=1;
@@ -2269,36 +2271,9 @@ void main()
         print_serialnumber();
 
         rtc_int();
-        sec =rtc_read_byte(0x00);
-        min =rtc_read_byte(0x01);
-        hour =rtc_read_byte(0x02);
-        day =rtc_read_byte(0x03);
-        date =rtc_read_byte(0x04);
-        month=rtc_read_byte(0x05);
-        year =rtc_read_byte(0x06);
-
-        LCD_Command(0x80);
-        LCD_Char(convup(hour));
-        LCD_Char(convd(hour));
-        LCD_Char(':');
-        LCD_Char(convup(min));
-        LCD_Char(convd(min));
-        LCD_Char(':');
-        LCD_Char(convup(sec));
-        LCD_Char(convd(sec));
-
-        LCD_Command(0x89);
-        LCD_Char(convup(date));
-        LCD_Char(convd(date));
-        LCD_Char(':');
-        LCD_Char(convup(month));
-        LCD_Char(convd(month));
-        LCD_Char(':');
-        LCD_Char(convup(year));
-        LCD_Char(convd(year));
-        LCD_Char('/');
-        LCD_Char(convup(day));
-        LCD_Char(convd(day));
+        rtc_getdata();
+        rtc_lcd_data();
+        rtc_terminal_data();
 
 
         ADC_Init ();
@@ -2313,7 +2288,7 @@ void main()
 
 
         tx(0x0d);
-        _delay((unsigned long)((1000)*(20000000/4000.0)));
+        _delay((unsigned long)((250)*(20000000/4000.0)));
         sn += 1;
     }
 }
@@ -2399,5 +2374,69 @@ void print_dht11data()
         LCD_Command(0xA2);
         show_multidigits(RH);
         tx_sn(RH);
+        tx(',');
+}
+
+void rtc_getdata()
+{
+    sec =rtc_read_byte(0x00);
+    min =rtc_read_byte(0x01);
+    hour =rtc_read_byte(0x02);
+    day =rtc_read_byte(0x03);
+    date =rtc_read_byte(0x04);
+    month=rtc_read_byte(0x05);
+    year =rtc_read_byte(0x06);
+}
+void rtc_lcd_data()
+{
+        LCD_Command(0x80);
+        LCD_Char(convup(hour));
+        LCD_Char(convd(hour));
+        LCD_Char(':');
+        LCD_Char(convup(min));
+        LCD_Char(convd(min));
+        LCD_Char(':');
+        LCD_Char(convup(sec));
+        LCD_Char(convd(sec));
+
+        LCD_Command(0x89);
+        LCD_Char(convup(date));
+        LCD_Char(convd(date));
+        LCD_Char(':');
+        LCD_Char(convup(month));
+        LCD_Char(convd(month));
+        LCD_Char(':');
+        LCD_Char(convup(year));
+        LCD_Char(convd(year));
+        LCD_Char('/');
+        LCD_Char(convup(day));
+        LCD_Char(convd(day));
+}
+void rtc_terminal_data()
+{
+        tx(convup(hour));
+        tx(convd(hour));
+        tx(':');
+        tx(convup(min));
+        tx(convd(min));
+        tx(':');
+        tx(convup(sec));
+        tx(convd(sec));
+
+        tx(',');
+
+        tx(convup(date));
+        tx(convd(date));
+        tx(':');
+        tx(convup(month));
+        tx(convd(month));
+        tx(':');
+        tx(convup(year));
+        tx(convd(year));
+
+        tx(',');
+        tx(convup(day));
+        tx(convd(day));
+
         tx(',');
 }

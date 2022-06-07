@@ -71,16 +71,22 @@
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"37 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
+"39 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
 [v _main main `(v  1 e 1 0 ]
-"98
+"73
 [v _ADC_Init ADC_Init `(v  1 e 1 0 ]
-"121
+"96
 [v _print_serialnumber print_serialnumber `(v  1 e 1 0 ]
-"127
+"102
 [v _print_analogvoltages print_analogvoltages `(v  1 e 1 0 ]
-"151
+"126
 [v _print_dht11data print_dht11data `(v  1 e 1 0 ]
+"157
+[v _rtc_getdata rtc_getdata `(v  1 e 1 0 ]
+"167
+[v _rtc_lcd_data rtc_lcd_data `(v  1 e 1 0 ]
+"192
+[v _rtc_terminal_data rtc_terminal_data `(v  1 e 1 0 ]
 "3 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/dht11.h
 [v _Check Check `uc  1 e 1 0 ]
 [v _T_byte1 T_byte1 `uc  1 e 1 0 ]
@@ -206,19 +212,57 @@
 [v _TRISC4 TRISC4 `VEb  1 e 0 @1084 ]
 "3042
 [v _TXIF TXIF `VEb  1 e 0 @100 ]
-"32 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
+"34 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
 [v _AV AV `[4]ui  1 e 8 0 ]
-"33
+"35
 [v _sn sn `ui  1 e 2 0 ]
-"37
+"39
 [v _main main `(v  1 e 1 0 ]
 {
-"96
+"71
 } 0
 "7 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/uart.h
 [v _ser_int ser_int `(v  1 e 1 0 ]
 {
 "12
+} 0
+"192 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
+[v _rtc_terminal_data rtc_terminal_data `(v  1 e 1 0 ]
+{
+"219
+} 0
+"167
+[v _rtc_lcd_data rtc_lcd_data `(v  1 e 1 0 ]
+{
+"191
+} 0
+"97 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/ds1307.h
+[v _convup convup `(uc  1 e 1 0 ]
+{
+[v convup@bcd bcd `uc  1 a 1 wreg ]
+[v convup@bcd bcd `uc  1 a 1 wreg ]
+"99
+[v convup@bcd bcd `uc  1 a 1 1 ]
+"100
+} 0
+"101
+[v _convd convd `(uc  1 e 1 0 ]
+{
+[v convd@bcd bcd `uc  1 a 1 wreg ]
+[v convd@bcd bcd `uc  1 a 1 wreg ]
+"103
+[v convd@bcd bcd `uc  1 a 1 0 ]
+"104
+} 0
+"19
+[v _rtc_int rtc_int `(v  1 e 1 0 ]
+{
+"24
+} 0
+"157 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
+[v _rtc_getdata rtc_getdata `(v  1 e 1 0 ]
+{
+"166
 } 0
 "52 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/ds1307.h
 [v _rtc_read_byte rtc_read_byte `(uc  1 e 1 0 ]
@@ -265,20 +309,15 @@
 {
 "29
 } 0
-"19
-[v _rtc_int rtc_int `(v  1 e 1 0 ]
-{
-"24
-} 0
-"121 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
+"96 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
 [v _print_serialnumber print_serialnumber `(v  1 e 1 0 ]
 {
-"125
+"100
 } 0
-"151
+"126
 [v _print_dht11data print_dht11data `(v  1 e 1 0 ]
 {
-"180
+"155
 } 0
 "27 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/uart.h
 [v _tx_sn tx_sn `(v  1 e 1 0 ]
@@ -360,14 +399,14 @@
 {
 "30
 } 0
-"127 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
+"102 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
 [v _print_analogvoltages print_analogvoltages `(v  1 e 1 0 ]
 {
-"133
+"108
 [v print_analogvoltages@j j `uc  1 a 1 34 ]
-"129
+"104
 [v print_analogvoltages@i i `uc  1 a 1 33 ]
-"149
+"124
 } 0
 "14 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/uart.h
 [v _tx tx `(uc  1 e 1 0 ]
@@ -456,25 +495,7 @@
 [v LCD_Char@data data `uc  1 a 1 2 ]
 "40
 } 0
-"97 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/ds1307.h
-[v _convup convup `(uc  1 e 1 0 ]
-{
-[v convup@bcd bcd `uc  1 a 1 wreg ]
-[v convup@bcd bcd `uc  1 a 1 wreg ]
-"99
-[v convup@bcd bcd `uc  1 a 1 1 ]
-"100
-} 0
-"101
-[v _convd convd `(uc  1 e 1 0 ]
-{
-[v convd@bcd bcd `uc  1 a 1 wreg ]
-[v convd@bcd bcd `uc  1 a 1 wreg ]
-"103
-[v convd@bcd bcd `uc  1 a 1 0 ]
-"104
-} 0
-"41 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER/lcd4bit.h
+"41
 [v _LCD_init LCD_init `(v  1 e 1 0 ]
 {
 "57
@@ -488,8 +509,8 @@
 [v LCD_Command@cmnd cmnd `uc  1 a 1 2 ]
 "26
 } 0
-"98 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
+"73 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\main.c
 [v _ADC_Init ADC_Init `(v  1 e 1 0 ]
 {
-"119
+"94
 } 0

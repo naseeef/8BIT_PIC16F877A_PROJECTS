@@ -27,7 +27,9 @@ void ADC_Init();
 void print_serialnumber();
 void print_analogvoltages();
 void print_dht11data();
-
+void rtc_getdata();
+void rtc_lcd_data();
+void rtc_terminal_data();
 
 unsigned int AV[4]; // to store 4 analog channel values (HERE AFTER REFERED AS POT values)
 unsigned int sn=1; // declaration for serial number MAX=255;for more change the datatype
@@ -44,39 +46,12 @@ void main()
 
         /*---------------------SERIAL NUMBER--------------------------*/
         print_serialnumber();
-        /*---------------------RTC--------------------------*/
+        /*---------------------RTC BEGINS--------------------------*/
         rtc_int();
-        sec  =rtc_read_byte(0x00);
-        min  =rtc_read_byte(0x01);
-        hour =rtc_read_byte(0x02);
-        day  =rtc_read_byte(0x03);
-        date =rtc_read_byte(0x04);
-        month=rtc_read_byte(0x05);
-        year =rtc_read_byte(0x06);
-        
-        LCD_Command(0x80);
-        LCD_Char(convup(hour));
-        LCD_Char(convd(hour));
-        LCD_Char(':');
-        LCD_Char(convup(min));
-        LCD_Char(convd(min));
-        LCD_Char(':');
-        LCD_Char(convup(sec));
-        LCD_Char(convd(sec));
-        
-        LCD_Command(0x89);
-        LCD_Char(convup(date));
-        LCD_Char(convd(date));
-        LCD_Char(':');
-        LCD_Char(convup(month));
-        LCD_Char(convd(month));
-        LCD_Char(':');
-        LCD_Char(convup(year));
-        LCD_Char(convd(year));
-        LCD_Char('/');
-        LCD_Char(convup(day));
-        LCD_Char(convd(day));
-        /*---------------------RTC--------------------------*/
+        rtc_getdata();
+        rtc_lcd_data();
+        rtc_terminal_data();
+        /*---------------------RTC COMPLETES--------------------------*/
         /*---------------------POT BEGINS----------------------------*/
         ADC_Init ();       //ADC Initialization
         GO_nDONE=1;
@@ -90,7 +65,7 @@ void main()
         /*---------------------DHT11 COMPLETES----------------------------*/
         
         tx(0x0d); // new after printing a set of values in virtual terminal
-        __delay_ms(1000); // delay for 1 second for RECORDING VALUES IN EVERY ONE SECOND
+        __delay_ms(250); // delay for 1 second for RECORDING VALUES IN EVERY ONE SECOND
         sn += 1; // increment serial number after every set of reading
     }
 }
@@ -177,4 +152,68 @@ void print_dht11data()
         show_multidigits(RH);
         tx_sn(RH);
         tx(',');
+}
+
+void rtc_getdata()
+{
+    sec  =rtc_read_byte(0x00);
+    min  =rtc_read_byte(0x01);
+    hour =rtc_read_byte(0x02);
+    day  =rtc_read_byte(0x03);
+    date =rtc_read_byte(0x04);
+    month=rtc_read_byte(0x05);
+    year =rtc_read_byte(0x06);
+}
+void rtc_lcd_data()
+{
+        LCD_Command(0x80);
+        LCD_Char(convup(hour));
+        LCD_Char(convd(hour));
+        LCD_Char(':');
+        LCD_Char(convup(min));
+        LCD_Char(convd(min));
+        LCD_Char(':');
+        LCD_Char(convup(sec));
+        LCD_Char(convd(sec));
+        
+        LCD_Command(0x89);
+        LCD_Char(convup(date));
+        LCD_Char(convd(date));
+        LCD_Char(':');
+        LCD_Char(convup(month));
+        LCD_Char(convd(month));
+        LCD_Char(':');
+        LCD_Char(convup(year));
+        LCD_Char(convd(year));
+        LCD_Char('/');
+        LCD_Char(convup(day));
+        LCD_Char(convd(day));
+}
+void rtc_terminal_data()
+{
+        tx(convup(hour));
+        tx(convd(hour));
+        tx(':');
+        tx(convup(min));
+        tx(convd(min));
+        tx(':');
+        tx(convup(sec));
+        tx(convd(sec));
+        
+        tx(','); //to separate between time and date
+        
+        tx(convup(date));
+        tx(convd(date));
+        tx(':');
+        tx(convup(month));
+        tx(convd(month));
+        tx(':');
+        tx(convup(year));
+        tx(convd(year));
+        
+        tx(','); //to separate between date and day
+        tx(convup(day));
+        tx(convd(day));  
+        
+        tx(',');  //to separate between day and first analog voltage
 }
