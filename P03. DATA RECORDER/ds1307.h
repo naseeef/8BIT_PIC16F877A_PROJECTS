@@ -1,4 +1,6 @@
-__CONFIG( FOSC_HS & WDTE_OFF & PWRTE_OFF & CP_OFF & BOREN_ON & LVP_OFF & CPD_OFF & WRT_OFF & DEBUG_OFF);
+
+#define _XTAL_FREQ 20000000
+
 unsigned char sec,min,hour,day,date,month,year;
 void rtc_int();
 void rtc_start();
@@ -13,49 +15,7 @@ unsigned char rtc_read_byte(unsigned char addr);
 void waitmssp();
 unsigned char convup(unsigned char bcd);
 unsigned char convd(unsigned char bcd);
-void main()
-{
-    lcd_init();
-    
-    show("Time:");
-    cmd(0xc0);
-    show("Date:");
-    rtc_int();
-    while(1) {
-        sec  =rtc_read_byte(0x00);
-        min  =rtc_read_byte(0x01);
-        hour =rtc_read_byte(0x02);
-        day  =rtc_read_byte(0x03);
-        date =rtc_read_byte(0x04);
-        month=rtc_read_byte(0x05);
-        year =rtc_read_byte(0x06);
-        
-        cmd(0x85);
-        dat(convup(hour));
-        dat(convd(hour));
-        dat(':');
-        dat(convup(min));
-        dat(convd(min));
-        dat(':');
-        dat(convup(sec));
-        dat(convd(sec));
-        
-        cmd(0xc5);
-        dat(convup(date));
-        dat(convd(date));
-        dat(':');
-        dat(convup(month));
-        dat(convd(month));
-        dat(':');
-        dat(convup(year));
-        dat(convd(year));
-        dat('/');
-        dat(convup(day));
-        dat(convd(day));
-            
-    }
-}       
-    
+  
 void rtc_int()
 {
     TRISC3=TRISC4=1;
