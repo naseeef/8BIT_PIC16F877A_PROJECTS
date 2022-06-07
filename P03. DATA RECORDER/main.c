@@ -18,7 +18,8 @@
 #include <xc.h>
 #include "lcd4bit.h"
 #include "uart.h"
-#include "d2h11.h"
+#include "dht11.h"
+#include "ds1307.h"
 
 #define _XTAL_FREQ 20000000
 
@@ -26,6 +27,7 @@ void ADC_Init();
 void print_serialnumber();
 void print_analogvoltages();
 void print_dht11data();
+
 
 unsigned int AV[4]; // to store 4 analog channel values (HERE AFTER REFERED AS POT values)
 unsigned int sn=1; // declaration for serial number MAX=255;for more change the datatype
@@ -39,15 +41,48 @@ void main()
     while (1)
     {
         LCD_Command(0x01); //clear LCD display after first a set of POT values
+
+        /*---------------------SERIAL NUMBER--------------------------*/
+        print_serialnumber();
+        /*---------------------RTC--------------------------*/
+        rtc_int();
+        sec  =rtc_read_byte(0x00);
+        min  =rtc_read_byte(0x01);
+        hour =rtc_read_byte(0x02);
+        day  =rtc_read_byte(0x03);
+        date =rtc_read_byte(0x04);
+        month=rtc_read_byte(0x05);
+        year =rtc_read_byte(0x06);
         
+        LCD_Command(0x80);
+        LCD_Char(convup(hour));
+        LCD_Char(convd(hour));
+        LCD_Char(':');
+        LCD_Char(convup(min));
+        LCD_Char(convd(min));
+        LCD_Char(':');
+        LCD_Char(convup(sec));
+        LCD_Char(convd(sec));
+        
+        LCD_Command(0x89);
+        LCD_Char(convup(date));
+        LCD_Char(convd(date));
+        LCD_Char(':');
+        LCD_Char(convup(month));
+        LCD_Char(convd(month));
+        LCD_Char(':');
+        LCD_Char(convup(year));
+        LCD_Char(convd(year));
+        LCD_Char('/');
+        LCD_Char(convup(day));
+        LCD_Char(convd(day));
+        /*---------------------RTC--------------------------*/
+        /*---------------------POT BEGINS----------------------------*/
         ADC_Init ();       //ADC Initialization
         GO_nDONE=1;
         while(GO_nDONE==1);
         __delay_ms(10);
-        
-        /*---------------------SERIAL NUMBER--------------------------*/
-        print_serialnumber();
-        /*---------------------POT BEGINS----------------------------*/
+        LCD_Command(0xC0);
         print_analogvoltages();
         /*---------------------POT COMPLETES----------------------------*/
         /*---------------------DHT11 BEGINS----------------------------*/
@@ -130,15 +165,15 @@ void print_dht11data()
                 RH = RH_byte1;
             }
         }        
-        LCD_Command(0xC0);
+        LCD_Command(0x94);
         show("Temp:");
-        LCD_Command(0xC5);
+        LCD_Command(0x99);
         show_multidigits (Temp);
         tx_sn(Temp);
         tx(',');
-        LCD_Command(0xC9);
+        LCD_Command(0x9D);
         show("Humi:");
-        LCD_Command(0xCE);
+        LCD_Command(0xA2);
         show_multidigits(RH);
         tx_sn(RH);
         tx(',');

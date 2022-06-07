@@ -2085,7 +2085,7 @@ void tx_sn (unsigned int val)
 }
 # 20 "main.c" 2
 
-# 1 "./d2h11.h" 1
+# 1 "./dht11.h" 1
 
 
 unsigned char Check, T_byte1, T_byte2,
@@ -2136,6 +2136,113 @@ char ReadData()
 }
 # 21 "main.c" 2
 
+# 1 "./ds1307.h" 1
+
+
+
+unsigned char sec,min,hour,day,date,month,year;
+void rtc_int();
+void rtc_start();
+void rtc_stop();
+void rtc_ack();
+void rtc_nak();
+void rtc_res();
+void rtc_send(unsigned char a);
+void rtc_send_byte(unsigned char addr,unsigned char data);
+unsigned char rtc_read();
+unsigned char rtc_read_byte(unsigned char addr);
+void waitmssp();
+unsigned char convup(unsigned char bcd);
+unsigned char convd(unsigned char bcd);
+
+void rtc_int()
+{
+    TRISC3=TRISC4=1;
+    SSPCON=0x28;
+    SSPADD= (((11059200/4)/100)-1);
+}
+void waitmssp()
+{
+    while(!SSPIF);
+    SSPIF=0;
+}
+void rtc_send(unsigned char a)
+{
+    SSPBUF=a;
+    waitmssp();
+    while(ACKSTAT);
+}
+void rtc_send_byte(unsigned char addr,unsigned char data)
+{
+    rtc_start();
+    rtc_send(0xD0);
+
+    rtc_send(addr);
+    rtc_send(data);
+    rtc_stop();
+}
+unsigned char rtc_read()
+{
+    RCEN=1;
+    waitmssp();
+    return SSPBUF;
+}
+
+unsigned char rtc_read_byte(unsigned char addr)
+{
+    unsigned char rec;
+L: rtc_res();
+    SSPBUF=0xD0;
+    waitmssp();
+    while(ACKSTAT){goto L;}
+
+    rtc_send(addr);
+    rtc_res();
+    rtc_send(0xD1);
+    rec=rtc_read();
+    rtc_nak();
+    rtc_stop();
+    return rec;
+}
+
+
+void rtc_start()
+{
+    SEN=1;
+    waitmssp();
+}
+void rtc_stop()
+{
+    PEN=1;
+    waitmssp();
+}
+void rtc_res()
+{
+    RSEN=1;
+    waitmssp();
+}
+void rtc_ack()
+{
+    ACKDT=0;
+    ACKEN=1;
+    waitmssp();
+}
+void rtc_nak()
+{
+    ACKDT=1;
+    ACKEN=1;
+    waitmssp();
+}
+unsigned char convup(unsigned char bcd)
+{
+    return ((bcd>>4)+48);
+}
+unsigned char convd(unsigned char bcd)
+{
+    return ((bcd&0x0F)+48);
+}
+# 22 "main.c" 2
+
 
 
 
@@ -2143,6 +2250,7 @@ void ADC_Init();
 void print_serialnumber();
 void print_analogvoltages();
 void print_dht11data();
+
 
 unsigned int AV[4];
 unsigned int sn=1;
@@ -2157,14 +2265,47 @@ void main()
     {
         LCD_Command(0x01);
 
+
+        print_serialnumber();
+
+        rtc_int();
+        sec =rtc_read_byte(0x00);
+        min =rtc_read_byte(0x01);
+        hour =rtc_read_byte(0x02);
+        day =rtc_read_byte(0x03);
+        date =rtc_read_byte(0x04);
+        month=rtc_read_byte(0x05);
+        year =rtc_read_byte(0x06);
+
+        LCD_Command(0x80);
+        LCD_Char(convup(hour));
+        LCD_Char(convd(hour));
+        LCD_Char(':');
+        LCD_Char(convup(min));
+        LCD_Char(convd(min));
+        LCD_Char(':');
+        LCD_Char(convup(sec));
+        LCD_Char(convd(sec));
+
+        LCD_Command(0x89);
+        LCD_Char(convup(date));
+        LCD_Char(convd(date));
+        LCD_Char(':');
+        LCD_Char(convup(month));
+        LCD_Char(convd(month));
+        LCD_Char(':');
+        LCD_Char(convup(year));
+        LCD_Char(convd(year));
+        LCD_Char('/');
+        LCD_Char(convup(day));
+        LCD_Char(convd(day));
+
+
         ADC_Init ();
         GO_nDONE=1;
         while(GO_nDONE==1);
         _delay((unsigned long)((10)*(20000000/4000.0)));
-
-
-        print_serialnumber();
-
+        LCD_Command(0xC0);
         print_analogvoltages();
 
 
@@ -2247,15 +2388,15 @@ void print_dht11data()
                 RH = RH_byte1;
             }
         }
-        LCD_Command(0xC0);
+        LCD_Command(0x94);
         show("Temp:");
-        LCD_Command(0xC5);
+        LCD_Command(0x99);
         show_multidigits (Temp);
         tx_sn(Temp);
         tx(',');
-        LCD_Command(0xC9);
+        LCD_Command(0x9D);
         show("Humi:");
-        LCD_Command(0xCE);
+        LCD_Command(0xA2);
         show_multidigits(RH);
         tx_sn(RH);
         tx(',');
