@@ -16,7 +16,7 @@
 #pragma config CP = OFF         // Flash Program Memory Code Protection bit (Code protection off)
 
 #include <xc.h>
-#define _XTAL_FREQ 12000000
+#define _XTAL_FREQ 20000000
 
 unsigned char sec,min,hour,day,date,month,year;
 void rtc_int();
@@ -65,7 +65,7 @@ void main()
         LCD_Char(convup(sec));
         LCD_Char(convd(sec));
         
-        LCD_Char(0xc5);
+        LCD_Command(0xC5);
         LCD_Char(convup(date));
         LCD_Char(convd(date));
         LCD_Char(':');

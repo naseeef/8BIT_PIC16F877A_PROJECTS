@@ -392,8 +392,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_ds1307.c: 66:         LCD_Char(convd(sec));
 [e ( _LCD_Char (1 ( _convd (1 _sec ]
 "68
-[; ;main_ds1307.c: 68:         LCD_Char(0xc5);
-[e ( _LCD_Char (1 -> -> 197 `i `uc ]
+[; ;main_ds1307.c: 68:         LCD_Command(0xC5);
+[e ( _LCD_Command (1 -> -> 197 `i `uc ]
 "69
 [; ;main_ds1307.c: 69:         LCD_Char(convup(date));
 [e ( _LCD_Char (1 ( _convup (1 _date ]
@@ -788,14 +788,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_ds1307.c: 176:     RC1 = 1;
 [e = _RC1 -> -> 1 `i `b ]
 "177
-[; ;main_ds1307.c: 177:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 177:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "178
 [; ;main_ds1307.c: 178:     RC1 = 0;
 [e = _RC1 -> -> 0 `i `b ]
 "179
-[; ;main_ds1307.c: 179:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 179:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "180
 [; ;main_ds1307.c: 180:     PORTB = (cmnd<<4);
 [e = _PORTB -> << -> _cmnd `i -> 4 `i `uc ]
@@ -803,14 +803,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_ds1307.c: 181:     RC1 = 1;
 [e = _RC1 -> -> 1 `i `b ]
 "182
-[; ;main_ds1307.c: 182:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 182:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "183
 [; ;main_ds1307.c: 183:     RC1 = 0;
 [e = _RC1 -> -> 0 `i `b ]
 "184
-[; ;main_ds1307.c: 184:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 184:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "185
 [; ;main_ds1307.c: 185: }
 [e :UE 122 ]
@@ -838,14 +838,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_ds1307.c: 190:     RC1 = 1;
 [e = _RC1 -> -> 1 `i `b ]
 "191
-[; ;main_ds1307.c: 191:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 191:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "192
 [; ;main_ds1307.c: 192:     RC1 = 0;
 [e = _RC1 -> -> 0 `i `b ]
 "193
-[; ;main_ds1307.c: 193:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 193:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "194
 [; ;main_ds1307.c: 194:     PORTB = (data<<4);
 [e = _PORTB -> << -> _data `i -> 4 `i `uc ]
@@ -853,14 +853,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_ds1307.c: 195:     RC1 = 1;
 [e = _RC1 -> -> 1 `i `b ]
 "196
-[; ;main_ds1307.c: 196:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 196:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "197
 [; ;main_ds1307.c: 197:     RC1 = 0;
 [e = _RC1 -> -> 0 `i `b ]
 "198
-[; ;main_ds1307.c: 198:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 198:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "199
 [; ;main_ds1307.c: 199: }
 [e :UE 123 ]
@@ -910,8 +910,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_ds1307.c: 214:     LCD_Command (0x01);
 [e ( _LCD_Command (1 -> -> 1 `i `uc ]
 "215
-[; ;main_ds1307.c: 215:     _delay((unsigned long)((10)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_ds1307.c: 215:     _delay((unsigned long)((10)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "216
 [; ;main_ds1307.c: 216: }
 [e :UE 124 ]

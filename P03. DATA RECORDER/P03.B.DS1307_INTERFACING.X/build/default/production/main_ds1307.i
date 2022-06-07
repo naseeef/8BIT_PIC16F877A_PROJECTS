@@ -1922,7 +1922,7 @@ void main()
         LCD_Char(convup(sec));
         LCD_Char(convd(sec));
 
-        LCD_Char(0xc5);
+        LCD_Command(0xC5);
         LCD_Char(convup(date));
         LCD_Char(convd(date));
         LCD_Char(':');
@@ -2031,28 +2031,28 @@ void LCD_Command (unsigned char cmnd)
     RC0 = 0;
     PORTB = cmnd;
     RC1 = 1;
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
     RC1 = 0;
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
     PORTB = (cmnd<<4);
     RC1 = 1;
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
     RC1 = 0;
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
 }
 void LCD_Char (unsigned char data)
 {
     RC0 = 1;
     PORTB = data;
     RC1 = 1;
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
     RC1 = 0;
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
     PORTB = (data<<4);
     RC1 = 1;
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
     RC1 = 0;
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
 }
 void LCD_init (void)
 {
@@ -2069,7 +2069,7 @@ void LCD_init (void)
     LCD_Command (0x0C);
     LCD_Command (0x06);
     LCD_Command (0x01);
-    _delay((unsigned long)((10)*(12000000/4000.0)));
+    _delay((unsigned long)((10)*(20000000/4000.0)));
 }
 void show(unsigned char *s)
 {
