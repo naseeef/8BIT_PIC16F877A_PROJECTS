@@ -51,8 +51,12 @@
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"23 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
+"26 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
 [v _main main `(v  1 e 1 0 ]
+"40
+[v _bmp280_getdata bmp280_getdata `(v  1 e 1 0 ]
+"67
+[v _print_checkdata print_checkdata `(v  1 e 1 0 ]
 "9 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _avv avv `[3]uc  1 e 3 0 ]
 "217 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
@@ -93,6 +97,8 @@
 [v _ACKEN ACKEN `VEb  1 e 0 @1164 ]
 "2385
 [v _ACKSTAT ACKSTAT `VEb  1 e 0 @1166 ]
+"2418
+[v _BF BF `VEb  1 e 0 @1184 ]
 "2637
 [v _PEN PEN `VEb  1 e 0 @1162 ]
 "2709
@@ -111,10 +117,34 @@
 [v _TRISC3 TRISC3 `VEb  1 e 0 @1083 ]
 "2976
 [v _TRISC4 TRISC4 `VEb  1 e 0 @1084 ]
-"23 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
+"17 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
+[v _AA AA `l  1 e 4 0 ]
+[v _AB AB `l  1 e 4 0 ]
+[v _AC AC `l  1 e 4 0 ]
+[v _AD AD `l  1 e 4 0 ]
+[v _AE AE `l  1 e 4 0 ]
+[v _AF AF `l  1 e 4 0 ]
+[v _B0 B0 `l  1 e 4 0 ]
+[v _B1 B1 `l  1 e 4 0 ]
+[v _B2 B2 `l  1 e 4 0 ]
+[v _B3 B3 `l  1 e 4 0 ]
+[v _B5 B5 `l  1 e 4 0 ]
+"18
+[v _B6 B6 `l  1 e 4 0 ]
+[v _B8 B8 `l  1 e 4 0 ]
+[v _B9 B9 `l  1 e 4 0 ]
+[v _BA BA `l  1 e 4 0 ]
+[v _BB BB `l  1 e 4 0 ]
+[v _BC BC `l  1 e 4 0 ]
+[v _BD BD `l  1 e 4 0 ]
+[v _BE BE `l  1 e 4 0 ]
+"19
+[v _B4 B4 `ul  1 e 4 0 ]
+[v _B7 B7 `ul  1 e 4 0 ]
+"26
 [v _main main `(v  1 e 1 0 ]
 {
-"37
+"38
 } 0
 "79 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _show show `(v  1 e 1 0 ]
@@ -124,7 +154,12 @@
 [v show@s s `*.24uc  1 a 1 4 ]
 "84
 } 0
-"27
+"67 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
+[v _print_checkdata print_checkdata `(v  1 e 1 0 ]
+{
+"84
+} 0
+"27 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _LCD_Char LCD_Char `(v  1 e 1 0 ]
 {
 [v LCD_Char@data data `uc  1 a 1 wreg ]
@@ -133,12 +168,25 @@
 [v LCD_Char@data data `uc  1 a 1 2 ]
 "40
 } 0
+"15 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
+[v _i2c_init i2c_init `(v  1 e 1 0 ]
+{
+"20
+} 0
+"40 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
+[v _bmp280_getdata bmp280_getdata `(v  1 e 1 0 ]
+{
+"65
+} 0
 "76 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
 [v _i2c_read_byte i2c_read_byte `(uc  1 e 1 0 ]
 {
 [v i2c_read_byte@addr addr `uc  1 a 1 wreg ]
+"78
+[v i2c_read_byte@rec rec `uc  1 a 1 3 ]
+"76
 [v i2c_read_byte@addr addr `uc  1 a 1 wreg ]
-[v i2c_read_byte@addr addr `uc  1 a 1 1 ]
+[v i2c_read_byte@addr addr `uc  1 a 1 2 ]
 "91
 } 0
 "26
@@ -173,11 +221,6 @@
 [v _waitmssp waitmssp `(v  1 e 1 0 ]
 {
 "52
-} 0
-"15
-[v _i2c_init i2c_init `(v  1 e 1 0 ]
-{
-"20
 } 0
 "41 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _LCD_init LCD_init `(v  1 e 1 0 ]

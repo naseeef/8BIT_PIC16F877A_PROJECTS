@@ -80,6 +80,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./lcd4bit.h: 6: unsigned char intdigits_chardigits(unsigned int a, unsigned int b, unsigned int c);
 [v _intdigits_chardigits `(uc ~T0 @X0 0 ef3`ui`ui`ui ]
 [p mainexit ]
+"14 main_bmp280.c
+[; ;main_bmp280.c: 14: void bmp280_getdata();
+[v _bmp280_getdata `(v ~T0 @X0 0 e? ]
+"15
+[; ;main_bmp280.c: 15: void print_checkdata();
+[v _print_checkdata `(v ~T0 @X0 0 e? ]
+"2418 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
+[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 2418: extern volatile __bit BF __attribute__((address(0x4A0)));
+[v _BF `Vb ~T0 @X0 0 e@1184 ]
 "55 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 55: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -1011,8 +1020,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./lcd4bit.h: 136: }
 [e :UE 129 ]
 }
-"14 main_bmp280.c
-[; ;main_bmp280.c: 14: long AA, AB, AC, AD, AE, AF, B0, B1, B2,B3, B5,
+"17 main_bmp280.c
+[; ;main_bmp280.c: 17: long AA, AB, AC, AD, AE, AF, B0, B1, B2,B3, B5,
 [v _AA `l ~T0 @X0 1 e ]
 [v _AB `l ~T0 @X0 1 e ]
 [v _AC `l ~T0 @X0 1 e ]
@@ -1024,8 +1033,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _B2 `l ~T0 @X0 1 e ]
 [v _B3 `l ~T0 @X0 1 e ]
 [v _B5 `l ~T0 @X0 1 e ]
-"15
-[; ;main_bmp280.c: 15:         B6, B8, B9, BA, BB, BC, BD, BE;
+"18
+[; ;main_bmp280.c: 18:         B6, B8, B9, BA, BB, BC, BD, BE;
 [v _B6 `l ~T0 @X0 1 e ]
 [v _B8 `l ~T0 @X0 1 e ]
 [v _B9 `l ~T0 @X0 1 e ]
@@ -1034,8 +1043,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _BC `l ~T0 @X0 1 e ]
 [v _BD `l ~T0 @X0 1 e ]
 [v _BE `l ~T0 @X0 1 e ]
-"16
-[; ;main_bmp280.c: 16: short AC1, AC2, AC3, MB, MC, MD, oss;
+"19
+[; ;main_bmp280.c: 19: unsigned long B4, B7;
+[v _B4 `ul ~T0 @X0 1 e ]
+[v _B7 `ul ~T0 @X0 1 e ]
+"20
+[; ;main_bmp280.c: 20: short AC1, AC2, AC3, MB, MC, MD, oss;
 [v _AC1 `s ~T0 @X0 1 e ]
 [v _AC2 `s ~T0 @X0 1 e ]
 [v _AC3 `s ~T0 @X0 1 e ]
@@ -1043,57 +1056,186 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _MC `s ~T0 @X0 1 e ]
 [v _MD `s ~T0 @X0 1 e ]
 [v _oss `s ~T0 @X0 1 e ]
-"17
-[; ;main_bmp280.c: 17: unsigned short AC4, AC5, AC6;
+"21
+[; ;main_bmp280.c: 21: unsigned short AC4, AC5, AC6;
 [v _AC4 `us ~T0 @X0 1 e ]
 [v _AC5 `us ~T0 @X0 1 e ]
 [v _AC6 `us ~T0 @X0 1 e ]
-"18
-[; ;main_bmp280.c: 18: unsigned long B4, B7;
-[v _B4 `ul ~T0 @X0 1 e ]
-[v _B7 `ul ~T0 @X0 1 e ]
-"19
-[; ;main_bmp280.c: 19: long UT, UP, X1, X2, T;
+"22
+[; ;main_bmp280.c: 22: long UT, UP, X1, X2, T, P;
 [v _UT `l ~T0 @X0 1 e ]
 [v _UP `l ~T0 @X0 1 e ]
 [v _X1 `l ~T0 @X0 1 e ]
 [v _X2 `l ~T0 @X0 1 e ]
 [v _T `l ~T0 @X0 1 e ]
+[v _P `l ~T0 @X0 1 e ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"23
-[; ;main_bmp280.c: 23: void main()
+"26
+[; ;main_bmp280.c: 26: void main()
 [v _main `(v ~T0 @X0 1 ef ]
-"24
-[; ;main_bmp280.c: 24: {
+"27
+[; ;main_bmp280.c: 27: {
 {
 [e :U _main ]
 [f ]
-"25
-[; ;main_bmp280.c: 25:     LCD_init();
-[e ( _LCD_init ..  ]
-"26
-[; ;main_bmp280.c: 26:     i2c_init();
-[e ( _i2c_init ..  ]
 "28
-[; ;main_bmp280.c: 28:     show("BMP280");
-[e ( _show (1 :s 1C ]
+[; ;main_bmp280.c: 28:     LCD_init();
+[e ( _LCD_init ..  ]
 "29
-[; ;main_bmp280.c: 29:     _delay((unsigned long)((1000)*(20000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
+[; ;main_bmp280.c: 29:     i2c_init();
+[e ( _i2c_init ..  ]
 "31
-[; ;main_bmp280.c: 31:     LCD_Command(0xc0);
-[e ( _LCD_Command (1 -> -> 192 `i `uc ]
+[; ;main_bmp280.c: 31:     show("BMP280");
+[e ( _show (1 :s 1C ]
+"32
+[; ;main_bmp280.c: 32:     _delay((unsigned long)((1000)*(20000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "33
-[; ;main_bmp280.c: 33:     (i2c_read_byte(0x0000));
-[e ( _i2c_read_byte (1 -> -> 0 `i `uc ]
-"36
-[; ;main_bmp280.c: 36:     while(1);
+[; ;main_bmp280.c: 33:     while(1)
 [e :U 139 ]
+"34
+[; ;main_bmp280.c: 34:     {
+{
+"35
+[; ;main_bmp280.c: 35:         bmp280_getdata();
+[e ( _bmp280_getdata ..  ]
+"36
+[; ;main_bmp280.c: 36:         print_checkdata();
+[e ( _print_checkdata ..  ]
+"37
+[; ;main_bmp280.c: 37:     }
+}
 [e :U 138 ]
 [e $U 139  ]
 [e :U 140 ]
-"37
-[; ;main_bmp280.c: 37: }
+"38
+[; ;main_bmp280.c: 38: }
 [e :UE 137 ]
+}
+"40
+[; ;main_bmp280.c: 40: void bmp280_getdata()
+[v _bmp280_getdata `(v ~T0 @X0 1 ef ]
+"41
+[; ;main_bmp280.c: 41: {
+{
+[e :U _bmp280_getdata ]
+[f ]
+"42
+[; ;main_bmp280.c: 42:         AA=(i2c_read_byte(0xAA));
+[e = _AA -> ( _i2c_read_byte (1 -> -> 170 `i `uc `l ]
+"43
+[; ;main_bmp280.c: 43:         AB=(i2c_read_byte(0xAB));
+[e = _AB -> ( _i2c_read_byte (1 -> -> 171 `i `uc `l ]
+"44
+[; ;main_bmp280.c: 44:         AC=(i2c_read_byte(0xAC));
+[e = _AC -> ( _i2c_read_byte (1 -> -> 172 `i `uc `l ]
+"45
+[; ;main_bmp280.c: 45:         AD=(i2c_read_byte(0xAD));
+[e = _AD -> ( _i2c_read_byte (1 -> -> 173 `i `uc `l ]
+"46
+[; ;main_bmp280.c: 46:         AE=(i2c_read_byte(0xAE));
+[e = _AE -> ( _i2c_read_byte (1 -> -> 174 `i `uc `l ]
+"47
+[; ;main_bmp280.c: 47:         AF=(i2c_read_byte(0xAF));
+[e = _AF -> ( _i2c_read_byte (1 -> -> 175 `i `uc `l ]
+"49
+[; ;main_bmp280.c: 49:         B0=(i2c_read_byte(0xB0));
+[e = _B0 -> ( _i2c_read_byte (1 -> -> 176 `i `uc `l ]
+"50
+[; ;main_bmp280.c: 50:         B1=(i2c_read_byte(0xB1));
+[e = _B1 -> ( _i2c_read_byte (1 -> -> 177 `i `uc `l ]
+"51
+[; ;main_bmp280.c: 51:         B2=(i2c_read_byte(0xB2));
+[e = _B2 -> ( _i2c_read_byte (1 -> -> 178 `i `uc `l ]
+"52
+[; ;main_bmp280.c: 52:         B3=(i2c_read_byte(0xB3));
+[e = _B3 -> ( _i2c_read_byte (1 -> -> 179 `i `uc `l ]
+"53
+[; ;main_bmp280.c: 53:         B4=(i2c_read_byte(0xB4));
+[e = _B4 -> ( _i2c_read_byte (1 -> -> 180 `i `uc `ul ]
+"54
+[; ;main_bmp280.c: 54:         B5=(i2c_read_byte(0xB5));
+[e = _B5 -> ( _i2c_read_byte (1 -> -> 181 `i `uc `l ]
+"55
+[; ;main_bmp280.c: 55:         B6=(i2c_read_byte(0xB6));
+[e = _B6 -> ( _i2c_read_byte (1 -> -> 182 `i `uc `l ]
+"56
+[; ;main_bmp280.c: 56:         B7=(i2c_read_byte(0xB7));
+[e = _B7 -> ( _i2c_read_byte (1 -> -> 183 `i `uc `ul ]
+"57
+[; ;main_bmp280.c: 57:         B8=(i2c_read_byte(0xB8));
+[e = _B8 -> ( _i2c_read_byte (1 -> -> 184 `i `uc `l ]
+"58
+[; ;main_bmp280.c: 58:         B9=(i2c_read_byte(0xB9));
+[e = _B9 -> ( _i2c_read_byte (1 -> -> 185 `i `uc `l ]
+"59
+[; ;main_bmp280.c: 59:         BA=(i2c_read_byte(0xBA));
+[e = _BA -> ( _i2c_read_byte (1 -> -> 186 `i `uc `l ]
+"60
+[; ;main_bmp280.c: 60:         BB=(i2c_read_byte(0xBB));
+[e = _BB -> ( _i2c_read_byte (1 -> -> 187 `i `uc `l ]
+"61
+[; ;main_bmp280.c: 61:         BC=(i2c_read_byte(0xBC));
+[e = _BC -> ( _i2c_read_byte (1 -> -> 188 `i `uc `l ]
+"62
+[; ;main_bmp280.c: 62:         BD=(i2c_read_byte(0xBD));
+[e = _BD -> ( _i2c_read_byte (1 -> -> 189 `i `uc `l ]
+"63
+[; ;main_bmp280.c: 63:         BE=(i2c_read_byte(0xBE));
+[e = _BE -> ( _i2c_read_byte (1 -> -> 190 `i `uc `l ]
+"64
+[; ;main_bmp280.c: 64:         BF=(i2c_read_byte(0xBF));
+[e = _BF -> ( _i2c_read_byte (1 -> -> 191 `i `uc `b ]
+"65
+[; ;main_bmp280.c: 65: }
+[e :UE 141 ]
+}
+"67
+[; ;main_bmp280.c: 67: void print_checkdata()
+[v _print_checkdata `(v ~T0 @X0 1 ef ]
+"68
+[; ;main_bmp280.c: 68: {
+{
+[e :U _print_checkdata ]
+[f ]
+"69
+[; ;main_bmp280.c: 69:     LCD_Command(0xC0);
+[e ( _LCD_Command (1 -> -> 192 `i `uc ]
+"71
+[; ;main_bmp280.c: 71:     LCD_Char(AA+0x30);
+[e ( _LCD_Char (1 -> + _AA -> -> 48 `i `l `uc ]
+"72
+[; ;main_bmp280.c: 72:     LCD_Char(AB+0x30);
+[e ( _LCD_Char (1 -> + _AB -> -> 48 `i `l `uc ]
+"73
+[; ;main_bmp280.c: 73:     LCD_Char(AC+0x30);
+[e ( _LCD_Char (1 -> + _AC -> -> 48 `i `l `uc ]
+"74
+[; ;main_bmp280.c: 74:     LCD_Char(AD+0x30);
+[e ( _LCD_Char (1 -> + _AD -> -> 48 `i `l `uc ]
+"75
+[; ;main_bmp280.c: 75:     LCD_Char(AE+0x30);
+[e ( _LCD_Char (1 -> + _AE -> -> 48 `i `l `uc ]
+"76
+[; ;main_bmp280.c: 76:     LCD_Char(AF+0x30);
+[e ( _LCD_Char (1 -> + _AF -> -> 48 `i `l `uc ]
+"78
+[; ;main_bmp280.c: 78:     LCD_Command(0x94);
+[e ( _LCD_Command (1 -> -> 148 `i `uc ]
+"79
+[; ;main_bmp280.c: 79:     LCD_Char(B0+0x30);
+[e ( _LCD_Char (1 -> + _B0 -> -> 48 `i `l `uc ]
+"80
+[; ;main_bmp280.c: 80:     LCD_Char(B1+0x30);
+[e ( _LCD_Char (1 -> + _B1 -> -> 48 `i `l `uc ]
+"81
+[; ;main_bmp280.c: 81:     LCD_Char(B2+0x30);
+[e ( _LCD_Char (1 -> + _B2 -> -> 48 `i `l `uc ]
+"82
+[; ;main_bmp280.c: 82:     LCD_Char(B3+0x30);
+[e ( _LCD_Char (1 -> + _B3 -> -> 48 `i `l `uc ]
+"84
+[; ;main_bmp280.c: 84: }
+[e :UE 142 ]
 }
 [a 1C 66 77 80 50 56 48 0 ]
