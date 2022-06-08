@@ -9,7 +9,7 @@ void i2c_ack();
 void i2c_nak();
 void waitmssp();
 void i2c_send(unsigned char dat);
-void i2c_send_byte(unsigned char addr,unsigned char *count);
+void i2c_send_byte(unsigned char addr,unsigned char count);
 unsigned char i2c_read();
 unsigned char i2c_read_byte(unsigned char addr);
 void i2c_init()
@@ -56,15 +56,12 @@ L1: SSPBUF=dat;
     waitmssp();
     while(ACKSTAT){i2c_restart;goto L1;}
 }
-void i2c_send_byte(unsigned char addr,unsigned char *count)
+void i2c_send_byte(unsigned char addr,unsigned char count)
 {
     i2c_start();
     i2c_send(write_cmd);
-    i2c_send(addr>>8);
     i2c_send(addr);
-    while(*count) {
-        i2c_send(*count++);
-    }
+    i2c_send(count);
     i2c_stop();
 }
 unsigned char i2c_read()
@@ -80,7 +77,6 @@ L:  i2c_restart();
     SSPBUF=write_cmd;
     waitmssp();
     while(ACKSTAT){goto L;}
-    i2c_send(addr>>8);
     i2c_send(addr);
     i2c_restart();
     i2c_send(read_cmd);

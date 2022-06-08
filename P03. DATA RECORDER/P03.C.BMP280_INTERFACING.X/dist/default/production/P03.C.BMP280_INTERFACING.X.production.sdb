@@ -13,6 +13,8 @@
 [v _show show `(v  1 e 1 0 ]
 "86
 [v _intdigits_chardigits intdigits_chardigits `(uc  1 e 1 0 ]
+"93
+[v _show_multidigits show_multidigits `(v  1 e 1 0 ]
 "15 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
 [v _i2c_init i2c_init `(v  1 e 1 0 ]
 "21
@@ -27,12 +29,16 @@
 [v _waitmssp waitmssp `(v  1 e 1 0 ]
 "53
 [v _i2c_send i2c_send `(v  1 e 1 0 ]
-"70
+"59
+[v _i2c_send_byte i2c_send_byte `(v  1 e 1 0 ]
+"67
 [v _i2c_read i2c_read `(uc  1 e 1 0 ]
-"76
+"73
 [v _i2c_read_byte i2c_read_byte `(uc  1 e 1 0 ]
 "5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\aldiv.c
 [v ___aldiv __aldiv `(l  1 e 4 0 ]
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\almod.c
+[v ___almod __almod `(l  1 e 4 0 ]
 "5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awdiv.c
 [v ___awdiv __awdiv `(i  1 e 2 0 ]
 "5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awmod.c
@@ -51,12 +57,8 @@
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"26 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
+"24 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
 [v _main main `(v  1 e 1 0 ]
-"40
-[v _bmp280_getdata bmp280_getdata `(v  1 e 1 0 ]
-"67
-[v _print_checkdata print_checkdata `(v  1 e 1 0 ]
 "9 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _avv avv `[3]uc  1 e 3 0 ]
 "217 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
@@ -97,8 +99,6 @@
 [v _ACKEN ACKEN `VEb  1 e 0 @1164 ]
 "2385
 [v _ACKSTAT ACKSTAT `VEb  1 e 0 @1166 ]
-"2418
-[v _BF BF `VEb  1 e 0 @1184 ]
 "2637
 [v _PEN PEN `VEb  1 e 0 @1162 ]
 "2709
@@ -118,33 +118,102 @@
 "2976
 [v _TRISC4 TRISC4 `VEb  1 e 0 @1084 ]
 "17 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
-[v _AA AA `l  1 e 4 0 ]
-[v _AB AB `l  1 e 4 0 ]
-[v _AC AC `l  1 e 4 0 ]
-[v _AD AD `l  1 e 4 0 ]
-[v _AE AE `l  1 e 4 0 ]
-[v _AF AF `l  1 e 4 0 ]
-[v _B0 B0 `l  1 e 4 0 ]
-[v _B1 B1 `l  1 e 4 0 ]
-[v _B2 B2 `l  1 e 4 0 ]
-[v _B3 B3 `l  1 e 4 0 ]
-[v _B5 B5 `l  1 e 4 0 ]
+[v _aa aa `l  1 e 4 0 ]
+[v _ab ab `l  1 e 4 0 ]
+[v _ac ac `l  1 e 4 0 ]
+[v _ad ad `l  1 e 4 0 ]
+[v _ae ae `l  1 e 4 0 ]
+[v _af af `l  1 e 4 0 ]
+[v _b0 b0 `l  1 e 4 0 ]
+[v _b1 b1 `l  1 e 4 0 ]
+[v _b2 b2 `l  1 e 4 0 ]
+[v _b3 b3 `l  1 e 4 0 ]
+[v _b5 b5 `l  1 e 4 0 ]
+[v _b6 b6 `l  1 e 4 0 ]
+[v _b8 b8 `l  1 e 4 0 ]
+[v _b9 b9 `l  1 e 4 0 ]
+[v _ba ba `l  1 e 4 0 ]
+[v _bb bb `l  1 e 4 0 ]
+[v _bc bc `l  1 e 4 0 ]
+[v _bd bd `l  1 e 4 0 ]
+[v _be be `l  1 e 4 0 ]
+[v _bf bf `l  1 e 4 0 ]
 "18
-[v _B6 B6 `l  1 e 4 0 ]
-[v _B8 B8 `l  1 e 4 0 ]
-[v _B9 B9 `l  1 e 4 0 ]
-[v _BA BA `l  1 e 4 0 ]
-[v _BB BB `l  1 e 4 0 ]
-[v _BC BC `l  1 e 4 0 ]
-[v _BD BD `l  1 e 4 0 ]
-[v _BE BE `l  1 e 4 0 ]
-"19
-[v _B4 B4 `ul  1 e 4 0 ]
-[v _B7 B7 `ul  1 e 4 0 ]
-"26
+[v _b4 b4 `ul  1 e 4 0 ]
+[v _b7 b7 `ul  1 e 4 0 ]
+"21
+[v _up up `l  1 e 4 0 ]
+"24
 [v _main main `(v  1 e 1 0 ]
 {
-"38
+"42
+[v main@ff8 ff8 `l  1 a 4 43 ]
+"41
+[v main@ff7 ff7 `l  1 a 4 39 ]
+"40
+[v main@ff6 ff6 `l  1 a 4 35 ]
+"54
+} 0
+"93 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
+[v _show_multidigits show_multidigits `(v  1 e 1 0 ]
+{
+"95
+[v show_multidigits@remainder remainder `i  1 a 2 20 ]
+[v show_multidigits@result1 result1 `i  1 a 2 18 ]
+[v show_multidigits@digit2 digit2 `i  1 a 2 16 ]
+[v show_multidigits@digit1 digit1 `i  1 a 2 14 ]
+[v show_multidigits@digit3 digit3 `i  1 a 2 12 ]
+[v show_multidigits@result result `i  1 a 2 10 ]
+[v show_multidigits@digit4 digit4 `i  1 a 2 8 ]
+"93
+[v show_multidigits@val val `ui  1 p 2 6 ]
+"136
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwmod@counter counter `uc  1 a 1 5 ]
+"5
+[v ___lwmod@divisor divisor `ui  1 p 2 0 ]
+[v ___lwmod@dividend dividend `ui  1 p 2 2 ]
+"25
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwdiv@quotient quotient `ui  1 a 2 5 ]
+"11
+[v ___lwdiv@counter counter `uc  1 a 1 7 ]
+"5
+[v ___lwdiv@divisor divisor `ui  1 p 2 0 ]
+[v ___lwdiv@dividend dividend `ui  1 p 2 2 ]
+"30
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+{
+"10
+[v ___awmod@sign sign `uc  1 a 1 6 ]
+[v ___awmod@counter counter `uc  1 a 1 5 ]
+"5
+[v ___awmod@divisor divisor `i  1 p 2 0 ]
+[v ___awmod@dividend dividend `i  1 p 2 2 ]
+"34
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+{
+"10
+[v ___awdiv@quotient quotient `i  1 a 2 7 ]
+"11
+[v ___awdiv@sign sign `uc  1 a 1 6 ]
+[v ___awdiv@counter counter `uc  1 a 1 5 ]
+"5
+[v ___awdiv@divisor divisor `i  1 p 2 0 ]
+[v ___awdiv@dividend dividend `i  1 p 2 2 ]
+"41
 } 0
 "79 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _show show `(v  1 e 1 0 ]
@@ -154,12 +223,7 @@
 [v show@s s `*.24uc  1 a 1 4 ]
 "84
 } 0
-"67 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
-[v _print_checkdata print_checkdata `(v  1 e 1 0 ]
-{
-"84
-} 0
-"27 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
+"27
 [v _LCD_Char LCD_Char `(v  1 e 1 0 ]
 {
 [v LCD_Char@data data `uc  1 a 1 wreg ]
@@ -168,26 +232,31 @@
 [v LCD_Char@data data `uc  1 a 1 2 ]
 "40
 } 0
-"15 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
-[v _i2c_init i2c_init `(v  1 e 1 0 ]
+"59 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
+[v _i2c_send_byte i2c_send_byte `(v  1 e 1 0 ]
 {
-"20
+[v i2c_send_byte@addr addr `uc  1 a 1 wreg ]
+[v i2c_send_byte@addr addr `uc  1 a 1 wreg ]
+[v i2c_send_byte@count count `uc  1 p 1 1 ]
+"61
+[v i2c_send_byte@addr addr `uc  1 a 1 2 ]
+"66
 } 0
-"40 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
-[v _bmp280_getdata bmp280_getdata `(v  1 e 1 0 ]
+"21
+[v _i2c_start i2c_start `(v  1 e 1 0 ]
 {
-"65
+"25
 } 0
-"76 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
+"73
 [v _i2c_read_byte i2c_read_byte `(uc  1 e 1 0 ]
 {
 [v i2c_read_byte@addr addr `uc  1 a 1 wreg ]
-"78
+"75
 [v i2c_read_byte@rec rec `uc  1 a 1 3 ]
-"76
+"73
 [v i2c_read_byte@addr addr `uc  1 a 1 wreg ]
 [v i2c_read_byte@addr addr `uc  1 a 1 2 ]
-"91
+"87
 } 0
 "26
 [v _i2c_stop i2c_stop `(v  1 e 1 0 ]
@@ -207,10 +276,10 @@
 {
 "35
 } 0
-"70
+"67
 [v _i2c_read i2c_read `(uc  1 e 1 0 ]
 {
-"75
+"72
 } 0
 "42
 [v _i2c_nak i2c_nak `(v  1 e 1 0 ]
@@ -221,6 +290,35 @@
 [v _waitmssp waitmssp `(v  1 e 1 0 ]
 {
 "52
+} 0
+"15
+[v _i2c_init i2c_init `(v  1 e 1 0 ]
+{
+"20
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\almod.c
+[v ___almod __almod `(l  1 e 4 0 ]
+{
+"10
+[v ___almod@sign sign `uc  1 a 1 10 ]
+[v ___almod@counter counter `uc  1 a 1 9 ]
+"5
+[v ___almod@divisor divisor `l  1 p 4 0 ]
+[v ___almod@dividend dividend `l  1 p 4 4 ]
+"34
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\aldiv.c
+[v ___aldiv __aldiv `(l  1 e 4 0 ]
+{
+"10
+[v ___aldiv@quotient quotient `l  1 a 4 2 ]
+"11
+[v ___aldiv@sign sign `uc  1 a 1 1 ]
+[v ___aldiv@counter counter `uc  1 a 1 0 ]
+"5
+[v ___aldiv@divisor divisor `l  1 p 4 0 ]
+[v ___aldiv@dividend dividend `l  1 p 4 4 ]
+"41
 } 0
 "41 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _LCD_init LCD_init `(v  1 e 1 0 ]

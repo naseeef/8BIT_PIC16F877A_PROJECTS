@@ -1874,7 +1874,7 @@ void i2c_ack();
 void i2c_nak();
 void waitmssp();
 void i2c_send(unsigned char dat);
-void i2c_send_byte(unsigned char addr,unsigned char *count);
+void i2c_send_byte(unsigned char addr,unsigned char count);
 unsigned char i2c_read();
 unsigned char i2c_read_byte(unsigned char addr);
 void i2c_init()
@@ -1921,15 +1921,12 @@ L1: SSPBUF=dat;
     waitmssp();
     while(ACKSTAT){i2c_restart;goto L1;}
 }
-void i2c_send_byte(unsigned char addr,unsigned char *count)
+void i2c_send_byte(unsigned char addr,unsigned char count)
 {
     i2c_start();
     i2c_send(0xEE);
-    i2c_send(addr>>8);
     i2c_send(addr);
-    while(*count) {
-        i2c_send(*count++);
-    }
+    i2c_send(count);
     i2c_stop();
 }
 unsigned char i2c_read()
@@ -1945,7 +1942,6 @@ L: i2c_restart();
     SSPBUF=0xEE;
     waitmssp();
     while(ACKSTAT){goto L;}
-    i2c_send(addr>>8);
     i2c_send(addr);
     i2c_restart();
     i2c_send(0xEF);
@@ -2101,13 +2097,11 @@ void show_multidigits (unsigned int val)
 void bmp280_getdata();
 void print_checkdata();
 
-long AA, AB, AC, AD, AE, AF, B0, B1, B2,B3, B5,
-        B6, B8, B9, BA, BB, BC, BD, BE;
-unsigned long B4, B7;
-short AC1, AC2, AC3, MB, MC, MD, oss;
-unsigned short AC4, AC5, AC6;
-long UT, UP, X1, X2, T, P;
-
+long aa,ab,ac,ad,ae,af,b0,b1,b2,b3,b5,b6,b8,b9,ba,bb,bc,bd,be,bf;
+unsigned long b4,b7;
+short ac1,ac2,ac3,mb,mc,md,oss=3;
+unsigned short ac4,ac5,ac6;
+long ut,up,x1,x2,p,t;
 
 
 void main()
@@ -2116,56 +2110,73 @@ void main()
     i2c_init();
 
     show("BMP280");
-    _delay((unsigned long)((1000)*(20000000/4000.0)));
+    _delay((unsigned long)((1000)*(12000000/4000.0)));
     while(1)
     {
-        bmp280_getdata();
-        print_checkdata();
+
+
+
+
+        i2c_send_byte(0xf4,(0x34+(oss<<6)));
+        _delay((unsigned long)((25)*(12000000/4000.0)));
+
+        long ff6=(i2c_read_byte(0xf6));
+        long ff7=(i2c_read_byte(0xf7));
+        long ff8=(i2c_read_byte(0xf8));
+        up=(((ff6<<16)+(ff7<<8)+ff8)>>(8-oss));
+
+        LCD_Command(0xC0);
+
+
+        show_multidigits((up/100));
+        show_multidigits((up%100));
+
+        _delay((unsigned long)((1000)*(12000000/4000.0)));
+
     }
 }
 
 void bmp280_getdata()
 {
-        AA=(i2c_read_byte(0xAA));
-        AB=(i2c_read_byte(0xAB));
-        AC=(i2c_read_byte(0xAC));
-        AD=(i2c_read_byte(0xAD));
-        AE=(i2c_read_byte(0xAE));
-        AF=(i2c_read_byte(0xAF));
+        aa=(i2c_read_byte(0xAA));
+        ab=(i2c_read_byte(0xAB));
+        ac=(i2c_read_byte(0xAC));
+        ad=(i2c_read_byte(0xAD));
+        ae=(i2c_read_byte(0xAE));
+        af=(i2c_read_byte(0xAF));
 
-        B0=(i2c_read_byte(0xB0));
-        B1=(i2c_read_byte(0xB1));
-        B2=(i2c_read_byte(0xB2));
-        B3=(i2c_read_byte(0xB3));
-        B4=(i2c_read_byte(0xB4));
-        B5=(i2c_read_byte(0xB5));
-        B6=(i2c_read_byte(0xB6));
-        B7=(i2c_read_byte(0xB7));
-        B8=(i2c_read_byte(0xB8));
-        B9=(i2c_read_byte(0xB9));
-        BA=(i2c_read_byte(0xBA));
-        BB=(i2c_read_byte(0xBB));
-        BC=(i2c_read_byte(0xBC));
-        BD=(i2c_read_byte(0xBD));
-        BE=(i2c_read_byte(0xBE));
-        BF=(i2c_read_byte(0xBF));
+        b0=(i2c_read_byte(0xB0));
+        b1=(i2c_read_byte(0xB1));
+        b2=(i2c_read_byte(0xB2));
+        b3=(i2c_read_byte(0xB3));
+        b4=(i2c_read_byte(0xB4));
+        b5=(i2c_read_byte(0xB5));
+        b6=(i2c_read_byte(0xB6));
+        b7=(i2c_read_byte(0xB7));
+        b8=(i2c_read_byte(0xB8));
+        b9=(i2c_read_byte(0xB9));
+        ba=(i2c_read_byte(0xBA));
+        bb=(i2c_read_byte(0xBB));
+        bc=(i2c_read_byte(0xBC));
+        bd=(i2c_read_byte(0xBD));
+        be=(i2c_read_byte(0xBE));
+        bf=(i2c_read_byte(0xBF));
 }
 
 void print_checkdata()
 {
     LCD_Command(0xC0);
-
-    LCD_Char(AA+0x30);
-    LCD_Char(AB+0x30);
-    LCD_Char(AC+0x30);
-    LCD_Char(AD+0x30);
-    LCD_Char(AE+0x30);
-    LCD_Char(AF+0x30);
+    LCD_Char(aa+0x30);
+    LCD_Char(ab+0x30);
+    LCD_Char(ac+0x30);
+    LCD_Char(ad+0x30);
+    LCD_Char(ae+0x30);
+    LCD_Char(af+0x30);
 
     LCD_Command(0x94);
-    LCD_Char(B0+0x30);
-    LCD_Char(B1+0x30);
-    LCD_Char(B2+0x30);
-    LCD_Char(B3+0x30);
+    LCD_Char(b0+0x30);
+    LCD_Char(b1+0x30);
+    LCD_Char(b2+0x30);
+    LCD_Char(b3+0x30);
 
 }
