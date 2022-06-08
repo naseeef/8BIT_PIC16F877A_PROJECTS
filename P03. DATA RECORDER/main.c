@@ -16,10 +16,12 @@
 #pragma config CP = OFF         // Flash Program Memory Code Protection bit (Code protection off)
 
 #include <xc.h>
+#include <math.h>
 #include "lcd4bit.h"
 #include "uart.h"
 #include "dht11.h"
 #include "ds1307.h"
+#include "bmp280.h"
 
 #define _XTAL_FREQ 20000000
 
@@ -27,14 +29,30 @@ void ADC_Init();
 void print_serialnumber();
 void print_analogvoltages();
 void print_dht11data();
+//RTC - DS1307
 void rtc_getdata();
 void rtc_lcd_data();
 void rtc_terminal_data();
+//BMP280
+void bmp280_getdata();
+void uncompensated_pressure();
+void actual_pressure();
+void calculate_altittude();
+void bmp280_displaydata();
+void bmp280_terminaldata();
 
 unsigned int AV[4]; // to store 4 analog channel values (HERE AFTER REFERED AS POT values)
 unsigned int sn=1; // declaration for serial number MAX=255;for more change the datatype
 unsigned char message[3]; // array to store DTH11 output values
 unsigned int humidity, temperature; // DTH11 variables
+
+/*BMP280 Variables*/
+long aa,ab,ac,ad,ae,af,b0,b1,b2,b3,b5,b6,up,x1,x2,x3,p;
+unsigned long b4,b7;
+short ac1,ac2,ac3,oss=3;
+unsigned short ac4;
+unsigned int hpa, altittude;
+/*BMP280 Variable Ends*/
 
 void main() 
 {
@@ -60,9 +78,27 @@ void main()
         LCD_Command(0xC0);
         print_analogvoltages();
         /*---------------------POT COMPLETES----------------------------*/
+
         /*---------------------DHT11 BEGINS----------------------------*/
         print_dht11data();
         /*---------------------DHT11 COMPLETES----------------------------*/
+        
+        /*---------------------BMP280 BEGINS----------------------------*/
+        bmp280_init();  //BMP280 I2C Initialization 
+        bmp280_getdata();  // Reading Registers for data
+        uncompensated_pressure(); // Calculating uncompensated pressure
+        
+        ac1 = (aa<<8) + ab;
+        ac2 = (ac<<8) + ad;
+        ac3 = (ae<<8) + af;
+        ac4 = (b0<<8) + b1;
+        
+        actual_pressure();
+        //calculate_altittude();
+        
+        bmp280_displaydata();
+        bmp280_terminaldata();
+        /*---------------------BMP280 COMPLETES----------------------------*/
         
         tx(0x0d); // new after printing a set of values in virtual terminal
         __delay_ms(250); // delay for 1 second for RECORDING VALUES IN EVERY ONE SECOND
@@ -216,4 +252,77 @@ void rtc_terminal_data()
         tx(convd(day));  
         
         tx(',');  //to separate between day and first analog voltage
+}
+
+void bmp280_getdata()
+{
+        aa=(bmp280_read_byte(0xAA));
+        ab=(bmp280_read_byte(0xAB));
+        ac=(bmp280_read_byte(0xAC));
+        ad=(bmp280_read_byte(0xAD));
+        ae=(bmp280_read_byte(0xAE));
+        af=(bmp280_read_byte(0xAF));
+
+        b0=(bmp280_read_byte(0xB0));
+        b1=(bmp280_read_byte(0xB1));
+        b2=(bmp280_read_byte(0xB2));
+        b5=(bmp280_read_byte(0xB5));
+}
+void uncompensated_pressure()
+{
+        bmp280_send_byte(0xf4,(0x34+(oss<<6)));
+        __delay_ms(25);
+        
+        long ff6=(bmp280_read_byte(0xf6));
+        long ff7=(bmp280_read_byte(0xf7));
+        long ff8=(bmp280_read_byte(0xf8));
+        up=(((ff6<<16)+(ff7<<8)+ff8)>>(8-oss));
+}
+void actual_pressure()
+{
+        b6 = b5 - 4000;
+        x1 = (b2*(b6*b6/4096))/2048;
+        x2 = ac2*b6/2048;
+        x3 = x1+x2;
+        b3 = (((ac1*4+x3)<< oss)+ 2)/ 4; 
+        x1 = ac3* b6 / 8192; 
+        x2 = (b1 * (b6 *b6 / 4096)) / 65536;
+        x3 =((x1+x2)+2)/4;
+        b4 = ac4 * (unsigned long) (x3 + 32768)/ 32768;
+        b7 = ((unsigned long)up - b3) * (50000 >> oss); 
+        if (b7 < 0x80000000) 
+        { 
+            p = (b7* 2)/ b4;
+        } 
+        else 
+        { 
+            p = (b7 / b4)* 2;
+        }
+        x1 =(p/256)*(p/256);
+        x1 = (x1 * 3038)/65536;
+        x2 = (-7357 * p) / 65536;
+        p=p+(x1+x2+3791)/16; // pressure in pascal
+        
+        hpa = p/100; //pressure in hectopascal    
+}
+void calculate_altittude()
+{
+    altittude =  44330 * (1-(pow((hpa/1013.25),(1/5.255))));
+}
+void bmp280_displaydata()
+{
+    LCD_Command(0xD4);
+    show("hPa:");
+    LCD_Command(0xD9);
+    show_multidigits(hpa);
+    
+    LCD_Command(0xDE);
+    show("Alt:");
+    LCD_Command(0xE3);
+    show_multidigits(altittude);
+}
+void bmp280_terminaldata()
+{
+    tx_sn(hpa);
+    tx_sn(altittude); 
 }

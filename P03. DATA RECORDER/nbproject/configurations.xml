@@ -18,6 +18,7 @@
       <itemPath>dht22.h</itemPath>
       <itemPath>ds1307.h</itemPath>
       <itemPath>dht11.h</itemPath>
+      <itemPath>bmp280.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -25,6 +26,9 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="default" type="2">

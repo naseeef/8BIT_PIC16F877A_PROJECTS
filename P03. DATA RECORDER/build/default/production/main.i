@@ -1873,6 +1873,41 @@ extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
 # 18 "main.c" 2
 
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 1 3
+
+
+
+# 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__unsupported.h" 1 3
+# 4 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 2 3
+# 30 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 3
+extern double fabs(double);
+extern double floor(double);
+extern double ceil(double);
+extern double modf(double, double *);
+extern double sqrt(double);
+extern double atof(const char *);
+extern double sin(double) ;
+extern double cos(double) ;
+extern double tan(double) ;
+extern double asin(double) ;
+extern double acos(double) ;
+extern double atan(double);
+extern double atan2(double, double) ;
+extern double log(double);
+extern double log10(double);
+extern double pow(double, double) ;
+extern double exp(double) ;
+extern double sinh(double) ;
+extern double cosh(double) ;
+extern double tanh(double);
+extern double eval_poly(double, const double *, int);
+extern double frexp(double, int *);
+extern double ldexp(double, int);
+extern double fmod(double, double);
+extern double trunc(double);
+extern double round(double);
+# 19 "main.c" 2
+
 # 1 "./lcd4bit.h" 1
 void LCD_init(void);
 void LCD_Command(unsigned char cmnd);
@@ -2010,7 +2045,7 @@ void show_multidigits (unsigned int val)
         LCD_Char(digit1+0x30);
     }
 }
-# 19 "main.c" 2
+# 20 "main.c" 2
 
 # 1 "./uart.h" 1
 void ser_int();
@@ -2083,7 +2118,7 @@ void tx_sn (unsigned int val)
         tx(digit1+0x30);
     }
 }
-# 20 "main.c" 2
+# 21 "main.c" 2
 
 # 1 "./dht11.h" 1
 
@@ -2134,7 +2169,7 @@ char ReadData()
     }
     return i;
 }
-# 21 "main.c" 2
+# 22 "main.c" 2
 
 # 1 "./ds1307.h" 1
 
@@ -2241,7 +2276,97 @@ unsigned char convd(unsigned char bcd)
 {
     return ((bcd&0x0F)+48);
 }
-# 22 "main.c" 2
+# 23 "main.c" 2
+
+# 1 "./bmp280.h" 1
+
+
+
+void bmp280_init();
+void bmp280_start();
+void bmp280_stop();
+void bmp280_restart();
+void bmp280_ack();
+void bmp280_nak();
+void bmp280_waitmssp();
+void bmp280_send(unsigned char dat);
+void bmp280_send_byte(unsigned char addr,unsigned char count);
+unsigned char bmp280_read();
+unsigned char bmp280_read_byte(unsigned char addr);
+void bmp280_init()
+{
+    TRISC3=TRISC4=1;
+    SSPCON=0x28;
+    SSPADD=((11059200/4)/100)-1;
+}
+void bmp280_start()
+{
+    SEN=1;
+    bmp280_waitmssp();
+}
+void bmp280_stop()
+{
+    PEN=1;
+    bmp280_waitmssp();
+}
+void bmp280_restart()
+{
+    RSEN=1;
+    bmp280_waitmssp();
+}
+void bmp280_ack()
+{
+    ACKDT=0;
+    ACKEN=1;
+    bmp280_waitmssp();
+}
+void bmp280_nak()
+{
+    ACKDT=1;
+    ACKEN=1;
+    bmp280_waitmssp();
+}
+void bmp280_waitmssp()
+{
+    while(!SSPIF);
+    SSPIF=0;
+}
+void bmp280_send(unsigned char dat)
+{
+L1: SSPBUF=dat;
+    bmp280_waitmssp();
+    while(ACKSTAT){bmp280_restart;goto L1;}
+}
+void bmp280_send_byte(unsigned char addr,unsigned char count)
+{
+    bmp280_start();
+    bmp280_send(0xEE);
+    bmp280_send(addr);
+    bmp280_send(count);
+    bmp280_stop();
+}
+unsigned char bmp280_read()
+{
+    RCEN=1;
+    bmp280_waitmssp();
+    return SSPBUF;
+}
+unsigned char bmp280_read_byte(unsigned char addr)
+{
+    unsigned char rec;
+L: bmp280_restart();
+    SSPBUF=0xEE;
+    bmp280_waitmssp();
+    while(ACKSTAT){goto L;}
+    bmp280_send(addr);
+    bmp280_restart();
+    bmp280_send(0xEF);
+    rec=bmp280_read();
+    bmp280_nak();
+    bmp280_stop();
+    return rec;
+}
+# 24 "main.c" 2
 
 
 
@@ -2250,14 +2375,30 @@ void ADC_Init();
 void print_serialnumber();
 void print_analogvoltages();
 void print_dht11data();
+
 void rtc_getdata();
 void rtc_lcd_data();
 void rtc_terminal_data();
+
+void bmp280_getdata();
+void uncompensated_pressure();
+void actual_pressure();
+void calculate_altittude();
+void bmp280_displaydata();
+void bmp280_terminaldata();
 
 unsigned int AV[4];
 unsigned int sn=1;
 unsigned char message[3];
 unsigned int humidity, temperature;
+
+
+long aa,ab,ac,ad,ae,af,b0,b1,b2,b3,b5,b6,up,x1,x2,x3,p;
+unsigned long b4,b7;
+short ac1,ac2,ac3,oss=3;
+unsigned short ac4;
+unsigned int hpa, altittude;
+
 
 void main()
 {
@@ -2284,7 +2425,25 @@ void main()
         print_analogvoltages();
 
 
+
         print_dht11data();
+
+
+
+        bmp280_init();
+        bmp280_getdata();
+        uncompensated_pressure();
+
+        ac1 = (aa<<8) + ab;
+        ac2 = (ac<<8) + ad;
+        ac3 = (ae<<8) + af;
+        ac4 = (b0<<8) + b1;
+
+        actual_pressure();
+
+
+        bmp280_displaydata();
+        bmp280_terminaldata();
 
 
         tx(0x0d);
@@ -2439,4 +2598,77 @@ void rtc_terminal_data()
         tx(convd(day));
 
         tx(',');
+}
+
+void bmp280_getdata()
+{
+        aa=(bmp280_read_byte(0xAA));
+        ab=(bmp280_read_byte(0xAB));
+        ac=(bmp280_read_byte(0xAC));
+        ad=(bmp280_read_byte(0xAD));
+        ae=(bmp280_read_byte(0xAE));
+        af=(bmp280_read_byte(0xAF));
+
+        b0=(bmp280_read_byte(0xB0));
+        b1=(bmp280_read_byte(0xB1));
+        b2=(bmp280_read_byte(0xB2));
+        b5=(bmp280_read_byte(0xB5));
+}
+void uncompensated_pressure()
+{
+        bmp280_send_byte(0xf4,(0x34+(oss<<6)));
+        _delay((unsigned long)((25)*(20000000/4000.0)));
+
+        long ff6=(bmp280_read_byte(0xf6));
+        long ff7=(bmp280_read_byte(0xf7));
+        long ff8=(bmp280_read_byte(0xf8));
+        up=(((ff6<<16)+(ff7<<8)+ff8)>>(8-oss));
+}
+void actual_pressure()
+{
+        b6 = b5 - 4000;
+        x1 = (b2*(b6*b6/4096))/2048;
+        x2 = ac2*b6/2048;
+        x3 = x1+x2;
+        b3 = (((ac1*4+x3)<< oss)+ 2)/ 4;
+        x1 = ac3* b6 / 8192;
+        x2 = (b1 * (b6 *b6 / 4096)) / 65536;
+        x3 =((x1+x2)+2)/4;
+        b4 = ac4 * (unsigned long) (x3 + 32768)/ 32768;
+        b7 = ((unsigned long)up - b3) * (50000 >> oss);
+        if (b7 < 0x80000000)
+        {
+            p = (b7* 2)/ b4;
+        }
+        else
+        {
+            p = (b7 / b4)* 2;
+        }
+        x1 =(p/256)*(p/256);
+        x1 = (x1 * 3038)/65536;
+        x2 = (-7357 * p) / 65536;
+        p=p+(x1+x2+3791)/16;
+
+        hpa = p/100;
+}
+void calculate_altittude()
+{
+    altittude = 44330 * (1-(pow((hpa/1013.25),(1/5.255))));
+}
+void bmp280_displaydata()
+{
+    LCD_Command(0xD4);
+    show("hPa:");
+    LCD_Command(0xD9);
+    show_multidigits(hpa);
+
+    LCD_Command(0xDE);
+    show("Alt:");
+    LCD_Command(0xE3);
+    show_multidigits(altittude);
+}
+void bmp280_terminaldata()
+{
+    tx_sn(hpa);
+    tx_sn(altittude);
 }
