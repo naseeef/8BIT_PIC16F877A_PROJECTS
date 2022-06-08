@@ -1068,107 +1068,175 @@ Version 4.0 HI-TECH Software Intermediate Code
 "35
 [; ;main_bmp280.c: 35:         print_checkdata();
 [e ( _print_checkdata ..  ]
+"43
+[; ;main_bmp280.c: 43:         b6 = b5 - 4000;
+[e = _b6 - _b5 -> -> 4000 `i `l ]
 "44
-[; ;main_bmp280.c: 44:     }
+[; ;main_bmp280.c: 44:         x1 = (b2*(b6*b6/4096))/2048;
+[e = _x1 / * _b2 / * _b6 _b6 -> -> 4096 `i `l -> -> 2048 `i `l ]
+"45
+[; ;main_bmp280.c: 45:         x2 = ac2*b6/2048;
+[e = _x2 / * -> _ac2 `l _b6 -> -> 2048 `i `l ]
+"46
+[; ;main_bmp280.c: 46:         x3 = x1+x2;
+[e = _x3 + _x1 _x2 ]
+"47
+[; ;main_bmp280.c: 47:         b3 = (((ac1*4+x3)<< oss)+ 2)/ 4;
+[e = _b3 / + << + -> * -> _ac1 `i -> 4 `i `l _x3 -> _oss `i -> -> 2 `i `l -> -> 4 `i `l ]
+"48
+[; ;main_bmp280.c: 48:         x1 = ac3* b6 / 8192;
+[e = _x1 / * -> _ac3 `l _b6 -> -> 8192 `i `l ]
+"49
+[; ;main_bmp280.c: 49:         x2 = (b1 * (b6 *b6 / 4096)) / 65536;
+[e = _x2 / * _b1 / * _b6 _b6 -> -> 4096 `i `l -> 65536 `l ]
+"50
+[; ;main_bmp280.c: 50:         x3 =((x1+x2)+2)/4;
+[e = _x3 / + + _x1 _x2 -> -> 2 `i `l -> -> 4 `i `l ]
+"51
+[; ;main_bmp280.c: 51:         b4 = ac4 * (unsigned long) (x3 + 32768)/ 32768;
+[e = _b4 / * -> _ac4 `ul -> + _x3 -> 32768 `l `ul -> -> 32768 `l `ul ]
+"52
+[; ;main_bmp280.c: 52:         b7 = ((unsigned long)up - b3) * (50000 >> oss);
+[e = _b7 * - -> _up `ul -> _b3 `ul -> >> -> 50000 `l -> _oss `i `ul ]
+"53
+[; ;main_bmp280.c: 53:         if (b7 < 0x80000000)
+[e $ ! < _b7 -> 2147483648 `ul 138  ]
+"54
+[; ;main_bmp280.c: 54:         {
+{
+"55
+[; ;main_bmp280.c: 55:             p = (b7* 2)/ b4;
+[e = _p -> / * _b7 -> -> -> 2 `i `l `ul _b4 `l ]
+"56
+[; ;main_bmp280.c: 56:         }
+}
+[e $U 139  ]
+"57
+[; ;main_bmp280.c: 57:         else
+[e :U 138 ]
+"58
+[; ;main_bmp280.c: 58:         {
+{
+"59
+[; ;main_bmp280.c: 59:             p = (b7 / b4)* 2;
+[e = _p -> * / _b7 _b4 -> -> -> 2 `i `l `ul `l ]
+"60
+[; ;main_bmp280.c: 60:         }
+}
+[e :U 139 ]
+"61
+[; ;main_bmp280.c: 61:         x1 =(p/256)*(p/265);
+[e = _x1 * / _p -> -> 256 `i `l / _p -> -> 265 `i `l ]
+"62
+[; ;main_bmp280.c: 62:         x1 = (x1 * 3038)/65536;
+[e = _x1 / * _x1 -> -> 3038 `i `l -> 65536 `l ]
+"63
+[; ;main_bmp280.c: 63:         x2 = (-7357 * p) / 25536;
+[e = _x2 / * -> -U -> 7357 `i `l _p -> -> 25536 `i `l ]
+"64
+[; ;main_bmp280.c: 64:         p=p+(x1+x2+3791)/16;
+[e = _p + _p / + + _x1 _x2 -> -> 3791 `i `l -> -> 16 `i `l ]
+"65
+[; ;main_bmp280.c: 65:     }
 }
 [e :U 135 ]
 [e $U 136  ]
 [e :U 137 ]
-"45
-[; ;main_bmp280.c: 45: }
-[e :UE 134 ]
-}
-"47
-[; ;main_bmp280.c: 47: void bmp280_getdata()
-[v _bmp280_getdata `(v ~T0 @X0 1 ef ]
-"48
-[; ;main_bmp280.c: 48: {
-{
-[e :U _bmp280_getdata ]
-[f ]
-"49
-[; ;main_bmp280.c: 49:         aa=(bmp280_read_byte(0xAA));
-[e = _aa -> ( _bmp280_read_byte (1 -> -> 170 `i `uc `l ]
-"50
-[; ;main_bmp280.c: 50:         ab=(bmp280_read_byte(0xAB));
-[e = _ab -> ( _bmp280_read_byte (1 -> -> 171 `i `uc `l ]
-"51
-[; ;main_bmp280.c: 51:         ac=(bmp280_read_byte(0xAC));
-[e = _ac -> ( _bmp280_read_byte (1 -> -> 172 `i `uc `l ]
-"52
-[; ;main_bmp280.c: 52:         ad=(bmp280_read_byte(0xAD));
-[e = _ad -> ( _bmp280_read_byte (1 -> -> 173 `i `uc `l ]
-"53
-[; ;main_bmp280.c: 53:         ae=(bmp280_read_byte(0xAE));
-[e = _ae -> ( _bmp280_read_byte (1 -> -> 174 `i `uc `l ]
-"54
-[; ;main_bmp280.c: 54:         af=(bmp280_read_byte(0xAF));
-[e = _af -> ( _bmp280_read_byte (1 -> -> 175 `i `uc `l ]
-"56
-[; ;main_bmp280.c: 56:         b0=(bmp280_read_byte(0xB0));
-[e = _b0 -> ( _bmp280_read_byte (1 -> -> 176 `i `uc `l ]
-"57
-[; ;main_bmp280.c: 57:         b1=(bmp280_read_byte(0xB1));
-[e = _b1 -> ( _bmp280_read_byte (1 -> -> 177 `i `uc `l ]
-"58
-[; ;main_bmp280.c: 58:         b2=(bmp280_read_byte(0xB2));
-[e = _b2 -> ( _bmp280_read_byte (1 -> -> 178 `i `uc `l ]
-"59
-[; ;main_bmp280.c: 59:         b5=(bmp280_read_byte(0xB5));
-[e = _b5 -> ( _bmp280_read_byte (1 -> -> 181 `i `uc `l ]
-"60
-[; ;main_bmp280.c: 60: }
-[e :UE 138 ]
-}
-"62
-[; ;main_bmp280.c: 62: void print_checkdata()
-[v _print_checkdata `(v ~T0 @X0 1 ef ]
-"63
-[; ;main_bmp280.c: 63: {
-{
-[e :U _print_checkdata ]
-[f ]
-"64
-[; ;main_bmp280.c: 64:     LCD_Command(0xC0);
-[e ( _LCD_Command (1 -> -> 192 `i `uc ]
-"65
-[; ;main_bmp280.c: 65:     LCD_Char(aa+0x30);
-[e ( _LCD_Char (1 -> + _aa -> -> 48 `i `l `uc ]
 "66
 [; ;main_bmp280.c: 66: }
-[e :UE 139 ]
+[e :UE 134 ]
 }
 "68
-[; ;main_bmp280.c: 68: void print_up()
-[v _print_up `(v ~T0 @X0 1 ef ]
+[; ;main_bmp280.c: 68: void bmp280_getdata()
+[v _bmp280_getdata `(v ~T0 @X0 1 ef ]
 "69
 [; ;main_bmp280.c: 69: {
 {
-[e :U _print_up ]
+[e :U _bmp280_getdata ]
 [f ]
 "70
-[; ;main_bmp280.c: 70:         bmp280_send_byte(0xf4,(0x34+(oss<<6)));
-[e ( _bmp280_send_byte (2 , -> -> 244 `i `uc -> + -> 52 `i << -> _oss `i -> 6 `i `uc ]
+[; ;main_bmp280.c: 70:         aa=(bmp280_read_byte(0xAA));
+[e = _aa -> ( _bmp280_read_byte (1 -> -> 170 `i `uc `l ]
 "71
-[; ;main_bmp280.c: 71:         _delay((unsigned long)((25)*(12000000/4000.0)));
-[e ( __delay (1 -> * -> -> 25 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+[; ;main_bmp280.c: 71:         ab=(bmp280_read_byte(0xAB));
+[e = _ab -> ( _bmp280_read_byte (1 -> -> 171 `i `uc `l ]
+"72
+[; ;main_bmp280.c: 72:         ac=(bmp280_read_byte(0xAC));
+[e = _ac -> ( _bmp280_read_byte (1 -> -> 172 `i `uc `l ]
 "73
-[; ;main_bmp280.c: 73:         long ff6=(bmp280_read_byte(0xf6));
+[; ;main_bmp280.c: 73:         ad=(bmp280_read_byte(0xAD));
+[e = _ad -> ( _bmp280_read_byte (1 -> -> 173 `i `uc `l ]
+"74
+[; ;main_bmp280.c: 74:         ae=(bmp280_read_byte(0xAE));
+[e = _ae -> ( _bmp280_read_byte (1 -> -> 174 `i `uc `l ]
+"75
+[; ;main_bmp280.c: 75:         af=(bmp280_read_byte(0xAF));
+[e = _af -> ( _bmp280_read_byte (1 -> -> 175 `i `uc `l ]
+"77
+[; ;main_bmp280.c: 77:         b0=(bmp280_read_byte(0xB0));
+[e = _b0 -> ( _bmp280_read_byte (1 -> -> 176 `i `uc `l ]
+"78
+[; ;main_bmp280.c: 78:         b1=(bmp280_read_byte(0xB1));
+[e = _b1 -> ( _bmp280_read_byte (1 -> -> 177 `i `uc `l ]
+"79
+[; ;main_bmp280.c: 79:         b2=(bmp280_read_byte(0xB2));
+[e = _b2 -> ( _bmp280_read_byte (1 -> -> 178 `i `uc `l ]
+"80
+[; ;main_bmp280.c: 80:         b5=(bmp280_read_byte(0xB5));
+[e = _b5 -> ( _bmp280_read_byte (1 -> -> 181 `i `uc `l ]
+"81
+[; ;main_bmp280.c: 81: }
+[e :UE 140 ]
+}
+"83
+[; ;main_bmp280.c: 83: void print_checkdata()
+[v _print_checkdata `(v ~T0 @X0 1 ef ]
+"84
+[; ;main_bmp280.c: 84: {
+{
+[e :U _print_checkdata ]
+[f ]
+"85
+[; ;main_bmp280.c: 85:     LCD_Command(0xC0);
+[e ( _LCD_Command (1 -> -> 192 `i `uc ]
+"86
+[; ;main_bmp280.c: 86:     LCD_Char(aa+0x30);
+[e ( _LCD_Char (1 -> + _aa -> -> 48 `i `l `uc ]
+"87
+[; ;main_bmp280.c: 87: }
+[e :UE 141 ]
+}
+"89
+[; ;main_bmp280.c: 89: void uncompensated_pressure()
+[v _uncompensated_pressure `(v ~T0 @X0 1 ef ]
+"90
+[; ;main_bmp280.c: 90: {
+{
+[e :U _uncompensated_pressure ]
+[f ]
+"91
+[; ;main_bmp280.c: 91:         bmp280_send_byte(0xf4,(0x34+(oss<<6)));
+[e ( _bmp280_send_byte (2 , -> -> 244 `i `uc -> + -> 52 `i << -> _oss `i -> 6 `i `uc ]
+"92
+[; ;main_bmp280.c: 92:         _delay((unsigned long)((25)*(12000000/4000.0)));
+[e ( __delay (1 -> * -> -> 25 `i `d / -> -> 12000000 `l `d .4000.0 `ul ]
+"94
+[; ;main_bmp280.c: 94:         long ff6=(bmp280_read_byte(0xf6));
 [v _ff6 `l ~T0 @X0 1 a ]
 [e = _ff6 -> ( _bmp280_read_byte (1 -> -> 246 `i `uc `l ]
-"74
-[; ;main_bmp280.c: 74:         long ff7=(bmp280_read_byte(0xf7));
+"95
+[; ;main_bmp280.c: 95:         long ff7=(bmp280_read_byte(0xf7));
 [v _ff7 `l ~T0 @X0 1 a ]
 [e = _ff7 -> ( _bmp280_read_byte (1 -> -> 247 `i `uc `l ]
-"75
-[; ;main_bmp280.c: 75:         long ff8=(bmp280_read_byte(0xf8));
+"96
+[; ;main_bmp280.c: 96:         long ff8=(bmp280_read_byte(0xf8));
 [v _ff8 `l ~T0 @X0 1 a ]
 [e = _ff8 -> ( _bmp280_read_byte (1 -> -> 248 `i `uc `l ]
-"76
-[; ;main_bmp280.c: 76:         up=(((ff6<<16)+(ff7<<8)+ff8)>>(8-oss));
+"97
+[; ;main_bmp280.c: 97:         up=(((ff6<<16)+(ff7<<8)+ff8)>>(8-oss));
 [e = _up >> + + << _ff6 -> 16 `i << _ff7 -> 8 `i _ff8 - -> 8 `i -> _oss `i ]
-"77
-[; ;main_bmp280.c: 77: }
-[e :UE 140 ]
+"98
+[; ;main_bmp280.c: 98: }
+[e :UE 142 ]
 }
 [a 1C 66 77 80 50 56 48 0 ]

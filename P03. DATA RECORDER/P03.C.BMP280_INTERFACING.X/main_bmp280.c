@@ -13,7 +13,7 @@
 
 void bmp280_getdata();
 void print_checkdata();
-void print_up();
+void uncompensated_pressure();
 
 long aa,ab,ac,ad,ae,af,b0,b1,b2,b3,b5,b6;
 unsigned long b4,b7;
@@ -40,7 +40,28 @@ void main()
 //        ac3 = ;
 //        ac4 = ;
         
-
+        b6 = b5 - 4000;
+        x1 = (b2*(b6*b6/4096))/2048;
+        x2 = ac2*b6/2048;
+        x3 = x1+x2;
+        b3 = (((ac1*4+x3)<< oss)+ 2)/ 4; 
+        x1 = ac3* b6 / 8192; 
+        x2 = (b1 * (b6 *b6 / 4096)) / 65536;
+        x3 =((x1+x2)+2)/4;
+        b4 = ac4 * (unsigned long) (x3 + 32768)/ 32768;
+        b7 = ((unsigned long)up - b3) * (50000 >> oss); 
+        if (b7 < 0x80000000) 
+        { 
+            p = (b7* 2)/ b4;
+        } 
+        else 
+        { 
+            p = (b7 / b4)* 2;
+        }
+        x1 =(p/256)*(p/265);
+        x1 = (x1 * 3038)/65536;
+        x2 = (-7357 * p) / 25536;
+        p=p+(x1+x2+3791)/16; 
     }
 }
 
@@ -65,7 +86,7 @@ void print_checkdata()
     LCD_Char(aa+0x30);
 }
 
-void print_up()
+void uncompensated_pressure()
 {
         bmp280_send_byte(0xf4,(0x34+(oss<<6)));
         __delay_ms(25);
