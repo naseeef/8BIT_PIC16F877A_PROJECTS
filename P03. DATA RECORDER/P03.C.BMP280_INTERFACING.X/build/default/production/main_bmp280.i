@@ -1866,45 +1866,45 @@ extern __bank0 __bit __timeout;
 
 
 
-void i2c_init();
-void i2c_start();
-void i2c_stop();
-void i2c_restart();
-void i2c_ack();
-void i2c_nak();
+void bmp280_init();
+void bmp280_start();
+void bmp280_stop();
+void bmp280_restart();
+void bmp280_ack();
+void bmp280_nak();
 void waitmssp();
-void i2c_send(unsigned char dat);
-void i2c_send_byte(unsigned char addr,unsigned char count);
-unsigned char i2c_read();
-unsigned char i2c_read_byte(unsigned char addr);
-void i2c_init()
+void bmp280_send(unsigned char dat);
+void bmp280_send_byte(unsigned char addr,unsigned char count);
+unsigned char bmp280_read();
+unsigned char bmp280_read_byte(unsigned char addr);
+void bmp280_init()
 {
     TRISC3=TRISC4=1;
     SSPCON=0x28;
     SSPADD=((11059200/4)/100)-1;
 }
-void i2c_start()
+void bmp280_start()
 {
     SEN=1;
     waitmssp();
 }
-void i2c_stop()
+void bmp280_stop()
 {
     PEN=1;
     waitmssp();
 }
-void i2c_restart()
+void bmp280_restart()
 {
     RSEN=1;
     waitmssp();
 }
-void i2c_ack()
+void bmp280_ack()
 {
     ACKDT=0;
     ACKEN=1;
     waitmssp();
 }
-void i2c_nak()
+void bmp280_nak()
 {
     ACKDT=1;
     ACKEN=1;
@@ -1915,39 +1915,39 @@ void waitmssp()
     while(!SSPIF);
     SSPIF=0;
 }
-void i2c_send(unsigned char dat)
+void bmp280_send(unsigned char dat)
 {
 L1: SSPBUF=dat;
     waitmssp();
-    while(ACKSTAT){i2c_restart;goto L1;}
+    while(ACKSTAT){bmp280_restart;goto L1;}
 }
-void i2c_send_byte(unsigned char addr,unsigned char count)
+void bmp280_send_byte(unsigned char addr,unsigned char count)
 {
-    i2c_start();
-    i2c_send(0xEE);
-    i2c_send(addr);
-    i2c_send(count);
-    i2c_stop();
+    bmp280_start();
+    bmp280_send(0xEE);
+    bmp280_send(addr);
+    bmp280_send(count);
+    bmp280_stop();
 }
-unsigned char i2c_read()
+unsigned char bmp280_read()
 {
     RCEN=1;
     waitmssp();
     return SSPBUF;
 }
-unsigned char i2c_read_byte(unsigned char addr)
+unsigned char bmp280_read_byte(unsigned char addr)
 {
     unsigned char rec;
-L: i2c_restart();
+L: bmp280_restart();
     SSPBUF=0xEE;
     waitmssp();
     while(ACKSTAT){goto L;}
-    i2c_send(addr);
-    i2c_restart();
-    i2c_send(0xEF);
-    rec=i2c_read();
-    i2c_nak();
-    i2c_stop();
+    bmp280_send(addr);
+    bmp280_restart();
+    bmp280_send(0xEF);
+    rec=bmp280_read();
+    bmp280_nak();
+    bmp280_stop();
     return rec;
 }
 # 9 "main_bmp280.c" 2
@@ -2096,87 +2096,58 @@ void show_multidigits (unsigned int val)
 
 void bmp280_getdata();
 void print_checkdata();
+void print_up();
 
-long aa,ab,ac,ad,ae,af,b0,b1,b2,b3,b5,b6,b8,b9,ba,bb,bc,bd,be,bf;
+long aa,ab,ac,ad,ae,af,b0,b1,b2,b3,b5,b6;
 unsigned long b4,b7;
-short ac1,ac2,ac3,mb,mc,md,oss=3;
-unsigned short ac4,ac5,ac6;
-long ut,up,x1,x2,p,t;
+short ac1,ac2,ac3,oss=3;
+unsigned short ac4;
+long up,x1,x2,x3,p;
 
 
 void main()
 {
     LCD_init();
-    i2c_init();
+    bmp280_init();
 
     show("BMP280");
     _delay((unsigned long)((1000)*(12000000/4000.0)));
     while(1)
     {
-
-
-
-
-        i2c_send_byte(0xf4,(0x34+(oss<<6)));
-        _delay((unsigned long)((25)*(12000000/4000.0)));
-
-        long ff6=(i2c_read_byte(0xf6));
-        long ff7=(i2c_read_byte(0xf7));
-        long ff8=(i2c_read_byte(0xf8));
-        up=(((ff6<<16)+(ff7<<8)+ff8)>>(8-oss));
-
-        LCD_Command(0xC0);
-
-
-        show_multidigits((up/100));
-        show_multidigits((up%100));
-
-        _delay((unsigned long)((1000)*(12000000/4000.0)));
-
+        bmp280_getdata();
+        print_checkdata();
+# 44 "main_bmp280.c"
     }
 }
 
 void bmp280_getdata()
 {
-        aa=(i2c_read_byte(0xAA));
-        ab=(i2c_read_byte(0xAB));
-        ac=(i2c_read_byte(0xAC));
-        ad=(i2c_read_byte(0xAD));
-        ae=(i2c_read_byte(0xAE));
-        af=(i2c_read_byte(0xAF));
+        aa=(bmp280_read_byte(0xAA));
+        ab=(bmp280_read_byte(0xAB));
+        ac=(bmp280_read_byte(0xAC));
+        ad=(bmp280_read_byte(0xAD));
+        ae=(bmp280_read_byte(0xAE));
+        af=(bmp280_read_byte(0xAF));
 
-        b0=(i2c_read_byte(0xB0));
-        b1=(i2c_read_byte(0xB1));
-        b2=(i2c_read_byte(0xB2));
-        b3=(i2c_read_byte(0xB3));
-        b4=(i2c_read_byte(0xB4));
-        b5=(i2c_read_byte(0xB5));
-        b6=(i2c_read_byte(0xB6));
-        b7=(i2c_read_byte(0xB7));
-        b8=(i2c_read_byte(0xB8));
-        b9=(i2c_read_byte(0xB9));
-        ba=(i2c_read_byte(0xBA));
-        bb=(i2c_read_byte(0xBB));
-        bc=(i2c_read_byte(0xBC));
-        bd=(i2c_read_byte(0xBD));
-        be=(i2c_read_byte(0xBE));
-        bf=(i2c_read_byte(0xBF));
+        b0=(bmp280_read_byte(0xB0));
+        b1=(bmp280_read_byte(0xB1));
+        b2=(bmp280_read_byte(0xB2));
+        b5=(bmp280_read_byte(0xB5));
 }
 
 void print_checkdata()
 {
     LCD_Command(0xC0);
     LCD_Char(aa+0x30);
-    LCD_Char(ab+0x30);
-    LCD_Char(ac+0x30);
-    LCD_Char(ad+0x30);
-    LCD_Char(ae+0x30);
-    LCD_Char(af+0x30);
+}
 
-    LCD_Command(0x94);
-    LCD_Char(b0+0x30);
-    LCD_Char(b1+0x30);
-    LCD_Char(b2+0x30);
-    LCD_Char(b3+0x30);
+void print_up()
+{
+        bmp280_send_byte(0xf4,(0x34+(oss<<6)));
+        _delay((unsigned long)((25)*(12000000/4000.0)));
 
+        long ff6=(bmp280_read_byte(0xf6));
+        long ff7=(bmp280_read_byte(0xf7));
+        long ff8=(bmp280_read_byte(0xf8));
+        up=(((ff6<<16)+(ff7<<8)+ff8)>>(8-oss));
 }
