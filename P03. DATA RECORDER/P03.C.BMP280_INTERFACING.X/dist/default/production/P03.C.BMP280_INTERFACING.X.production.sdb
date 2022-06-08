@@ -13,6 +13,8 @@
 [v _show show `(v  1 e 1 0 ]
 "86
 [v _intdigits_chardigits intdigits_chardigits `(uc  1 e 1 0 ]
+"93
+[v _show_multidigits show_multidigits `(v  1 e 1 0 ]
 "15 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
 [v _bmp280_init bmp280_init `(v  1 e 1 0 ]
 "21
@@ -57,10 +59,10 @@
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
 "25 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
 [v _main main `(v  1 e 1 0 ]
-"68
+"72
 [v _bmp280_getdata bmp280_getdata `(v  1 e 1 0 ]
-"83
-[v _print_checkdata print_checkdata `(v  1 e 1 0 ]
+"87
+[v _uncompensated_pressure uncompensated_pressure `(v  1 e 1 0 ]
 "9 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _avv avv `[3]uc  1 e 3 0 ]
 "217 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
@@ -136,7 +138,12 @@
 [v _b4 b4 `ul  1 e 4 0 ]
 [v _b7 b7 `ul  1 e 4 0 ]
 "20
+[v _ac1 ac1 `s  1 e 2 0 ]
+[v _ac2 ac2 `s  1 e 2 0 ]
+[v _ac3 ac3 `s  1 e 2 0 ]
 [v _oss oss `s  1 e 2 0 ]
+"21
+[v _ac4 ac4 `us  1 e 2 0 ]
 "22
 [v _up up `l  1 e 4 0 ]
 [v _x1 x1 `l  1 e 4 0 ]
@@ -146,7 +153,96 @@
 "25
 [v _main main `(v  1 e 1 0 ]
 {
+"64
+[v main@hpa hpa `ui  1 a 2 39 ]
+"70
+} 0
+"87
+[v _uncompensated_pressure uncompensated_pressure `(v  1 e 1 0 ]
+{
+"94
+[v uncompensated_pressure@ff8 ff8 `l  1 a 4 21 ]
+"93
+[v uncompensated_pressure@ff7 ff7 `l  1 a 4 17 ]
+"92
+[v uncompensated_pressure@ff6 ff6 `l  1 a 4 13 ]
+"96
+} 0
+"59 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
+[v _bmp280_send_byte bmp280_send_byte `(v  1 e 1 0 ]
+{
+[v bmp280_send_byte@addr addr `uc  1 a 1 wreg ]
+[v bmp280_send_byte@addr addr `uc  1 a 1 wreg ]
+[v bmp280_send_byte@count count `uc  1 p 1 1 ]
+"61
+[v bmp280_send_byte@addr addr `uc  1 a 1 2 ]
 "66
+} 0
+"21
+[v _bmp280_start bmp280_start `(v  1 e 1 0 ]
+{
+"25
+} 0
+"93 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
+[v _show_multidigits show_multidigits `(v  1 e 1 0 ]
+{
+"95
+[v show_multidigits@remainder remainder `i  1 a 2 12 ]
+[v show_multidigits@result1 result1 `i  1 a 2 10 ]
+[v show_multidigits@digit2 digit2 `i  1 a 2 8 ]
+[v show_multidigits@digit1 digit1 `i  1 a 2 6 ]
+[v show_multidigits@digit3 digit3 `i  1 a 2 4 ]
+[v show_multidigits@result result `i  1 a 2 2 ]
+[v show_multidigits@digit4 digit4 `i  1 a 2 0 ]
+"93
+[v show_multidigits@val val `ui  1 p 2 9 ]
+"136
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwmod@counter counter `uc  1 a 1 5 ]
+"5
+[v ___lwmod@divisor divisor `ui  1 p 2 0 ]
+[v ___lwmod@dividend dividend `ui  1 p 2 2 ]
+"25
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwdiv@quotient quotient `ui  1 a 2 5 ]
+"11
+[v ___lwdiv@counter counter `uc  1 a 1 7 ]
+"5
+[v ___lwdiv@divisor divisor `ui  1 p 2 0 ]
+[v ___lwdiv@dividend dividend `ui  1 p 2 2 ]
+"30
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+{
+"10
+[v ___awmod@sign sign `uc  1 a 1 6 ]
+[v ___awmod@counter counter `uc  1 a 1 5 ]
+"5
+[v ___awmod@divisor divisor `i  1 p 2 0 ]
+[v ___awmod@dividend dividend `i  1 p 2 2 ]
+"34
+} 0
+"5 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c90\common\awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+{
+"10
+[v ___awdiv@quotient quotient `i  1 a 2 7 ]
+"11
+[v ___awdiv@sign sign `uc  1 a 1 6 ]
+[v ___awdiv@counter counter `uc  1 a 1 5 ]
+"5
+[v ___awdiv@divisor divisor `i  1 p 2 0 ]
+[v ___awdiv@dividend dividend `i  1 p 2 2 ]
+"41
 } 0
 "79 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
 [v _show show `(v  1 e 1 0 ]
@@ -156,12 +252,7 @@
 [v show@s s `*.24uc  1 a 1 4 ]
 "84
 } 0
-"83 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
-[v _print_checkdata print_checkdata `(v  1 e 1 0 ]
-{
-"87
-} 0
-"27 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/lcd4bit.h
+"27
 [v _LCD_Char LCD_Char `(v  1 e 1 0 ]
 {
 [v LCD_Char@data data `uc  1 a 1 wreg ]
@@ -175,10 +266,10 @@
 {
 "20
 } 0
-"68 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
+"72 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X\main_bmp280.c
 [v _bmp280_getdata bmp280_getdata `(v  1 e 1 0 ]
 {
-"81
+"85
 } 0
 "73 C:\Users\Naseef\Documents\GitHub\8BIT_PIC16F877A_PROJECTS\P03. DATA RECORDER\P03.C.BMP280_INTERFACING.X/p03a_bmp280.h
 [v _bmp280_read_byte bmp280_read_byte `(uc  1 e 1 0 ]

@@ -32,13 +32,12 @@ void main()
     while(1)
     {
         bmp280_getdata();
-        print_checkdata();
+        uncompensated_pressure();
         
-        //Configure later
-//        ac1 = ;
-//        ac2 = ;
-//        ac3 = ;
-//        ac4 = ;
+        ac1 = aa + ab;
+        ac2 = ac + ad;
+        ac3 = ae + af;
+        ac4 = b0 + b1;
         
         b6 = b5 - 4000;
         x1 = (b2*(b6*b6/4096))/2048;
@@ -58,10 +57,15 @@ void main()
         { 
             p = (b7 / b4)* 2;
         }
-        x1 =(p/256)*(p/265);
+        x1 =(p/256)*(p/256);
         x1 = (x1 * 3038)/65536;
-        x2 = (-7357 * p) / 25536;
-        p=p+(x1+x2+3791)/16; 
+        x2 = (-7357 * p) / 65536;
+        p=p+(x1+x2+3791)/16; // pressure in pascal
+        unsigned int hpa = p/1000; //pressure in hectopascal
+        
+         LCD_Command(0xC0);
+         show_multidigits(hpa);
+        
     }
 }
 
@@ -78,12 +82,6 @@ void bmp280_getdata()
         b1=(bmp280_read_byte(0xB1));
         b2=(bmp280_read_byte(0xB2));
         b5=(bmp280_read_byte(0xB5));
-}
-
-void print_checkdata()
-{
-    LCD_Command(0xC0);
-    LCD_Char(aa+0x30);
 }
 
 void uncompensated_pressure()
