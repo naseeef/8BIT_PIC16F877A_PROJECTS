@@ -37,7 +37,7 @@ void rtc_terminal_data();
 void bmp280_getdata();
 void uncompensated_pressure();
 void actual_pressure();
-void calculate_altittude();
+void calculate_altitude();
 void bmp280_displaydata();
 void bmp280_terminaldata();
 
@@ -51,7 +51,7 @@ long aa,ab,ac,ad,ae,af,b0,b1,b2,b3,b5,b6,up,x1,x2,x3,p;
 unsigned long b4,b7;
 short ac1,ac2,ac3,oss=3;
 unsigned short ac4;
-unsigned int hpa, altittude;
+unsigned int hpa, altitude;
 /*BMP280 Variable Ends*/
 
 void main() 
@@ -94,7 +94,7 @@ void main()
         ac4 = (b0<<8) + b1;
         
         actual_pressure();
-        //calculate_altittude();
+        //calculate_altitude();
         
         bmp280_displaydata();
         bmp280_terminaldata();
@@ -203,16 +203,6 @@ void rtc_getdata()
 void rtc_lcd_data()
 {
         LCD_Command(0x80);
-        LCD_Char(convup(hour));
-        LCD_Char(convd(hour));
-        LCD_Char(':');
-        LCD_Char(convup(min));
-        LCD_Char(convd(min));
-        LCD_Char(':');
-        LCD_Char(convup(sec));
-        LCD_Char(convd(sec));
-        
-        LCD_Command(0x89);
         LCD_Char(convup(date));
         LCD_Char(convd(date));
         LCD_Char(':');
@@ -224,20 +214,19 @@ void rtc_lcd_data()
         LCD_Char('/');
         LCD_Char(convup(day));
         LCD_Char(convd(day));
+        
+        LCD_Command(0x8C);
+        LCD_Char(convup(hour));
+        LCD_Char(convd(hour));
+        LCD_Char(':');
+        LCD_Char(convup(min));
+        LCD_Char(convd(min));
+        LCD_Char(':');
+        LCD_Char(convup(sec));
+        LCD_Char(convd(sec));
 }
 void rtc_terminal_data()
 {
-        tx(convup(hour));
-        tx(convd(hour));
-        tx(':');
-        tx(convup(min));
-        tx(convd(min));
-        tx(':');
-        tx(convup(sec));
-        tx(convd(sec));
-        
-        tx(','); //to separate between time and date
-        
         tx(convup(date));
         tx(convd(date));
         tx(':');
@@ -246,11 +235,18 @@ void rtc_terminal_data()
         tx(':');
         tx(convup(year));
         tx(convd(year));
-        
         tx(','); //to separate between date and day
         tx(convup(day));
-        tx(convd(day));  
-        
+        tx(convd(day));
+        tx(','); //to separate between day and time        
+        tx(convup(hour));
+        tx(convd(hour));
+        tx(':');
+        tx(convup(min));
+        tx(convd(min));
+        tx(':');
+        tx(convup(sec));
+        tx(convd(sec));
         tx(',');  //to separate between day and first analog voltage
 }
 
@@ -305,9 +301,12 @@ void actual_pressure()
         
         hpa = p/100; //pressure in hectopascal    
 }
-void calculate_altittude()
+void calculate_altitude()
 {
-    altittude =  44330 * (1-(pow((hpa/1013.25),(1/5.255))));
+    double za = 1/5.255;
+    double zb = hpa/1013.25;
+    double zc = pow(zb,za);
+    altitude =  44330 * (1-zc);
 }
 void bmp280_displaydata()
 {
@@ -319,10 +318,11 @@ void bmp280_displaydata()
     LCD_Command(0xDE);
     show("Alt:");
     LCD_Command(0xE3);
-    show_multidigits(altittude);
+    show_multidigits(altitude);
 }
 void bmp280_terminaldata()
 {
     tx_sn(hpa);
-    tx_sn(altittude); 
+    tx(',');
+    tx_sn(altitude); 
 }
