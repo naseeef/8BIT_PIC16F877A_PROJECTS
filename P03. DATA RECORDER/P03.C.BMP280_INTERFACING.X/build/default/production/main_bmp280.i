@@ -1862,99 +1862,130 @@ extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
 # 8 "main_bmp280.c" 2
 
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 1 3
+
+
+
+# 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__unsupported.h" 1 3
+# 4 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 2 3
+# 30 "C:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\c90\\math.h" 3
+extern double fabs(double);
+extern double floor(double);
+extern double ceil(double);
+extern double modf(double, double *);
+extern double sqrt(double);
+extern double atof(const char *);
+extern double sin(double) ;
+extern double cos(double) ;
+extern double tan(double) ;
+extern double asin(double) ;
+extern double acos(double) ;
+extern double atan(double);
+extern double atan2(double, double) ;
+extern double log(double);
+extern double log10(double);
+extern double pow(double, double) ;
+extern double exp(double) ;
+extern double sinh(double) ;
+extern double cosh(double) ;
+extern double tanh(double);
+extern double eval_poly(double, const double *, int);
+extern double frexp(double, int *);
+extern double ldexp(double, int);
+extern double fmod(double, double);
+extern double trunc(double);
+extern double round(double);
+# 9 "main_bmp280.c" 2
+
 # 1 "./p03a_bmp280.h" 1
 
 
 
-void i2c_init();
-void i2c_start();
-void i2c_stop();
-void i2c_restart();
-void i2c_ack();
-void i2c_nak();
-void waitmssp();
-void i2c_send(unsigned char dat);
-void i2c_send_byte(unsigned char addr,unsigned char *count);
-unsigned char i2c_read();
-unsigned char i2c_read_byte(unsigned char addr);
-void i2c_init()
+void bmp280_init();
+void bmp280_start();
+void bmp280_stop();
+void bmp280_restart();
+void bmp280_ack();
+void bmp280_nak();
+void bmp280_waitmssp();
+void bmp280_send(unsigned char dat);
+void bmp280_send_byte(unsigned char addr,unsigned char count);
+unsigned char bmp280_read();
+unsigned char bmp280_read_byte(unsigned char addr);
+void bmp280_init()
 {
     TRISC3=TRISC4=1;
     SSPCON=0x28;
     SSPADD=((11059200/4)/100)-1;
 }
-void i2c_start()
+void bmp280_start()
 {
     SEN=1;
-    waitmssp();
+    bmp280_waitmssp();
 }
-void i2c_stop()
+void bmp280_stop()
 {
     PEN=1;
-    waitmssp();
+    bmp280_waitmssp();
 }
-void i2c_restart()
+void bmp280_restart()
 {
     RSEN=1;
-    waitmssp();
+    bmp280_waitmssp();
 }
-void i2c_ack()
+void bmp280_ack()
 {
     ACKDT=0;
     ACKEN=1;
-    waitmssp();
+    bmp280_waitmssp();
 }
-void i2c_nak()
+void bmp280_nak()
 {
     ACKDT=1;
     ACKEN=1;
-    waitmssp();
+    bmp280_waitmssp();
 }
-void waitmssp()
+void bmp280_waitmssp()
 {
     while(!SSPIF);
     SSPIF=0;
 }
-void i2c_send(unsigned char dat)
+void bmp280_send(unsigned char dat)
 {
 L1: SSPBUF=dat;
-    waitmssp();
-    while(ACKSTAT){i2c_restart;goto L1;}
+    bmp280_waitmssp();
+    while(ACKSTAT){bmp280_restart;goto L1;}
 }
-void i2c_send_byte(unsigned char addr,unsigned char *count)
+void bmp280_send_byte(unsigned char addr,unsigned char count)
 {
-    i2c_start();
-    i2c_send(0xEE);
-    i2c_send(addr>>8);
-    i2c_send(addr);
-    while(*count) {
-        i2c_send(*count++);
-    }
-    i2c_stop();
+    bmp280_start();
+    bmp280_send(0xEE);
+    bmp280_send(addr);
+    bmp280_send(count);
+    bmp280_stop();
 }
-unsigned char i2c_read()
+unsigned char bmp280_read()
 {
     RCEN=1;
-    waitmssp();
+    bmp280_waitmssp();
     return SSPBUF;
 }
-unsigned char i2c_read_byte(unsigned char addr)
+unsigned char bmp280_read_byte(unsigned char addr)
 {
     unsigned char rec;
-L: i2c_restart();
+L: bmp280_restart();
     SSPBUF=0xEE;
-    waitmssp();
+    bmp280_waitmssp();
     while(ACKSTAT){goto L;}
-    i2c_send(addr>>8);
-    i2c_send(addr);
-    i2c_restart();
-    i2c_send(0xEF);
-    rec=i2c_read();
-    i2c_nak();
-    i2c_stop();
+    bmp280_send(addr);
+    bmp280_restart();
+    bmp280_send(0xEF);
+    rec=bmp280_read();
+    bmp280_nak();
+    bmp280_stop();
     return rec;
 }
-# 9 "main_bmp280.c" 2
+# 10 "main_bmp280.c" 2
 
 # 1 "./lcd4bit.h" 1
 void LCD_init(void);
@@ -2093,32 +2124,104 @@ void show_multidigits (unsigned int val)
         LCD_Char(digit1+0x30);
     }
 }
-# 10 "main_bmp280.c" 2
+# 11 "main_bmp280.c" 2
 
 
 
 
-long AA, AB, AC, AD, AE, AF, B0, B1, B2,B3, B5,
-        B6, B8, B9, BA, BB, BC, BD, BE;
-short AC1, AC2, AC3, MB, MC, MD, oss;
-unsigned short AC4, AC5, AC6;
-unsigned long B4, B7;
-long UT, UP, X1, X2, T;
+void bmp280_getdata();
+void print_checkdata();
+void uncompensated_pressure();
+void calculate_altitude();
 
+long aa,ab,ac,ad,ae,af,b0,b1,b2,b3,b5,b6;
+unsigned long b4,b7;
+short ac1,ac2,ac3,oss=3;
+unsigned short ac4;
+long up,x1,x2,x3,p;
+unsigned int altitude,hpa;
 
 
 void main()
 {
     LCD_init();
-    i2c_init();
+    bmp280_init();
 
     show("BMP280");
-    _delay((unsigned long)((1000)*(20000000/4000.0)));
+    _delay((unsigned long)((1000)*(12000000/4000.0)));
+    while(1)
+    {
+        bmp280_getdata();
+        uncompensated_pressure();
 
-    LCD_Command(0xc0);
+        ac1 = aa + ab;
+        ac2 = ac + ad;
+        ac3 = ae + af;
+        ac4 = b0 + b1;
 
-    (i2c_read_byte(0x0000));
+        b6 = b5 - 4000;
+        x1 = (b2*(b6*b6/4096))/2048;
+        x2 = ac2*b6/2048;
+        x3 = x1+x2;
+        b3 = (((ac1*4+x3)<< oss)+ 2)/ 4;
+        x1 = ac3* b6 / 8192;
+        x2 = (b1 * (b6 *b6 / 4096)) / 65536;
+        x3 =((x1+x2)+2)/4;
+        b4 = ac4 * (unsigned long) (x3 + 32768)/ 32768;
+        b7 = ((unsigned long)up - b3) * (50000 >> oss);
+        if (b7 < 0x80000000)
+        {
+            p = (b7* 2)/ b4;
+        }
+        else
+        {
+            p = (b7 / b4)* 2;
+        }
+        x1 =(p/256)*(p/256);
+        x1 = (x1 * 3038)/65536;
+        x2 = (-7357 * p) / 65536;
+        p=p+(x1+x2+3791)/16;
+        hpa = p/100;
 
 
-    while(1);
+
+        LCD_Command(0xC0);
+        show_multidigits(hpa);
+        LCD_Command(0x94);
+        show_multidigits(altitude);
+
+    }
+}
+
+void bmp280_getdata()
+{
+        aa=(bmp280_read_byte(0xAA));
+        ab=(bmp280_read_byte(0xAB));
+        ac=(bmp280_read_byte(0xAC));
+        ad=(bmp280_read_byte(0xAD));
+        ae=(bmp280_read_byte(0xAE));
+        af=(bmp280_read_byte(0xAF));
+
+        b0=(bmp280_read_byte(0xB0));
+        b1=(bmp280_read_byte(0xB1));
+        b2=(bmp280_read_byte(0xB2));
+        b5=(bmp280_read_byte(0xB5));
+}
+
+void uncompensated_pressure()
+{
+        bmp280_send_byte(0xf4,(0x34+(oss<<6)));
+        _delay((unsigned long)((25)*(12000000/4000.0)));
+
+        long ff6=(bmp280_read_byte(0xf6));
+        long ff7=(bmp280_read_byte(0xf7));
+        long ff8=(bmp280_read_byte(0xf8));
+        up=(((ff6<<16)+(ff7<<8)+ff8)>>(8-oss));
+}
+void calculate_altitude()
+{
+    double za = 1/5.255;
+    double zb = hpa/1013.25;
+    double zc = pow(zb,za);
+    altitude = 44330 * (1-zc);
 }
